@@ -1748,32 +1748,109 @@
       // ─── DATA ─────────────────────────────────────────────────────────────────────
 
       const POOJA_FRUITS = [
-        { id: 'f1', name: 'Betel Leaves', unit: 'pack', default: 1 },
-        { id: 'f2', name: 'Guava', unit: 'pc', default: 1 },
-        { id: 'f3', name: 'Red Apple', unit: 'pc', default: 1 },
-        { id: 'f4', name: 'Banana – Rathkesel', unit: 'pc', default: 1 },
-        { id: 'f5', name: 'King Coconut', unit: 'pc', default: 1 },
-        { id: 'f6', name: 'Watermelon', unit: 'pc', default: 1 },
-        { id: 'f7', name: 'Orange', unit: 'pc', default: 1 },
-        { id: 'f8', name: 'Pineapple', unit: 'pc', default: 1 },
-        { id: 'f9', name: 'Woodapple', unit: 'pc', default: 1 },
-        { id: 'f10', name: 'Coconut', unit: 'pc', default: 1 },
+        {
+          id: 'f1',
+          name: 'Red Banana (රතු කෙසෙල් / செவ்வாழை)',
+          unit: 'pc',
+          default: 1,
+        },
+        {
+          id: 'f2',
+          name: 'Ambul Banana (ඇඹුල් කෙසෙල් / சீனி வாழை)',
+          unit: 'pc',
+          default: 3,
+        },
+        { id: 'f3', name: 'Mango (අඹ / மாம்பழம்)', unit: 'pc', default: 1 },
+        { id: 'f4', name: 'Apple (ඇපල් / ஆப்பிள்)', unit: 'pc', default: 1 },
+        { id: 'f5', name: 'Grapes (මිදි / திராட்சை)', unit: 'g', default: 100 },
+        { id: 'f6', name: 'Orange (දොඩම් / ஆரஞ்சு)', unit: 'pc', default: 1 },
+        {
+          id: 'f7',
+          name: 'Pineapple (අන්නාසි / அன்னாசி)',
+          unit: 'pc',
+          default: 1,
+        },
+        {
+          id: 'f8',
+          name: 'Pomegranate (දෙළුම් / மாதுளை)',
+          unit: 'pc',
+          default: 1,
+        },
+        {
+          id: 'f9',
+          name: 'Woodapple (දිවුල් / விளாம்பழம்)',
+          unit: 'pc',
+          default: 1,
+        },
+        {
+          id: 'f10',
+          name: 'Coconut (පොල් / தேங்காய்)',
+          unit: 'pc',
+          default: 1,
+        },
+        {
+          id: 'f11',
+          name: 'King Coconut (තැඹිලි / இளநீர்)',
+          unit: 'pc',
+          default: 1,
+        },
       ]
+
       const POOJA_SWEETS = [
-        { id: 's1', name: 'Aasmi', unit: 'pc', default: 1 },
-        { id: 's2', name: 'Konda Kewum', unit: 'pcs', default: 2 },
-        { id: 's3', name: 'Undu Walalu', unit: 'pcs', default: 2 },
-        { id: 's4', name: 'Thala Kerali', unit: 'pcs', default: 2 },
-        { id: 's5', name: 'Maskat', unit: 'pcs', default: 2 },
-        { id: 's6', name: 'Puhul Dosi', unit: 'g', default: 100 },
-        { id: 's7', name: 'Bundi', unit: 'g', default: 100 },
-        { id: 's8', name: 'Uguressa', unit: 'g', default: 100 },
+        { id: 's1', name: 'Aasmi (ආස්මී / ஆஸ்மி)', unit: 'pc', default: 1 },
+        {
+          id: 's2',
+          name: 'Konda Kewum (කොණ්ඩ කැවුම් / கொண்டை பணியாரம்)',
+          unit: 'pcs',
+          default: 2,
+        },
+        {
+          id: 's3',
+          name: 'Undu Walalu (උඳු වළලු / உளுந்து வடை)',
+          unit: 'pcs',
+          default: 2,
+        },
+        {
+          id: 's4',
+          name: 'Thala Kerali (තල කැරලි / எள் உருண்டை)',
+          unit: 'pcs',
+          default: 2,
+        },
+        { id: 's5', name: 'Maskat (මස්කට් / மஸ்கட்)', unit: 'pcs', default: 2 },
+        {
+          id: 's6',
+          name: 'Puhul Dosi (පුහුල් දෝසි / பூசணி இனிப்பு)',
+          unit: 'g',
+          default: 100,
+        },
+        { id: 's7', name: 'Bundi (බුන්දි / பூந்தி)', unit: 'g', default: 100 },
       ]
+
       const POOJA_SACRED = [
-        { id: 'sc1', name: 'Flower Garland', unit: 'pc', default: 1 },
-        { id: 'sc2', name: 'Fabric Offering (1 yard)', unit: 'yd', default: 1 },
-        { id: 'sc3', name: 'Incense Sticks', unit: 'pack', default: 1 },
-        { id: 'sc4', name: 'Camphor', unit: 'pc', default: 1 },
+        {
+          id: 'sc1',
+          name: 'Flower Garland (මල් මාලය / பூமாலை)',
+          unit: 'pc',
+          default: 1,
+        },
+        {
+          id: 'sc2',
+          name: 'Fabric Offering (රෙදි පූජාව / வஸ்திரம்)',
+          unit: 'yd',
+          default: 1,
+        },
+        {
+          id: 'sc3',
+          name: 'Incense Sticks (හඳුන්කූරු / ஊதுபத்தி)',
+          unit: 'pack',
+          default: 1,
+        },
+        {
+          id: 'sc4',
+          name: 'Camphor (කපුරු / கற்பூரம்)',
+          unit: 'pc',
+          default: 1,
+        },
       ]
       const EXTRAS = [
         { id: 'e1', emoji: '🌸', label: 'Extra Garland' },
@@ -1967,13 +2044,16 @@
         const c = document.getElementById(containerId)
         c.innerHTML = ''
         items.forEach((item) => {
+          // Mehema haduvama load veddi select vela thiyenne na
           poojaQty[item.id] = item.default
-          poojaChecked[item.id] = true
+          poojaChecked[item.id] = false
+
           const row = document.createElement('div')
           row.className = 'item-row'
           row.id = 'row-' + item.id
+          row.style.opacity = '0.45' // Select nathinisa dim vela thiyenne
           row.innerHTML = `
-      <input type="checkbox" class="item-check" id="chk-${item.id}" checked onchange="toggleItem('${item.id}')"/>
+      <input type="checkbox" class="item-check" id="chk-${item.id}" onchange="toggleItem('${item.id}')"/>
       <div class="item-info">
         <div class="name">${item.name}</div>
       </div>
