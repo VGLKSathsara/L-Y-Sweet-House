@@ -19,1228 +19,36 @@
     />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#1A0F00" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <style>
-      :root {
-        --gold: #c9963b;
-        --gold-light: #e8c97a;
-        --gold-pale: #fdf5e4;
-        --deep: #1a0f00;
-        --brown: #5c2d0a;
-        --cream: #faf4eb;
-        --white: #ffffff;
-        --gray: #6b7280;
-        --success: #16a34a;
-      }
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-top: 80px;
-      }
-      body {
-        font-family: 'DM Sans', sans-serif;
-        background: var(--white);
-        color: var(--deep);
-        overflow-x: hidden;
-      }
-      h1,
-      h2,
-      h3,
-      h4 {
-        font-family: 'Cormorant Garamond', serif;
-      }
-
-      /* ─── NAV ─── */
-      nav {
-        background: var(--deep);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        border-bottom: 2px solid var(--gold);
-      }
-      .nav-inner {
-        max-width: 1300px;
-        margin: auto;
-        padding: 0 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 72px;
-      }
-      .nav-brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-      }
-      .nav-brand .icon {
-        font-size: 28px;
-        color: var(--gold);
-      }
-      .nav-brand h1 {
-        font-size: 1.5rem;
-        color: var(--white);
-        letter-spacing: 0.02em;
-        line-height: 1.1;
-      }
-      .nav-brand p {
-        font-size: 11px;
-        color: var(--gold-light);
-        letter-spacing: 0.15em;
-        font-family: 'DM Sans', sans-serif;
-        font-weight: 500;
-      }
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-      }
-      .nav-links a {
-        color: #d1b896;
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        transition: color 0.2s;
-      }
-      .nav-links a:hover,
-      .nav-links a.active {
-        color: var(--gold-light);
-      }
-      .nav-right {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .btn-wa {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: #25d366;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 600;
-        transition: background 0.2s;
-      }
-      .btn-wa:hover {
-        background: #1ebe5d;
-      }
-      .btn-primary {
-        background: var(--gold);
-        color: var(--deep);
-        border: none;
-        cursor: pointer;
-        padding: 10px 22px;
-        border-radius: 50px;
-        font-size: 13px;
-        font-weight: 700;
-        font-family: 'DM Sans', sans-serif;
-        letter-spacing: 0.05em;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition:
-          background 0.2s,
-          transform 0.15s;
-      }
-      .btn-primary:hover {
-        background: var(--gold-light);
-        transform: scale(1.03);
-      }
-      .cart-count {
-        background: #ef4444;
-        color: #fff;
-        font-size: 11px;
-        font-weight: 700;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      /* ─── HERO ─── */
-      .hero {
-        min-height: 100vh;
-        background: linear-gradient(
-          135deg,
-          #1a0f00 0%,
-          #3b1805 50%,
-          #5c2d0a 100%
-        );
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-      }
-      .hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(
-          ellipse at 70% 50%,
-          rgba(201, 150, 59, 0.18) 0%,
-          transparent 60%
-        );
-      }
-      .hero-pattern {
-        position: absolute;
-        inset: 0;
-        opacity: 0.04;
-        background-image: repeating-linear-gradient(
-          45deg,
-          #c9963b 0,
-          #c9963b 1px,
-          transparent 0,
-          transparent 50%
-        );
-        background-size: 20px 20px;
-      }
-      .hero-inner {
-        max-width: 1300px;
-        margin: auto;
-        padding: 6rem 2rem 4rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4rem;
-        align-items: center;
-        position: relative;
-        z-index: 1;
-      }
-      .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(201, 150, 59, 0.15);
-        border: 1px solid rgba(201, 150, 59, 0.4);
-        color: var(--gold-light);
-        padding: 8px 20px;
-        border-radius: 50px;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        margin-bottom: 24px;
-      }
-      .hero-title {
-        font-size: clamp(3rem, 5vw, 5.5rem);
-        color: var(--white);
-        line-height: 1.05;
-        margin-bottom: 20px;
-      }
-      .hero-title span {
-        color: var(--gold-light);
-      }
-      .hero-sub {
-        color: #d1b896;
-        font-size: 1.1rem;
-        line-height: 1.7;
-        max-width: 480px;
-        margin-bottom: 36px;
-      }
-      .hero-cta {
-        display: flex;
-        gap: 16px;
-        flex-wrap: wrap;
-      }
-      .btn-hero-main {
-        background: var(--gold);
-        color: var(--deep);
-        padding: 18px 36px;
-        border-radius: 60px;
-        font-size: 1rem;
-        font-weight: 700;
-        font-family: 'DM Sans', sans-serif;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        transition: all 0.2s;
-        letter-spacing: 0.04em;
-      }
-      .btn-hero-main:hover {
-        background: var(--gold-light);
-        transform: translateY(-2px);
-        box-shadow: 0 12px 36px rgba(201, 150, 59, 0.4);
-      }
-      .btn-hero-ghost {
-        background: transparent;
-        color: var(--white);
-        padding: 18px 32px;
-        border-radius: 60px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        font-family: 'DM Sans', sans-serif;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-        transition: all 0.2s;
-      }
-      .btn-hero-ghost:hover {
-        border-color: var(--gold);
-        color: var(--gold-light);
-      }
-      .hero-stats {
-        display: flex;
-        gap: 2rem;
-        margin-top: 40px;
-      }
-      .hero-stat .num {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 2rem;
-        color: var(--gold-light);
-        font-weight: 700;
-      }
-      .hero-stat .lbl {
-        font-size: 12px;
-        color: #9ca3af;
-        letter-spacing: 0.06em;
-        margin-top: 2px;
-      }
-      .hero-visual {
-        position: relative;
-        background: rgba(201, 150, 59, 0.08);
-        border: 1px solid rgba(201, 150, 59, 0.2);
-        border-radius: 32px;
-        padding: 36px;
-        backdrop-filter: blur(4px);
-      }
-      .hero-visual h3 {
-        font-size: 1.4rem;
-        color: var(--gold-light);
-        margin-bottom: 20px;
-      }
-      .quick-items {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .quick-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 12px 16px;
-        color: #e5d5c0;
-        font-size: 14px;
-      }
-      .quick-item i {
-        color: var(--gold);
-        width: 20px;
-        text-align: center;
-      }
-      .quick-item .check {
-        color: #4ade80;
-        font-size: 12px;
-      }
-
-      /* ─── SECTIONS ─── */
-      .section {
-        padding: 80px 0;
-      }
-      .section-alt {
-        background: var(--cream);
-      }
-      .section-dark {
-        background: var(--deep);
-      }
-      .container {
-        max-width: 1300px;
-        margin: auto;
-        padding: 0 2rem;
-      }
-      .section-label {
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        color: var(--gold);
-        text-transform: uppercase;
-        margin-bottom: 12px;
-      }
-      .section-title {
-        font-size: clamp(2.2rem, 4vw, 3.5rem);
-        line-height: 1.1;
-        margin-bottom: 16px;
-      }
-      .section-sub {
-        font-size: 1rem;
-        color: var(--gray);
-        max-width: 560px;
-        line-height: 1.7;
-      }
-
-      /* ─── TABS ─── */
-      .tabs {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 36px;
-        flex-wrap: wrap;
-      }
-      .tab {
-        padding: 10px 22px;
-        border-radius: 50px;
-        border: 1.5px solid #e5e7eb;
-        background: transparent;
-        cursor: pointer;
-        font-family: 'DM Sans', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--gray);
-        transition: all 0.2s;
-      }
-      .tab.active {
-        background: var(--deep);
-        border-color: var(--deep);
-        color: var(--white);
-      }
-      .tab:hover:not(.active) {
-        border-color: var(--gold);
-        color: var(--brown);
-      }
-
-      /* ─── PRODUCT CARDS ─── */
-      .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 20px;
-      }
-      .product-card {
-        background: var(--white);
-        border-radius: 20px;
-        border: 1px solid #f3f0eb;
-        overflow: hidden;
-        transition: all 0.25s;
-        display: flex;
-        flex-direction: column;
-      }
-      .product-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
-        border-color: var(--gold-light);
-      }
-      .product-img {
-        width: 100%;
-        height: 160px;
-        background: linear-gradient(135deg, var(--gold-pale), #f5e8c8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 64px;
-        position: relative;
-      }
-      .product-img .badge {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        background: var(--gold);
-        color: var(--deep);
-        font-size: 10px;
-        font-weight: 700;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-family: 'DM Sans', sans-serif;
-        letter-spacing: 0.05em;
-      }
-      .product-body {
-        padding: 16px;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .product-name {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.15rem;
-        font-weight: 600;
-      }
-      .product-desc {
-        font-size: 12px;
-        color: var(--gray);
-        line-height: 1.5;
-      }
-      .product-unit {
-        font-size: 11px;
-        color: #9ca3af;
-        background: #f9f9f9;
-        padding: 3px 8px;
-        border-radius: 20px;
-        display: inline-block;
-        width: fit-content;
-      }
-      .qty-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: auto;
-        padding-top: 12px;
-        border-top: 1px solid #f3f0eb;
-      }
-      .qty-ctrl {
-        display: flex;
-        align-items: center;
-        gap: 2px;
-      }
-      .qty-btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        border: 1.5px solid #e5e7eb;
-        background: #f9f9f9;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--deep);
-        transition: all 0.15s;
-        font-family: 'DM Sans', sans-serif;
-      }
-      .qty-btn:hover {
-        background: var(--gold);
-        border-color: var(--gold);
-        color: var(--deep);
-      }
-      .qty-display {
-        width: 36px;
-        text-align: center;
-        font-weight: 700;
-        font-size: 14px;
-      }
-      .add-btn {
-        background: var(--deep);
-        color: var(--white);
-        border: none;
-        cursor: pointer;
-        padding: 8px 16px;
-        border-radius: 50px;
-        font-size: 12px;
-        font-weight: 700;
-        font-family: 'DM Sans', sans-serif;
-        letter-spacing: 0.05em;
-        transition: all 0.2s;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .add-btn:hover {
-        background: var(--gold);
-        color: var(--deep);
-      }
-      .add-btn.added {
-        background: var(--success);
-      }
-
-      /* ─── POOJA WATTI BUILDER ─── */
-      .builder-grid {
-        display: grid;
-        grid-template-columns: 1fr 380px;
-        gap: 36px;
-        align-items: start;
-      }
-      .builder-left {
-        background: var(--white);
-        border-radius: 24px;
-        border: 1px solid #f0eae0;
-        overflow: hidden;
-      }
-      .builder-header {
-        background: var(--deep);
-        color: var(--white);
-        padding: 24px 28px;
-      }
-      .builder-header h3 {
-        font-size: 1.8rem;
-      }
-      .builder-header p {
-        color: #d1b896;
-        font-size: 13px;
-        margin-top: 4px;
-      }
-      .builder-body {
-        padding: 24px 28px;
-      }
-      .item-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 0;
-        border-bottom: 1px solid #f3f0eb;
-        gap: 12px;
-      }
-      .item-row:last-child {
-        border-bottom: none;
-      }
-      .item-check {
-        width: 20px;
-        height: 20px;
-        accent-color: var(--gold);
-        cursor: pointer;
-        flex-shrink: 0;
-      }
-      .item-info {
-        flex: 1;
-      }
-      .item-info .name {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--deep);
-      }
-      .item-info .default {
-        font-size: 11px;
-        color: #9ca3af;
-      }
-      .item-qty-ctrl {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
-      .item-qty-btn {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        border: 1.5px solid #e5e7eb;
-        background: #f9f9f9;
-        cursor: pointer;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--deep);
-        font-weight: 700;
-        transition: all 0.15s;
-      }
-      .item-qty-btn:hover {
-        background: var(--gold);
-        border-color: var(--gold);
-      }
-      .item-qty-display {
-        width: 32px;
-        text-align: center;
-        font-weight: 700;
-        font-size: 13px;
-        color: var(--deep);
-      }
-      .item-unit {
-        font-size: 11px;
-        color: #9ca3af;
-        min-width: 36px;
-        text-align: center;
-      }
-
-      /* ─── ORDER SUMMARY ─── */
-      .order-summary {
-        background: var(--white);
-        border-radius: 24px;
-        border: 1px solid #f0eae0;
-        overflow: hidden;
-        position: sticky;
-        top: 88px;
-      }
-      .summary-header {
-        background: var(--gold);
-        padding: 20px 24px;
-      }
-      .summary-header h3 {
-        font-size: 1.4rem;
-        color: var(--deep);
-      }
-      .summary-header p {
-        font-size: 12px;
-        color: var(--brown);
-        margin-top: 2px;
-      }
-      .summary-body {
-        padding: 20px 24px;
-      }
-      .summary-list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        max-height: 280px;
-        overflow-y: auto;
-        margin-bottom: 16px;
-      }
-      .summary-item {
-        display: flex;
-        justify-content: space-between;
-        font-size: 13px;
-        color: var(--deep);
-      }
-      .summary-item .item-n {
-        font-weight: 500;
-        max-width: 200px;
-      }
-      .summary-item .item-q {
-        color: var(--gold);
-        font-weight: 700;
-      }
-      .summary-empty {
-        text-align: center;
-        color: #9ca3af;
-        font-size: 13px;
-        padding: 20px 0;
-      }
-      .summary-footer {
-        border-top: 1px solid #f0eae0;
-        padding-top: 16px;
-      }
-      .extras-section {
-        margin-top: 16px;
-      }
-      .extras-label {
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        color: var(--gray);
-        margin-bottom: 10px;
-        text-transform: uppercase;
-      }
-      .extras-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-      }
-      .extra-chip {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        border: 1.5px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 8px 10px;
-        cursor: pointer;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--gray);
-        background: #f9f9f9;
-        transition: all 0.15s;
-      }
-      .extra-chip.selected {
-        background: var(--gold-pale);
-        border-color: var(--gold);
-        color: var(--brown);
-      }
-      .note-area {
-        width: 100%;
-        border: 1.5px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 12px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: 13px;
-        resize: none;
-        outline: none;
-        margin-top: 12px;
-        color: var(--deep);
-        transition: border-color 0.2s;
-      }
-      .note-area:focus {
-        border-color: var(--gold);
-      }
-      .contact-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-top: 12px;
-      }
-      .contact-input {
-        width: 100%;
-        border: 1.5px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 12px 14px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: 13px;
-        outline: none;
-        color: var(--deep);
-        transition: border-color 0.2s;
-      }
-      .contact-input:focus {
-        border-color: var(--gold);
-      }
-      .contact-input::placeholder {
-        color: #9ca3af;
-      }
-      .btn-send {
-        width: 100%;
-        background: linear-gradient(135deg, #25d366, #1da851);
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        padding: 16px;
-        border-radius: 14px;
-        margin-top: 16px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: 15px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        transition: all 0.2s;
-        letter-spacing: 0.04em;
-      }
-      .btn-send:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
-      }
-
-      /* ─── CATEGORY CARDS ─── */
-      .cat-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-      }
-      .cat-full {
-        grid-column: 1 / -1;
-        aspect-ratio: 16/5;
-      }
-      .cat-card {
-        border-radius: 24px;
-        overflow: hidden;
-        position: relative;
-        aspect-ratio: 3/4;
-        cursor: pointer;
-        transition: transform 0.3s;
-      }
-      .cat-card:hover {
-        transform: scale(1.02);
-      }
-      .cat-bg {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 120px;
-        opacity: 0.25;
-      }
-      .cat-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(26, 15, 0, 0.85) 0%,
-          transparent 60%
-        );
-        padding: 28px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-      }
-      .cat-card.pooja {
-        background: linear-gradient(135deg, #3b1805, #7c3a0e);
-      }
-      .cat-card.sweets {
-        background: linear-gradient(135deg, #7c1538, #b54a6b);
-      }
-      .cat-card.toys {
-        background: linear-gradient(135deg, #1a3a6b, #3b6ab5);
-      }
-      .cat-card.fancy {
-        background: linear-gradient(135deg, #1a4a2a, #2e7a47);
-        aspect-ratio: 16 / 3;
-        min-height: 180px;
-      }
-      .cat-tag {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        color: var(--gold-light);
-        text-transform: uppercase;
-        margin-bottom: 6px;
-      }
-      .cat-title {
-        font-size: 1.8rem;
-        color: var(--white);
-        line-height: 1.1;
-      }
-      .cat-desc {
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.7);
-        margin-top: 6px;
-        line-height: 1.5;
-      }
-      .cat-arrow {
-        margin-top: 16px;
-        color: var(--gold);
-        font-size: 14px;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-      }
-
-      /* ─── HISTORY ─── */
-      .history-card {
-        background: var(--white);
-        border-radius: 20px;
-        border: 1px solid #f0eae0;
-        padding: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 16px;
-      }
-      .history-status {
-        background: #d1fae5;
-        color: #065f46;
-        font-size: 11px;
-        font-weight: 700;
-        padding: 4px 12px;
-        border-radius: 20px;
-        letter-spacing: 0.08em;
-      }
-      .history-date {
-        font-size: 12px;
-        color: var(--gray);
-        margin-top: 6px;
-      }
-      .history-name {
-        font-weight: 700;
-        font-size: 15px;
-        margin-top: 8px;
-      }
-      .history-items {
-        font-size: 13px;
-        color: var(--gray);
-        margin-top: 4px;
-        line-height: 1.5;
-      }
-      .history-note {
-        font-size: 12px;
-        color: var(--gold);
-        font-style: italic;
-        margin-top: 6px;
-      }
-      .history-empty {
-        text-align: center;
-        background: #f9f6f0;
-        border-radius: 20px;
-        padding: 60px 20px;
-        color: var(--gray);
-      }
-      .history-empty i {
-        font-size: 48px;
-        color: #d1b896;
-        display: block;
-        margin-bottom: 16px;
-      }
-
-      /* ─── MOBILE MENU ─── */
-      .hamburger {
-        display: none;
-        background: none;
-        border: none;
-        cursor: pointer;
-        flex-direction: column;
-        gap: 5px;
-        padding: 4px;
-      }
-      .hamburger span {
-        display: block;
-        width: 24px;
-        height: 2px;
-        background: var(--gold);
-        border-radius: 2px;
-        transition: all 0.3s;
-      }
-      .mobile-menu {
-        display: none;
-        position: fixed;
-        inset: 0;
-        top: 72px;
-        background: var(--deep);
-        z-index: 999;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 2rem;
-      }
-      .mobile-menu.open {
-        display: flex;
-      }
-      .mobile-menu a {
-        color: var(--gold-light);
-        font-size: 1.5rem;
-        font-weight: 600;
-        font-family: 'Cormorant Garamond', serif;
-        text-decoration: none;
-        letter-spacing: 0.05em;
-        transition: color 0.2s;
-      }
-      .mobile-menu a:hover {
-        color: var(--white);
-      }
-      @media (max-width: 900px) {
-        .hamburger {
-          display: flex;
-        }
-      }
-      @media (max-width: 900px) {
-        .cat-card.fancy {
-          aspect-ratio: 16 / 2.8; /* Slightly taller on mobile, but still shorter than original */
-        }
-      }
-
-      /* ─── FLOATING BUTTONS ─── */
-      .fab-group {
-        position: fixed;
-        bottom: 28px;
-        right: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-end;
-        z-index: 8000;
-      }
-      .fab-wa {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: #25d366;
-        color: #fff;
-        padding: 14px 20px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 700;
-        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
-        transition: all 0.2s;
-        white-space: nowrap;
-      }
-      .fab-wa:hover {
-        background: #1ebe5d;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 28px rgba(37, 211, 102, 0.6);
-      }
-      .fab-wa i {
-        font-size: 20px;
-      }
-      .fab-top {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: var(--deep);
-        border: 2px solid var(--gold);
-        color: var(--gold);
-        cursor: pointer;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        transition: all 0.2s;
-        opacity: 0;
-        pointer-events: none;
-      }
-      .fab-top.visible {
-        opacity: 1;
-        pointer-events: all;
-      }
-      .fab-top:hover {
-        background: var(--gold);
-        color: var(--deep);
-        transform: translateY(-2px);
-      }
-
-      /* ─── FOOTER ─── */
-      footer {
-        background: var(--deep);
-        color: var(--white);
-        padding: 60px 0 30px;
-        border-top: 2px solid var(--gold);
-      }
-      .footer-grid {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        gap: 40px;
-        margin-bottom: 40px;
-      }
-      .footer-brand h3 {
-        font-size: 2rem;
-        color: var(--gold-light);
-      }
-      .footer-brand p {
-        color: #9ca3af;
-        font-size: 14px;
-        line-height: 1.7;
-        margin-top: 10px;
-      }
-      .footer-wa {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 20px;
-        color: #4ade80;
-        font-size: 1rem;
-        font-weight: 600;
-        text-decoration: none;
-      }
-      .footer-wa:hover {
-        color: #86efac;
-      }
-      .footer-links h4 {
-        color: var(--gold);
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        margin-bottom: 16px;
-      }
-      .footer-links a {
-        display: block;
-        color: #9ca3af;
-        font-size: 14px;
-        text-decoration: none;
-        margin-bottom: 10px;
-        transition: color 0.2s;
-      }
-      .footer-links a:hover {
-        color: var(--gold-light);
-      }
-      .footer-bottom {
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        padding-top: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .footer-bottom p {
-        font-size: 12px;
-        color: #6b7280;
-      }
-
-      /* ─── TOAST ─── */
-      .toast {
-        position: fixed;
-        bottom: 28px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--deep);
-        color: var(--white);
-        padding: 14px 28px;
-        border-radius: 50px;
-        font-size: 14px;
-        font-weight: 600;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        z-index: 9000;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        transition: opacity 0.3s;
-        border-left: 4px solid var(--gold);
-      }
-      .toast.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      /* ─── RESPONSIVE ─── */
-      @media (max-width: 900px) {
-        .hero-inner {
-          grid-template-columns: 1fr;
-        }
-        .hero-visual {
-          display: none;
-        }
-        .builder-grid {
-          grid-template-columns: 1fr;
-        }
-        .order-summary {
-          position: static;
-        }
-        .cat-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .cat-full {
-          grid-column: span 2;
-          aspect-ratio: 16/6;
-        }
-        .footer-grid {
-          grid-template-columns: 1fr;
-        }
-        .nav-links {
-          display: none;
-        }
-        .contact-row {
-          grid-template-columns: 1fr;
-        }
-      }
-      @media (max-width: 600px) {
-        .cat-grid {
-          grid-template-columns: 1fr;
-        }
-        .cat-full {
-          grid-column: span 1;
-          aspect-ratio: 3/2;
-        }
-        .extras-grid {
-          grid-template-columns: 1fr;
-        }
-        .hero-stats {
-          gap: 1.5rem;
-        }
-        .products-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-
-      /* ─── ANIMATIONS ─── */
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(24px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .fade-up {
-        animation: fadeUp 0.5s ease both;
-      }
-      .delay-1 {
-        animation-delay: 0.1s;
-      }
-      .delay-2 {
-        animation-delay: 0.2s;
-      }
-      .delay-3 {
-        animation-delay: 0.3s;
-      }
-    </style>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- NAVBAR -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  NAVBAR                                                     -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <nav>
       <div class="nav-inner">
         <a href="#home" class="nav-brand">
           <i class="fa-solid fa-om icon"></i>
-          <div>
-            <h1>L.Y. Sweet & Fancy House</h1>
+          <div class="nav-brand-text">
+            <h1>L.Y. Sweet &amp; Fancy House</h1>
             <p>KATARAGAMA • SINCE 2012</p>
           </div>
         </a>
+
         <div class="nav-links">
           <a href="#home">Home</a>
           <a href="#categories">Our Range</a>
@@ -1248,9 +56,17 @@
           <a href="#products">Shop</a>
           <a href="#my-orders" onclick="showHistory()">My Orders</a>
         </div>
+
         <div class="nav-right">
-          <a href="https://wa.me/94767726820" target="_blank" class="btn-wa">
-            <i class="fa-brands fa-whatsapp"></i> Chat with Us
+          <!-- Hidden on mobile via CSS -->
+          <a
+            href="https://wa.me/94767726820"
+            target="_blank"
+            rel="noopener"
+            class="btn-wa"
+          >
+            <i class="fa-brands fa-whatsapp"></i>
+            <span class="wa-label">Chat with Us</span>
           </a>
           <button class="btn-primary" onclick="scrollToBuilder()">
             <i class="fa-solid fa-basket-shopping"></i>
@@ -1262,6 +78,7 @@
             id="hamburger"
             onclick="toggleMobileMenu()"
             aria-label="Open menu"
+            aria-expanded="false"
           >
             <span></span><span></span><span></span>
           </button>
@@ -1269,8 +86,15 @@
       </div>
     </nav>
 
-    <!-- MOBILE MENU -->
-    <div class="mobile-menu" id="mobile-menu">
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  MOBILE MENU                                                -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div
+      class="mobile-menu"
+      id="mobile-menu"
+      role="dialog"
+      aria-label="Navigation menu"
+    >
       <a href="#home" onclick="closeMobileMenu()">Home</a>
       <a href="#categories" onclick="closeMobileMenu()">Our Range</a>
       <a href="#pooja-builder" onclick="closeMobileMenu()">Pooja Watti</a>
@@ -1286,21 +110,25 @@
       <a
         href="https://wa.me/94767726820"
         target="_blank"
-        style="color: #4ade80; display: flex; align-items: center; gap: 8px"
+        rel="noopener"
+        class="wa-link"
         onclick="closeMobileMenu()"
       >
         <i class="fa-brands fa-whatsapp"></i> WhatsApp Us
       </a>
     </div>
 
-    <!-- HERO -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  HERO                                                       -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <section id="home" class="hero">
       <div class="hero-pattern"></div>
       <div class="hero-inner">
+        <!-- LEFT: Copy -->
         <div>
           <div class="hero-badge fade-up">
-            <i class="fa-solid fa-star" style="color: var(--gold)"></i> OFFICIAL
-            KATARAGAMA POOJA SUPPLIER
+            <i class="fa-solid fa-star" style="color: var(--gold)"></i>
+            OFFICIAL KATARAGAMA POOJA SUPPLIER
           </div>
           <h1 class="hero-title fade-up delay-1">
             Honour Your<br />Vow with the<br /><span>Finest Offering</span>
@@ -1317,6 +145,7 @@
             <a
               href="https://wa.me/94767726820"
               target="_blank"
+              rel="noopener"
               class="btn-hero-ghost"
             >
               <i class="fa-brands fa-whatsapp"></i> WhatsApp Us
@@ -1337,8 +166,47 @@
             </div>
           </div>
         </div>
+
+        <!-- RIGHT: Visual card (hidden on mobile) -->
         <div class="hero-visual">
           <h3>Your Pooja Watti Includes</h3>
+
+          <!-- Product photo grid -->
+          <div class="hero-img-grid">
+            <div class="hero-img-item">
+              <img
+                src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80"
+                alt="Fresh tropical fruits"
+                loading="lazy"
+              />
+              <div class="hero-img-caption">Fresh Fruits</div>
+            </div>
+            <div class="hero-img-item">
+              <img
+                src="https://images.unsplash.com/photo-1606471191009-63994c53433b?w=400&q=80"
+                alt="Traditional Sri Lankan sweets"
+                loading="lazy"
+              />
+              <div class="hero-img-caption">Traditional Sweets</div>
+            </div>
+            <div class="hero-img-item">
+              <img
+                src="https://images.unsplash.com/photo-1603905731478-3cfa1c58e3a0?w=400&q=80"
+                alt="Oil lamp offering"
+                loading="lazy"
+              />
+              <div class="hero-img-caption">Sacred Items</div>
+            </div>
+            <div class="hero-img-item">
+              <img
+                src="https://images.unsplash.com/photo-1487530811015-780f2c4f59af?w=400&q=80"
+                alt="Flower garland"
+                loading="lazy"
+              />
+              <div class="hero-img-caption">Flower Garland</div>
+            </div>
+          </div>
+
           <div class="quick-items">
             <div class="quick-item">
               <span
@@ -1347,7 +215,8 @@
                   style="color: var(--gold)"
                 ></i>
                 &nbsp;Fresh Seasonal Fruits</span
-              ><span class="check">✓ Included</span>
+              >
+              <span class="check">✓ Included</span>
             </div>
             <div class="quick-item">
               <span
@@ -1356,7 +225,8 @@
                   style="color: var(--gold)"
                 ></i>
                 &nbsp;Traditional Sweets</span
-              ><span class="check">✓ Included</span>
+              >
+              <span class="check">✓ Included</span>
             </div>
             <div class="quick-item">
               <span
@@ -1364,26 +234,9 @@
                   class="fa-solid fa-circle-check"
                   style="color: var(--gold)"
                 ></i>
-                &nbsp;Flower Garland</span
-              ><span class="check">✓ Included</span>
-            </div>
-            <div class="quick-item">
-              <span
-                ><i
-                  class="fa-solid fa-circle-check"
-                  style="color: var(--gold)"
-                ></i>
-                &nbsp;Incense & Camphor</span
-              ><span class="check">✓ Included</span>
-            </div>
-            <div class="quick-item">
-              <span
-                ><i
-                  class="fa-solid fa-circle-check"
-                  style="color: var(--gold)"
-                ></i>
-                &nbsp;Fabric Offering</span
-              ><span class="check">✓ Included</span>
+                &nbsp;Incense &amp; Camphor</span
+              >
+              <span class="check">✓ Included</span>
             </div>
             <div
               class="quick-item"
@@ -1393,16 +246,17 @@
                 margin-top: 4px;
               "
             >
-              <span style="color: var(--gold-light); font-weight: 600"
-                ><i class="fa-solid fa-wand-magic-sparkles"></i> &nbsp;+ Fully
-                Customisable</span
-              >
+              <span style="color: var(--gold-light); font-weight: 600">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> &nbsp;+ Fully
+                Customisable
+              </span>
               <span style="color: #4ade80; font-size: 12px">You Choose</span>
             </div>
           </div>
+
           <div
             style="
-              margin-top: 20px;
+              margin-top: 18px;
               background: rgba(201, 150, 59, 0.12);
               border-radius: 12px;
               padding: 14px;
@@ -1418,7 +272,9 @@
       </div>
     </section>
 
-    <!-- CATEGORIES -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  CATEGORIES                                                 -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <section id="categories" class="section section-alt">
       <div class="container">
         <div class="section-label">What We Offer</div>
@@ -1431,19 +287,44 @@
           in Kataragama.
         </p>
         <div class="cat-grid">
-          <div class="cat-card pooja" onclick="scrollToBuilder()">
+          <div
+            class="cat-card pooja"
+            onclick="scrollToBuilder()"
+            role="button"
+            tabindex="0"
+            onkeydown="if (event.key === 'Enter') scrollToBuilder()"
+          >
+            <img
+              class="cat-img"
+              src="https://images.unsplash.com/photo-1603905731478-3cfa1c58e3a0?w=800&q=75"
+              alt="Pooja items and oil lamp"
+              loading="lazy"
+            />
             <div class="cat-bg">🪔</div>
             <div class="cat-overlay">
               <div class="cat-tag">Sacred Offering</div>
               <div class="cat-title">Pooja Watti</div>
               <div class="cat-desc">
-                Fully customisable devotion baskets with fruits, sweets & sacred
-                items
+                Fully customisable devotion baskets with fruits, sweets &amp;
+                sacred items
               </div>
               <div class="cat-arrow">Build Yours →</div>
             </div>
           </div>
-          <div class="cat-card sweets" onclick="showTab('sweets')">
+
+          <div
+            class="cat-card sweets"
+            onclick="showTab('sweets')"
+            role="button"
+            tabindex="0"
+            onkeydown="if (event.key === 'Enter') showTab('sweets')"
+          >
+            <img
+              class="cat-img"
+              src="https://images.unsplash.com/photo-1606471191009-63994c53433b?w=800&q=75"
+              alt="Traditional Sri Lankan sweets"
+              loading="lazy"
+            />
             <div class="cat-bg">🍮</div>
             <div class="cat-overlay">
               <div class="cat-tag">Freshly Made</div>
@@ -1454,22 +335,48 @@
               <div class="cat-arrow">Order Now →</div>
             </div>
           </div>
-          <div class="cat-card toys" onclick="showTab('toys')">
+
+          <div
+            class="cat-card toys"
+            onclick="showTab('toys')"
+            role="button"
+            tabindex="0"
+            onkeydown="if (event.key === 'Enter') showTab('toys')"
+          >
+            <img
+              class="cat-img"
+              src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=800&q=75"
+              alt="Children's toys"
+              loading="lazy"
+            />
             <div class="cat-bg">🧸</div>
             <div class="cat-overlay">
               <div class="cat-tag">Kids Corner</div>
-              <div class="cat-title">Toys & Games</div>
+              <div class="cat-title">Toys &amp; Games</div>
               <div class="cat-desc">
                 Safe, colorful and affordable toys for children of all ages
               </div>
               <div class="cat-arrow">Browse →</div>
             </div>
           </div>
-          <div class="cat-card fancy cat-full" onclick="showTab('fancy')">
+
+          <div
+            class="cat-card fancy cat-full"
+            onclick="showTab('fancy')"
+            role="button"
+            tabindex="0"
+            onkeydown="if (event.key === 'Enter') showTab('fancy')"
+          >
+            <img
+              class="cat-img"
+              src="https://images.unsplash.com/photo-1487530811015-780f2c4f59af?w=1200&q=75"
+              alt="Fancy gifts and decorative items"
+              loading="lazy"
+            />
             <div class="cat-bg" style="font-size: 80px">✨</div>
             <div class="cat-overlay">
-              <div class="cat-tag">Home & Decor</div>
-              <div class="cat-title">Fancy Items & Gifts</div>
+              <div class="cat-tag">Home &amp; Decor</div>
+              <div class="cat-title">Fancy Items &amp; Gifts</div>
               <div class="cat-desc">
                 Elegant decorative pieces, pooja room accessories, and
                 thoughtful gifts for every occasion
@@ -1481,14 +388,15 @@
       </div>
     </section>
 
-    <!-- SHOP / PRODUCTS -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  SHOP / PRODUCTS                                            -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <section id="products" class="section">
       <div class="container">
         <div class="section-label">Our Products</div>
         <h2 class="section-title">Shop By Category</h2>
         <p class="section-sub" style="margin-bottom: 32px">
-          Select the quantity you need, then add to your Pooja Watti or order
-          separately via WhatsApp.
+          Select the quantity you need, then order directly via WhatsApp.
         </p>
         <div class="tabs">
           <button
@@ -1499,7 +407,7 @@
             Traditional Sweets
           </button>
           <button class="tab" data-tab="toys" onclick="showTab('toys')">
-            Toys & Games
+            Toys &amp; Games
           </button>
           <button class="tab" data-tab="fancy" onclick="showTab('fancy')">
             Fancy Items
@@ -1511,18 +419,21 @@
       </div>
     </section>
 
-    <!-- POOJA WATTI BUILDER -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  POOJA WATTI BUILDER                                        -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <section id="pooja-builder" class="section section-alt">
       <div class="container">
         <div class="section-label">Customise Your Order</div>
         <h2 class="section-title">Build Your Pooja Watti</h2>
         <p class="section-sub" style="margin-bottom: 36px">
-          Tick the items you want, adjust the quantities, add any extras, and
-          send your order directly to us on WhatsApp. We will prepare it fresh
-          and contact you to confirm.
+          Tick the items you want, adjust quantities, add extras, and send your
+          order directly to us on WhatsApp. We will prepare it fresh and contact
+          you to confirm.
         </p>
+
         <div class="builder-grid">
-          <!-- BUILDER LEFT -->
+          <!-- LEFT: Item Selection -->
           <div class="builder-left">
             <div class="builder-header">
               <h3>Choose Your Items</h3>
@@ -1532,48 +443,22 @@
               </p>
             </div>
             <div class="builder-body">
-              <div
-                style="
-                  font-size: 11px;
-                  font-weight: 700;
-                  letter-spacing: 0.12em;
-                  color: var(--gray);
-                  margin-bottom: 12px;
-                  text-transform: uppercase;
-                "
-              >
-                Fruits
-              </div>
+              <div class="builder-section-label">Fruits</div>
               <div id="fruits-list"></div>
-              <div
-                style="
-                  font-size: 11px;
-                  font-weight: 700;
-                  letter-spacing: 0.12em;
-                  color: var(--gray);
-                  margin: 20px 0 12px;
-                  text-transform: uppercase;
-                "
-              >
+
+              <div class="builder-section-label builder-section-gap">
                 Traditional Sweets
               </div>
               <div id="sweets-list"></div>
-              <div
-                style="
-                  font-size: 11px;
-                  font-weight: 700;
-                  letter-spacing: 0.12em;
-                  color: var(--gray);
-                  margin: 20px 0 12px;
-                  text-transform: uppercase;
-                "
-              >
+
+              <div class="builder-section-label builder-section-gap">
                 Sacred Items
               </div>
               <div id="sacred-list"></div>
             </div>
           </div>
-          <!-- ORDER SUMMARY -->
+
+          <!-- RIGHT: Order Summary -->
           <div class="order-summary">
             <div class="summary-header">
               <h3>Your Order Summary</h3>
@@ -1586,16 +471,19 @@
                   started.
                 </div>
               </div>
+
               <div class="extras-section">
                 <div class="extras-label">Add Extras</div>
                 <div class="extras-grid" id="extras-grid"></div>
               </div>
+
               <textarea
                 class="note-area"
                 id="special-note"
                 rows="3"
                 placeholder="Special requests, vow details, or delivery notes..."
               ></textarea>
+
               <div class="contact-row">
                 <input
                   class="contact-input"
@@ -1611,6 +499,7 @@
                   required
                 />
               </div>
+
               <button class="btn-send" onclick="sendOrder()">
                 <i class="fa-brands fa-whatsapp" style="font-size: 20px"></i>
                 Send Order via WhatsApp
@@ -1631,17 +520,12 @@
       </div>
     </section>
 
-    <!-- MY ORDERS HISTORY -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  MY ORDER HISTORY                                           -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <section id="my-orders" class="section" style="display: none">
       <div class="container">
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-          "
-        >
+        <div class="history-header-row">
           <div>
             <div class="section-label">Order Records</div>
             <h2 class="section-title">My Order History</h2>
@@ -1670,22 +554,26 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  FOOTER                                                     -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <footer>
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <h3>L.Y. Sweet & Fancy House</h3>
+            <h3>L.Y. Sweet &amp; Fancy House</h3>
             <p>
-              No. 59/C, New Town, Kataragama.<br />Your trusted source for pooja
-              offerings, traditional sweets, gifts, and more since 2012.
+              No. 59/C, New Town, Kataragama.<br />
+              Your trusted source for pooja offerings, traditional sweets,
+              gifts, and more since 2012.
             </p>
             <a
               href="https://wa.me/94767726820"
               target="_blank"
+              rel="noopener"
               class="footer-wa"
             >
-              <i class="fa-brands fa-whatsapp" style="font-size: 28px"></i>
+              <i class="fa-brands fa-whatsapp" style="font-size: 24px"></i>
               +94 76 772 6820 — L.Y.Sweet House
             </a>
           </div>
@@ -1695,16 +583,19 @@
             <a href="#products" onclick="showTab('sweets')"
               >Traditional Sweets</a
             >
-            <a href="#products" onclick="showTab('toys')">Toys & Games</a>
+            <a href="#products" onclick="showTab('toys')">Toys &amp; Games</a>
             <a href="#products" onclick="showTab('fancy')">Fancy Items</a>
             <a href="#my-orders" onclick="showHistory()">My Orders</a>
           </div>
           <div class="footer-links">
             <h4>Contact</h4>
-            <a href="https://wa.me/94767726820" target="_blank"
+            <a href="https://wa.me/94767726820" target="_blank" rel="noopener"
               >WhatsApp: +94 76 772 6820</a
             >
-            <a href="https://maps.app.goo.gl/cDLzJF8XArCDY13r5" target="_blank"
+            <a
+              href="https://maps.app.goo.gl/cDLzJF8XArCDY13r5"
+              target="_blank"
+              rel="noopener"
               >Get Directions</a
             >
             <p style="color: #6b7280; font-size: 13px; margin-top: 8px">
@@ -1714,7 +605,8 @@
         </div>
         <div class="footer-bottom">
           <p>
-            © 2026 L.Y. Sweet & Fancy House, Kataragama. All rights reserved.
+            © 2026 L.Y. Sweet &amp; Fancy House, Kataragama. All rights
+            reserved.
           </p>
           <p>
             Orders managed via WhatsApp · History saved in your browser only
@@ -1723,10 +615,19 @@
       </div>
     </footer>
 
-    <!-- FLOATING BUTTONS -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  FLOATING BUTTONS                                           -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <div class="fab-group">
-      <a href="https://wa.me/94767726820" target="_blank" class="fab-wa">
-        <i class="fa-brands fa-whatsapp"></i> Chat with Us
+      <a
+        href="https://wa.me/94767726820"
+        target="_blank"
+        rel="noopener"
+        class="fab-wa"
+        aria-label="Chat on WhatsApp"
+      >
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="fab-label">Chat with Us</span>
       </a>
       <button
         class="fab-top"
@@ -1738,647 +639,18 @@
       </button>
     </div>
 
-    <!-- TOAST -->
-    <div class="toast hidden" id="toast">
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  TOAST NOTIFICATION                                         -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="toast hidden" id="toast" role="status" aria-live="polite">
       <i class="fa-solid fa-circle-check" style="color: var(--gold)"></i>
       <span id="toast-msg"></span>
     </div>
 
-    <script>
-      // ─── DATA ─────────────────────────────────────────────────────────────────────
-
-      const POOJA_FRUITS = [
-        {
-          id: 'f1',
-          name: 'Red Banana (රතු කෙසෙල් / செவ்வாழை)',
-          unit: 'pc',
-          default: 1,
-        },
-        {
-          id: 'f2',
-          name: 'Ambul Banana (ඇඹුල් කෙසෙල් / சீனி வாழை)',
-          unit: 'pc',
-          default: 3,
-        },
-        { id: 'f3', name: 'Mango (අඹ / மாம்பழம்)', unit: 'pc', default: 1 },
-        { id: 'f4', name: 'Apple (ඇපල් / ஆப்பிள்)', unit: 'pc', default: 1 },
-        { id: 'f5', name: 'Grapes (මිදි / திராட்சை)', unit: 'g', default: 100 },
-        { id: 'f6', name: 'Orange (දොඩම් / ஆரஞ்சு)', unit: 'pc', default: 1 },
-        {
-          id: 'f7',
-          name: 'Pineapple (අන්නාසි / அன்னாசி)',
-          unit: 'pc',
-          default: 1,
-        },
-        {
-          id: 'f8',
-          name: 'Pomegranate (දෙළුම් / மாதுளை)',
-          unit: 'pc',
-          default: 1,
-        },
-        {
-          id: 'f9',
-          name: 'Woodapple (දිවුල් / விளாம்பழம்)',
-          unit: 'pc',
-          default: 1,
-        },
-        {
-          id: 'f10',
-          name: 'Coconut (පොල් / தேங்காய்)',
-          unit: 'pc',
-          default: 1,
-        },
-        {
-          id: 'f11',
-          name: 'King Coconut (තැඹිලි / இளநீர்)',
-          unit: 'pc',
-          default: 1,
-        },
-      ]
-
-      const POOJA_SWEETS = [
-        { id: 's1', name: 'Aasmi (ආස්මී / ஆஸ்மி)', unit: 'pc', default: 1 },
-        {
-          id: 's2',
-          name: 'Konda Kewum (කොණ්ඩ කැවුම් / கொண்டை பணியாரம்)',
-          unit: 'pcs',
-          default: 2,
-        },
-        {
-          id: 's3',
-          name: 'Undu Walalu (උඳු වළලු / உளுந்து வடை)',
-          unit: 'pcs',
-          default: 2,
-        },
-        {
-          id: 's4',
-          name: 'Thala Kerali (තල කැරලි / எள் உருண்டை)',
-          unit: 'pcs',
-          default: 2,
-        },
-        { id: 's5', name: 'Maskat (මස්කට් / மஸ்கட்)', unit: 'pcs', default: 2 },
-        {
-          id: 's6',
-          name: 'Puhul Dosi (පුහුල් දෝසි / பூசணி இனிப்பு)',
-          unit: 'g',
-          default: 100,
-        },
-        { id: 's7', name: 'Bundi (බුන්දි / பூந்தி)', unit: 'g', default: 100 },
-      ]
-
-      const POOJA_SACRED = [
-        {
-          id: 'sc1',
-          name: 'Flower Garland (මල් මාලය / பூமாலை)',
-          unit: 'pc',
-          default: 1,
-        },
-        {
-          id: 'sc2',
-          name: 'Fabric Offering (රෙදි පූජාව / வஸ்திரம்)',
-          unit: 'yd',
-          default: 1,
-        },
-        {
-          id: 'sc3',
-          name: 'Incense Sticks (හඳුන්කූරු / ஊதுபத்தி)',
-          unit: 'pack',
-          default: 1,
-        },
-        {
-          id: 'sc4',
-          name: 'Camphor (කපුරු / கற்பூரம்)',
-          unit: 'pc',
-          default: 1,
-        },
-      ]
-      const EXTRAS = [
-        { id: 'e1', emoji: '🌸', label: 'Extra Garland' },
-        { id: 'e2', emoji: '🕯️', label: 'Oil Lamp' },
-        { id: 'e3', emoji: '🌿', label: 'Neem Leaves' },
-        { id: 'e4', emoji: '🎋', label: 'Pooja Basket' },
-        { id: 'e5', emoji: '🥥', label: 'Extra Coconut' },
-        { id: 'e6', emoji: '🍌', label: 'Banana Bunch' },
-      ]
-
-      const SWEETS_PRODUCTS = [
-        {
-          emoji: '🍮',
-          name: 'Konda Kewum',
-          desc: 'Deep-fried sweet dumplings in treacle, a festival favourite',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🌀',
-          name: 'Undu Walalu',
-          desc: 'Ring-shaped gram flour sweets, crisp and golden',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🟡',
-          name: 'Aasmi',
-          desc: 'Delicate rice flour sweets drizzled with coconut treacle',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🍯',
-          name: 'Puhul Dosi',
-          desc: 'Ash pumpkin preserve sweetened with jaggery',
-          unit: 'per 100g',
-        },
-        {
-          emoji: '🔵',
-          name: 'Thala Kerali',
-          desc: 'Sesame and coconut sweet rolls with natural sweetness',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🟠',
-          name: 'Maskat',
-          desc: 'Traditional semolina-based sweet with cashew topping',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🍬',
-          name: 'Bundi',
-          desc: 'Golden gram flour pearls in sugar syrup — a temple classic',
-          unit: 'per 100g',
-        },
-        {
-          emoji: '🌾',
-          name: 'Uguressa',
-          desc: 'Traditional fermented rice cracker, light and crispy',
-          unit: 'per 100g',
-        },
-      ]
-      const TOYS_PRODUCTS = [
-        {
-          emoji: '🚗',
-          name: 'Toy Car Set',
-          desc: 'Pull-back friction cars, safe for ages 3+. Set of 4 colorful vehicles',
-          unit: 'per set',
-          badge: 'Best Seller',
-        },
-        {
-          emoji: '🧸',
-          name: 'Teddy Bear',
-          desc: 'Super soft plush teddy, perfect as a gift or keepsake',
-          unit: 'per piece',
-          badge: 'Gift Ready',
-        },
-        {
-          emoji: '🎨',
-          name: 'Drawing Set',
-          desc: '24-colour crayon and sketch pad set for budding artists aged 4+',
-          unit: 'per set',
-        },
-        {
-          emoji: '🧩',
-          name: 'Wooden Puzzle',
-          desc: 'Colorful animal-shaped puzzle pieces, educational and fun',
-          unit: 'per set',
-          badge: 'Educational',
-        },
-        {
-          emoji: '🪀',
-          name: 'Spinning Top',
-          desc: 'Traditional Lanka-style spinning top, durable metal & wood',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🎯',
-          name: 'Ring Toss Game',
-          desc: 'Family ring toss game, great for outdoor play. Includes 6 rings',
-          unit: 'per set',
-        },
-        {
-          emoji: '🚂',
-          name: 'Train Set',
-          desc: 'Magnetic wooden railway set with engine, 3 carriages & track pieces',
-          unit: 'per set',
-          badge: 'Popular',
-        },
-        {
-          emoji: '🪁',
-          name: 'Foam Dart Blaster',
-          desc: 'Safe foam dart blaster toy, 6-dart pack included',
-          unit: 'per piece',
-        },
-      ]
-      const FANCY_PRODUCTS = [
-        {
-          emoji: '🏮',
-          name: 'Decorative Oil Lamp',
-          desc: 'Hand-crafted brass oil lamp for pooja rooms and home altars',
-          unit: 'per piece',
-          badge: 'Handcrafted',
-        },
-        {
-          emoji: '🌸',
-          name: 'Artificial Flower Arrangement',
-          desc: 'Premium silk flower arrangement, long-lasting and vibrant',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🪞',
-          name: 'Decorative Wall Mirror',
-          desc: 'Ornate-framed wall mirror with floral motif border, 30×30 cm',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🎁',
-          name: 'Gift Hamper Box',
-          desc: 'Reusable woven gift hamper box, ideal for sweets & offerings',
-          unit: 'per piece',
-          badge: 'Gift Ready',
-        },
-        {
-          emoji: '🏺',
-          name: 'Ceramic Vase',
-          desc: 'Painted ceramic vase, available in 3 designs. Perfect for fresh or artificial flowers',
-          unit: 'per piece',
-        },
-        {
-          emoji: '🕯️',
-          name: 'Scented Candle Set',
-          desc: 'Set of 5 jasmine-scented candles in decorative tin boxes',
-          unit: 'per set',
-          badge: 'Fragrant',
-        },
-        {
-          emoji: '📿',
-          name: 'Mala Bead Necklace',
-          desc: '108-bead lotus seed mala, blessed and hand-strung',
-          unit: 'per piece',
-          badge: 'Sacred',
-        },
-        {
-          emoji: '🖼️',
-          name: 'God Framed Print',
-          desc: 'High-quality framed divine image, glass-fronted, 20×28 cm',
-          unit: 'per piece',
-        },
-      ]
-
-      // ─── STATE ────────────────────────────────────────────────────────────────────
-      let poojaQty = {}
-      let poojaChecked = {}
-      let selectedExtras = new Set()
-
-      // ─── INIT ─────────────────────────────────────────────────────────────────────
-      window.onload = function () {
-        initBuilder()
-        renderProducts()
-        renderExtras()
-      }
-
-      // ─── BUILDER ──────────────────────────────────────────────────────────────────
-      function initBuilder() {
-        renderItemList('fruits-list', POOJA_FRUITS)
-        renderItemList('sweets-list', POOJA_SWEETS)
-        renderItemList('sacred-list', POOJA_SACRED)
-        updateSummary()
-      }
-
-      function renderItemList(containerId, items) {
-        const c = document.getElementById(containerId)
-        c.innerHTML = ''
-        items.forEach((item) => {
-          // Mehema haduvama load veddi select vela thiyenne na
-          poojaQty[item.id] = item.default
-          poojaChecked[item.id] = false
-
-          const row = document.createElement('div')
-          row.className = 'item-row'
-          row.id = 'row-' + item.id
-          row.style.opacity = '0.45' // Select nathinisa dim vela thiyenne
-          row.innerHTML = `
-      <input type="checkbox" class="item-check" id="chk-${item.id}" onchange="toggleItem('${item.id}')"/>
-      <div class="item-info">
-        <div class="name">${item.name}</div>
-      </div>
-      <div class="item-qty-ctrl">
-        <button class="item-qty-btn" onclick="changeItemQty('${item.id}', -1)">−</button>
-        <div class="item-qty-display" id="qty-${item.id}">${item.default}</div>
-        <button class="item-qty-btn" onclick="changeItemQty('${item.id}', 1)">+</button>
-      </div>
-      <div class="item-unit">${item.unit}</div>
-    `
-          c.appendChild(row)
-        })
-      }
-
-      function toggleItem(id) {
-        poojaChecked[id] = document.getElementById('chk-' + id).checked
-        const row = document.getElementById('row-' + id)
-        row.style.opacity = poojaChecked[id] ? '1' : '0.45'
-        updateSummary()
-      }
-
-      function changeItemQty(id, delta) {
-        const allItems = [...POOJA_FRUITS, ...POOJA_SWEETS, ...POOJA_SACRED]
-        const item = allItems.find((i) => i.id === id)
-        const minStep = item && item.unit === 'g' ? 50 : 1
-        const min = item && item.unit === 'g' ? 50 : 1
-        poojaQty[id] = Math.max(min, poojaQty[id] + delta * minStep)
-        document.getElementById('qty-' + id).textContent = poojaQty[id]
-        updateSummary()
-      }
-
-      function updateSummary() {
-        const allItems = [...POOJA_FRUITS, ...POOJA_SWEETS, ...POOJA_SACRED]
-        const list = document.getElementById('summary-list')
-        const selected = allItems.filter((i) => poojaChecked[i.id])
-        let count = selected.length
-        document.getElementById('cart-count').textContent = count
-
-        if (selected.length === 0) {
-          list.innerHTML =
-            '<div class="summary-empty">No items selected yet.</div>'
-          return
-        }
-        list.innerHTML = selected
-          .map(
-            (i) => `
-    <div class="summary-item">
-      <span class="item-n">${i.name}</span>
-      <span class="item-q">${poojaQty[i.id]} ${i.unit}</span>
-    </div>
-  `,
-          )
-          .join('')
-      }
-
-      function renderExtras() {
-        const c = document.getElementById('extras-grid')
-        c.innerHTML = EXTRAS.map(
-          (e) => `
-    <div class="extra-chip" id="extra-${e.id}" onclick="toggleExtra('${e.id}')">
-      ${e.emoji} ${e.label}
-    </div>
-  `,
-        ).join('')
-      }
-
-      function toggleExtra(id) {
-        if (selectedExtras.has(id)) {
-          selectedExtras.delete(id)
-          document.getElementById('extra-' + id).classList.remove('selected')
-        } else {
-          selectedExtras.add(id)
-          document.getElementById('extra-' + id).classList.add('selected')
-        }
-      }
-
-      function sendOrder() {
-        const phone = document.getElementById('cust-phone').value.trim()
-        const name =
-          document.getElementById('cust-name').value.trim() || 'Valued Customer'
-        const note = document.getElementById('special-note').value.trim()
-
-        if (!phone) {
-          showToast('Please enter your phone number before sending.')
-          document.getElementById('cust-phone').focus()
-          return
-        }
-        const digitsOnly = phone.replace(/\D/g, '')
-        if (digitsOnly.length < 9) {
-          showToast('Please enter a valid phone number (at least 9 digits).')
-          document.getElementById('cust-phone').focus()
-          return
-        }
-
-        const allItems = [...POOJA_FRUITS, ...POOJA_SWEETS, ...POOJA_SACRED]
-        const selected = allItems.filter((i) => poojaChecked[i.id])
-
-        if (selected.length === 0) {
-          showToast('Please select at least one item for your Pooja Watti.')
-          return
-        }
-
-        let msgParts = []
-        msgParts.push('🪔 *NEW POOJA WATTI ORDER*')
-        msgParts.push('----------------------------')
-        msgParts.push(`*Name:* ${name}`)
-        msgParts.push(`*Phone:* ${phone}`)
-        msgParts.push('----------------------------')
-        msgParts.push('*Selected Items:*')
-        selected.forEach((i) => {
-          msgParts.push(`• ${i.name} — ${poojaQty[i.id]} ${i.unit}`)
-        })
-
-        const extras = EXTRAS.filter((e) => selectedExtras.has(e.id))
-        if (extras.length > 0) {
-          msgParts.push('')
-          msgParts.push('*Add-ons:*')
-          extras.forEach((e) => {
-            msgParts.push(`• ${e.label}`)
-          })
-        }
-        if (note) {
-          msgParts.push('')
-          msgParts.push('*Special Note:*')
-          msgParts.push(note)
-        }
-        msgParts.push('----------------------------')
-        msgParts.push('_Sent from LY Sweet & Fancy House website_')
-
-        const encodedMsg = encodeURIComponent(msgParts.join('\n'))
-
-        saveOrder({
-          id: Date.now(),
-          date: new Date().toLocaleString('en-LK'),
-          name,
-          phone,
-          items: selected.map((i) => `${i.name} (${poojaQty[i.id]} ${i.unit})`),
-          extras: extras.map((e) => e.label),
-          note: note || '-',
-        })
-
-        window.open(`https://wa.me/94767726820?text=${encodedMsg}`, '_blank')
-        showToast('Order sent! Your record has been saved under "My Orders".')
-      }
-
-      // ─── PRODUCTS ─────────────────────────────────────────────────────────────────
-      function renderProducts() {
-        renderProductGrid('tab-sweets', SWEETS_PRODUCTS, 'sweets')
-        renderProductGrid('tab-toys', TOYS_PRODUCTS, 'toys')
-        renderProductGrid('tab-fancy', FANCY_PRODUCTS, 'fancy')
-      }
-
-      function renderProductGrid(containerId, products, cat) {
-        const c = document.getElementById(containerId)
-        c.innerHTML = products
-          .map(
-            (p, i) => `
-    <div class="product-card">
-      <div class="product-img">
-        <span style="font-size:60px;">${p.emoji}</span>
-        ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
-      </div>
-      <div class="product-body">
-        <div class="product-name">${p.name}</div>
-        <div class="product-desc">${p.desc}</div>
-        <div class="product-unit">${p.unit}</div>
-        <div class="qty-row">
-          <div class="qty-ctrl">
-            <button class="qty-btn" onclick="changeQty('${cat}-${i}', -1)">−</button>
-            <div class="qty-display" id="pqty-${cat}-${i}">1</div>
-            <button class="qty-btn" onclick="changeQty('${cat}-${i}', 1)">+</button>
-          </div>
-          <button class="add-btn" id="addbtn-${cat}-${i}" onclick="addToWhatsapp('${p.name}', '${cat}-${i}')">
-            <i class="fa-brands fa-whatsapp"></i> Order
-          </button>
-        </div>
-      </div>
-    </div>
-  `,
-          )
-          .join('')
-      }
-
-      const productQtys = {}
-      function changeQty(id, delta) {
-        if (!productQtys[id]) productQtys[id] = 1
-        productQtys[id] = Math.max(1, productQtys[id] + delta)
-        document.getElementById('pqty-' + id).textContent = productQtys[id]
-      }
-
-      function addToWhatsapp(name, id) {
-        const qty = productQtys[id] || 1
-        const confirmed = confirm(
-          `Send a WhatsApp inquiry to order:\n\n• ${name} — Qty: ${qty}\n\nThis will open WhatsApp with a pre-filled message.`,
-        )
-        if (!confirmed) return
-        const msgText = `Hi! I would like to order:\n• ${name} — Qty: ${qty}\n\nPlease confirm availability and price. Thank you!`
-        const encoded = encodeURIComponent(msgText)
-        const btn = document.getElementById('addbtn-' + id)
-        btn.classList.add('added')
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Sent!'
-        setTimeout(() => {
-          btn.classList.remove('added')
-          btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Order'
-        }, 2500)
-        window.open(`https://wa.me/94767726820?text=${encoded}`, '_blank')
-      }
-
-      // ─── TABS ─────────────────────────────────────────────────────────────────────
-      function showTab(tab) {
-        ;['sweets', 'toys', 'fancy'].forEach((t) => {
-          document.getElementById('tab-' + t).style.display =
-            t === tab ? 'grid' : 'none'
-        })
-        document.querySelectorAll('.tab[data-tab]').forEach((el) => {
-          el.classList.toggle('active', el.dataset.tab === tab)
-        })
-        document
-          .getElementById('products')
-          .scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-
-      // ─── HISTORY ──────────────────────────────────────────────────────────────────
-      function getHistory() {
-        try {
-          return JSON.parse(localStorage.getItem('ly_orders')) || []
-        } catch {
-          return []
-        }
-      }
-      function saveOrder(entry) {
-        const h = getHistory()
-        h.unshift(entry)
-        localStorage.setItem('ly_orders', JSON.stringify(h))
-      }
-      function clearHistory() {
-        if (confirm('Are you sure you want to delete all your saved orders?')) {
-          localStorage.removeItem('ly_orders')
-          showHistory()
-        }
-      }
-      function showHistory() {
-        const sec = document.getElementById('my-orders')
-        sec.style.display = 'block'
-        // Small delay to let display:block paint before scrolling
-        requestAnimationFrame(() => {
-          sec.scrollIntoView({ behavior: 'smooth' })
-        })
-        const h = getHistory()
-        const c = document.getElementById('history-list')
-        if (h.length === 0) {
-          c.innerHTML = `<div class="history-empty"><i class="fa-solid fa-clock-rotate-left"></i>No orders yet.<br>Your orders will appear here after you send your first inquiry.</div>`
-          return
-        }
-        c.innerHTML = h
-          .map(
-            (e) => `
-    <div class="history-card" style="margin-bottom:16px;">
-      <div>
-        <span class="history-status">✓ Sent via WhatsApp</span>
-        <div class="history-date">${e.date}</div>
-        <div class="history-name">${e.name} · ${e.phone}</div>
-        <div class="history-items">${e.items.slice(0, 5).join(' · ')}${e.items.length > 5 ? ` · +${e.items.length - 5} more` : ''}</div>
-        ${e.extras && e.extras.length > 0 ? `<div class="history-note">Extras: ${e.extras.join(', ')}</div>` : ''}
-        ${e.note && e.note !== '-' ? `<div class="history-note">Note: "${e.note}"</div>` : ''}
-      </div>
-      <div>
-        <a href="https://wa.me/94767726820" target="_blank" style="background:var(--gold); color:var(--deep); padding:10px 18px; border-radius:50px; font-size:12px; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:6px; white-space:nowrap;">
-          <i class="fa-brands fa-whatsapp"></i> Follow Up
-        </a>
-      </div>
-    </div>
-  `,
-          )
-          .join('')
-      }
-
-      // ─── HELPERS ──────────────────────────────────────────────────────────────────
-      function scrollToBuilder() {
-        document
-          .getElementById('pooja-builder')
-          .scrollIntoView({ behavior: 'smooth' })
-      }
-
-      function toggleMobileMenu() {
-        const menu = document.getElementById('mobile-menu')
-        const btn = document.getElementById('hamburger')
-        const isOpen = menu.classList.toggle('open')
-        btn.setAttribute('aria-expanded', isOpen)
-        // Animate hamburger to X
-        const spans = btn.querySelectorAll('span')
-        if (isOpen) {
-          spans[0].style.transform = 'translateY(7px) rotate(45deg)'
-          spans[1].style.opacity = '0'
-          spans[2].style.transform = 'translateY(-7px) rotate(-45deg)'
-        } else {
-          spans[0].style.transform = ''
-          spans[1].style.opacity = ''
-          spans[2].style.transform = ''
-        }
-      }
-      function closeMobileMenu() {
-        const menu = document.getElementById('mobile-menu')
-        const btn = document.getElementById('hamburger')
-        menu.classList.remove('open')
-        btn.setAttribute('aria-expanded', false)
-        const spans = btn.querySelectorAll('span')
-        spans[0].style.transform = ''
-        spans[1].style.opacity = ''
-        spans[2].style.transform = ''
-      }
-
-      function showToast(msg) {
-        const t = document.getElementById('toast')
-        document.getElementById('toast-msg').textContent = msg
-        t.classList.remove('hidden')
-        clearTimeout(window._toastTimer)
-        window._toastTimer = setTimeout(() => t.classList.add('hidden'), 3500)
-      }
-
-      // Back to top button visibility
-      window.addEventListener('scroll', () => {
-        const btn = document.getElementById('fab-top')
-        if (btn) btn.classList.toggle('visible', window.scrollY > 400)
-      })
-    </script>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  SCRIPTS (data first, then app logic)                       -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
