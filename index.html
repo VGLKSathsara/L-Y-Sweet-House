@@ -860,6 +860,8 @@
       }
       .cat-card.fancy {
         background: linear-gradient(135deg, #1a4a2a, #2e7a47);
+        aspect-ratio: 16 / 3;
+        min-height: 180px;
       }
       .cat-tag {
         font-size: 11px;
@@ -992,6 +994,11 @@
       @media (max-width: 900px) {
         .hamburger {
           display: flex;
+        }
+      }
+      @media (max-width: 900px) {
+        .cat-card.fancy {
+          aspect-ratio: 16 / 2.8; /* Slightly taller on mobile, but still shorter than original */
         }
       }
 
