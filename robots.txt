@@ -4,17 +4,12 @@
 User-agent: *
 Allow: /
 
-# Allow all crawlers to access everything
-Disallow:
+# Allow Google to crawl everything
+User-agent: Googlebot
+Allow: /
 
-# Sitemap location
+# Sitemap location - IMPORTANT!
 Sitemap: https://l-y-sweet-house.vercel.app/sitemap.xml
 
-# Crawl delay (be nice to the server)
+# Crawl delay (be nice)
 Crawl-delay: 1
-
-# Specify clean parameters
-# (Google ignores this but included for completeness)
-
-# Host directive (not standard for all crawlers)
-Host: https://l-y-sweet-house.vercel.app
