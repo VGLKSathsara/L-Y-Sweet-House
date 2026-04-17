@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="si">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="LY Sweet & Fancy House — Pooja Watti, Sweets & Toys. Katharagama New Town. Order via WhatsApp."
+    />
+    <meta property="og:title" content="LY Sweet & Fancy House | Katharagama" />
+    <meta
+      property="og:description"
+      content="Pooja Watti, Sweets & Toys. Order online via WhatsApp."
+    />
+    <title>LY Sweet & Fancy House | Katharagama</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="nav-logo-icon">🪷</span>
+        <div>
+          LY Sweet &amp; Fancy House
+          <span>Katharagama New Town</span>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-history" onclick="openHistoryModal()">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span class="hide-xs">Orders</span>
+        </button>
+        <a href="https://wa.me/94703714386" target="_blank" class="btn-wa">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span class="hide-xs">WhatsApp</span>
+        </a>
+        <button class="cart-btn" onclick="openCart()" aria-label="Open cart">
+          🛒
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span
+          style="
+            background: #a855f7;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+          "
+        ></span>
+        Katharagama New Town · Pooja Watti · Sweets · Toys
+      </div>
+      <h1>LY Sweet &amp; Fancy House</h1>
+      <p>
+        Pooja watti, sweet items, saha toys — order karanna easy. WhatsApp
+        haraha confirm wenawa.
+      </p>
+      <div class="hero-cta">
+        <button
+          class="btn-hero-primary"
+          onclick="
+            document
+              .getElementById('shop')
+              .scrollIntoView({ behavior: 'smooth' })
+          "
+        >
+          🛍️ Shop Now
+        </button>
+        <a
+          href="https://wa.me/94703714386"
+          target="_blank"
+          class="btn-hero-outline"
+        >
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp Order
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ SHOP SECTION ============ -->
+    <section class="section" id="shop">
+      <div class="section-title">
+        <span class="section-label">Our Products</span>
+        <h2>Pooja Watti, Sweets &amp; Toys</h2>
+        <p>
+          Meka select karala cart ekata dammoth WhatsApp haraha order confirm
+          wenawa
+        </p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" onclick="switchTab('pooja')">
+          🪷 Pooja Watti
+        </button>
+        <button class="tab-btn" role="tab" onclick="switchTab('sweets')">
+          🍬 Sweet Items
+        </button>
+        <button class="tab-btn" role="tab" onclick="switchTab('toys')">
+          🧸 Toys
+        </button>
+      </div>
+
+      <div class="tab-panel active" id="tab-pooja">
+        <div class="product-grid" id="pooja-grid"></div>
+      </div>
+      <div class="tab-panel" id="tab-sweets">
+        <div class="product-grid" id="sweet-grid"></div>
+      </div>
+      <div class="tab-panel" id="tab-toys">
+        <div class="product-grid" id="toy-grid"></div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT / INFO ============ -->
+    <section class="info-section">
+      <div class="info-inner">
+        <div class="info-grid">
+          <div>
+            <h2 class="info-title">LY Sweet &amp; Fancy House gurin</h2>
+            <p class="info-text">
+              Katharagama New Townhi thibena api, pooja watti, traditional sweet
+              items, saha daru toys supply karanawa. Wagamai deval ekata, pooja
+              karanna, daru wata — api sidipath wenawa. WhatsApp haraha order
+              karanna, api confirm karala deliver karanawa.
+            </p>
+            <div
+              style="
+                margin-top: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+              "
+            >
+              <a
+                href="https://maps.app.goo.gl/fi8dtkp7spiLS9sC9"
+                target="_blank"
+                style="
+                  background: rgba(255, 255, 255, 0.15);
+                  border: 1px solid rgba(255, 255, 255, 0.3);
+                  color: #fff;
+                  padding: 9px 18px;
+                  border-radius: 99px;
+                  font-size: 13px;
+                  font-weight: 600;
+                  display: flex;
+                  align-items: center;
+                  gap: 7px;
+                  text-decoration: none;
+                "
+              >
+                <i class="fa-solid fa-map-location-dot"></i> Location Balannam
+              </a>
+              <a
+                href="tel:0703714386"
+                style="
+                  background: rgba(255, 255, 255, 0.15);
+                  border: 1px solid rgba(255, 255, 255, 0.3);
+                  color: #fff;
+                  padding: 9px 18px;
+                  border-radius: 99px;
+                  font-size: 13px;
+                  font-weight: 600;
+                  display: flex;
+                  align-items: center;
+                  gap: 7px;
+                  text-decoration: none;
+                "
+              >
+                <i class="fa-solid fa-phone"></i> 0703 714 386
+              </a>
+            </div>
+          </div>
+          <div class="info-facts">
+            <div class="info-fact">
+              <div class="info-fact-value">🪷 5</div>
+              <div class="info-fact-label">Pooja Watti Options</div>
+            </div>
+            <div class="info-fact">
+              <div class="info-fact-value">🍬 6+</div>
+              <div class="info-fact-label">Sweet Items</div>
+            </div>
+            <div class="info-fact">
+              <div class="info-fact-value">🧸 5+</div>
+              <div class="info-fact-label">Toy Items</div>
+            </div>
+            <div class="info-fact">
+              <div class="info-fact-value">📲 WA</div>
+              <div class="info-fact-label">Easy WhatsApp Order</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BANDESIYA INFO ============ -->
+    <section class="section" style="padding-top: 40px; padding-bottom: 40px">
+      <div
+        style="
+          background: #fef3c7;
+          border: 1.5px solid #fde68a;
+          border-radius: 16px;
+          padding: 24px 28px;
+          max-width: 700px;
+          margin: 0 auto;
+        "
+      >
+        <div style="display: flex; gap: 14px; align-items: flex-start">
+          <span style="font-size: 2rem">🏺</span>
+          <div>
+            <h3
+              style="
+                font-family: 'Playfair Display', serif;
+                font-size: 1.1rem;
+                color: #78350f;
+                margin-bottom: 8px;
+              "
+            >
+              Bandesiya Deposit Gena
+            </h3>
+            <p style="font-size: 14px; color: #92400e; line-height: 1.6">
+              Rs. 3,000 ata upare pooja watti walata
+              <strong>loku bandesiya</strong> ekak denna. Obage gehe thibale
+              return karaloth <strong>Rs. 500 refund</strong> wenawa.<br />
+              Order eke checkout welama "Bandesiya return karannam" kiyala
+              select karanna. Bandesiya baradanna avama me slip eka pennuvama,
+              api confirm karanawa.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact-section">
+      <div class="contact-inner">
+        <div
+          class="section-title"
+          style="text-align: left; margin-bottom: 24px"
+        >
+          <span class="section-label">Contact</span>
+          <h2>Api Samaga Katha Karamu</h2>
+        </div>
+        <div class="contact-grid">
+          <a
+            href="https://wa.me/94703714386"
+            target="_blank"
+            class="contact-card"
+          >
+            <div
+              class="contact-icon"
+              style="background: #dcfce7; color: #166534; font-size: 22px"
+            >
+              <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <div>
+              <div class="contact-label">WhatsApp</div>
+              <div class="contact-value">0703 714 386</div>
+              <div style="font-size: 12px; color: #6b7280; margin-top: 3px">
+                Chat karanna click karanna
+              </div>
+            </div>
+          </a>
+          <a href="tel:0703714386" class="contact-card">
+            <div class="contact-icon">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <div>
+              <div class="contact-label">Call</div>
+              <div class="contact-value">0703 714 386</div>
+              <div style="font-size: 12px; color: #6b7280; margin-top: 3px">
+                Katha karanna
+              </div>
+            </div>
+          </a>
+          <a
+            href="https://maps.app.goo.gl/fi8dtkp7spiLS9sC9"
+            target="_blank"
+            class="contact-card"
+            style="grid-column: 1/-1"
+          >
+            <div
+              class="contact-icon"
+              style="background: #ede9fe; color: #7c3aed"
+            >
+              <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+            <div>
+              <div class="contact-label">Location</div>
+              <div class="contact-value">
+                O/59,C · LY Sweet &amp; Fancy House · New Town, Katharagama
+              </div>
+              <div style="font-size: 12px; color: #6b7280; margin-top: 3px">
+                Google Maps balanna click karanna →
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+      <strong>🪷 LY Sweet &amp; Fancy House</strong><br />
+      O/59,C, New Town, Katharagama &nbsp;·&nbsp; Tel: 0703 714 386
+      &nbsp;·&nbsp; 2025–2026
+    </footer>
+
+    <!-- ============ CART SIDEBAR ============ -->
+    <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+      <div class="cart-header">
+        <h3>🛒 Cart</h3>
+        <button class="close-btn" onclick="closeCart()">×</button>
+      </div>
+      <div class="cart-body">
+        <div id="cart-empty">Cart eka empty. Products add karanna!</div>
+        <div id="cart-content" style="display: none"></div>
+      </div>
+      <div class="cart-footer">
+        <div class="cart-total-row">
+          <span class="cart-total-label">Total</span>
+          <span id="cart-total">Rs. 0</span>
+        </div>
+        <button
+          class="btn-checkout"
+          onclick="
+            closeCart()
+            openOrderModal()
+          "
+        >
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp Order Karamu
+        </button>
+        <button
+          class="btn-clear"
+          onclick="if (confirm('Cart clear karannavada?')) cartClear()"
+        >
+          Cart Clear Karanna
+        </button>
+      </div>
+    </div>
+
+    <!-- ============ ORDER MODAL ============ -->
+    <div class="modal-backdrop" id="order-modal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>📲 Order Details</h3>
+          <button class="close-btn" onclick="closeOrderModal()">×</button>
+        </div>
+        <p style="font-size: 13px; color: #6b7280; margin-bottom: 18px">
+          Me details demmoth WhatsApp message ekak API hadurenawa. Apita
+          labenna, api confirm karanawa.
+        </p>
+        <form onsubmit="submitOrder(event)" novalidate>
+          <div class="form-group">
+            <label>Oba wage nama *</label>
+            <input
+              type="text"
+              id="order-name"
+              placeholder="Eg: Kamal Perera"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>Delivery address (optional)</label>
+            <input
+              type="text"
+              id="order-address"
+              placeholder="Eg: No 5, Main St, Katharagama"
+            />
+          </div>
+          <div class="form-group">
+            <label>Note (optional)</label>
+            <textarea
+              id="order-note"
+              placeholder="Eg: Certain time delivery ona, special requirement..."
+            ></textarea>
+          </div>
+          <button type="submit" class="btn-submit">
+            <i class="fa-brands fa-whatsapp" style="font-size: 18px"></i>
+            WhatsApp Haraha Order Karanna
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============ CONFIRMATION MODAL ============ -->
+    <div class="modal-backdrop" id="confirm-modal">
+      <div class="modal-box" style="max-width: 380px; text-align: center">
+        <div class="confirm-icon">✅</div>
+        <div class="confirm-title">Order Sent!</div>
+        <div class="confirm-id">
+          Order ID: <span id="confirm-order-id">—</span>
+        </div>
+        <p style="font-size: 13px; color: #6b7280; margin-bottom: 20px">
+          WhatsApp message ekak yawala thiyenawa. Api confirm karalath kiyamu.
+          Me slip eka download karanna puluwan — bandesiya return karama
+          pannuvannam.
+        </p>
+        <div class="confirm-actions">
+          <button class="btn-download" id="confirm-download">
+            📥 Order Slip Download
+          </button>
+          <button class="btn-close-confirm" onclick="closeConfirmModal()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HISTORY MODAL ============ -->
+    <div class="modal-backdrop" id="history-modal">
+      <div class="history-modal-box modal-box" style="max-width: 720px">
+        <div class="modal-header">
+          <h3>📋 Order History</h3>
+          <button class="close-btn" onclick="closeHistoryModal()">×</button>
+        </div>
+        <input
+          class="history-search"
+          type="text"
+          placeholder="Search orders, customer name, ID..."
+          oninput="searchHistory(this.value)"
+        />
+        <div id="history-list"></div>
+      </div>
+    </div>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script>
+      // ---- Tab switching ----
+      function switchTab(tab) {
+        document
+          .querySelectorAll('.tab-panel')
+          .forEach((p) => p.classList.remove('active'))
+        document
+          .querySelectorAll('.tab-btn')
+          .forEach((b) => b.classList.remove('active'))
+        document.getElementById('tab-' + tab).classList.add('active')
+        event.target.classList.add('active')
+      }
+
+      // ---- Init on load ----
+      document.addEventListener('DOMContentLoaded', () => {
+        renderProducts()
+        renderCart()
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,519 @@
+// ============================================================
+//  LY SWEET & FANCY HOUSE — App Logic
+// ============================================================
+
+// ---- Local Order Database (localStorage) ----
+const DB_KEY = 'ly_orders'
+
+function getAllOrders() {
+  try {
+    return JSON.parse(localStorage.getItem(DB_KEY) || '[]')
+  } catch {
+    return []
+  }
+}
+
+function saveOrder(order) {
+  const orders = getAllOrders()
+  orders.unshift(order) // newest first
+  localStorage.setItem(DB_KEY, JSON.stringify(orders))
+}
+
+function generateOrderId() {
+  const now = new Date()
+  const yy = String(now.getFullYear()).slice(2)
+  const mm = String(now.getMonth() + 1).padStart(2, '0')
+  const dd = String(now.getDate()).padStart(2, '0')
+  const rand = Math.floor(1000 + Math.random() * 9000)
+  return `LY-${yy}${mm}${dd}-${rand}`
+}
+
+// ---- Cart State ----
+let cart = {} // { productId: quantity }
+let bandesiyaReturned = {} // { productId: true/false }
+
+function cartAdd(id) {
+  cart[id] = (cart[id] || 0) + 1
+  renderCart()
+}
+
+function cartRemove(id) {
+  if (!cart[id]) return
+  cart[id]--
+  if (cart[id] <= 0) delete cart[id]
+  renderCart()
+}
+
+function cartSet(id, qty) {
+  qty = parseInt(qty)
+  if (isNaN(qty) || qty <= 0) {
+    delete cart[id]
+  } else {
+    cart[id] = qty
+  }
+  renderCart()
+}
+
+function cartClear() {
+  cart = {}
+  bandesiyaReturned = {}
+  renderCart()
+}
+
+function cartTotal() {
+  let total = 0
+  for (const [id, qty] of Object.entries(cart)) {
+    const p = ALL_PRODUCTS.find((x) => x.id === id)
+    if (!p) continue
+    total += p.price * qty
+    // Add bandesiya deposit if item has bandesiya AND customer is keeping it
+    if (p.hasBandesiya && !bandesiyaReturned[id]) {
+      total += CONFIG.bandesiyaDeposit * qty
+    }
+  }
+  return total
+}
+
+function cartItems() {
+  return Object.entries(cart)
+    .map(([id, qty]) => {
+      const p = ALL_PRODUCTS.find((x) => x.id === id)
+      return { ...p, qty, returnBandesiya: !!bandesiyaReturned[id] }
+    })
+    .filter((x) => x.id)
+}
+
+// ---- WhatsApp Message Builder ----
+function buildWhatsAppMsg(orderId, customerName, address, items, total, note) {
+  const dateStr = new Date().toLocaleString('en-LK', {
+    timeZone: 'Asia/Colombo',
+  })
+  let lines = []
+  lines.push(`🛕 *LY Sweet & Fancy House — New Order*`)
+  lines.push(`Order ID: *${orderId}*`)
+  lines.push(`Date: ${dateStr}`)
+  lines.push(`Customer: *${customerName}*`)
+  if (address) lines.push(`Address: ${address}`)
+  lines.push(``)
+  lines.push(`*Items:*`)
+  for (const item of items) {
+    let line = `• ${item.name} x${item.qty} — Rs. ${(item.price * item.qty).toLocaleString()}`
+    if (item.hasBandesiya) {
+      if (item.returnBandesiya) {
+        line += `\n  ↳ Bandesiya return karanna (deposit + Rs. ${CONFIG.bandesiyaDeposit * item.qty} — refund wenawa)`
+      } else {
+        line += `\n  ↳ Bandesiya keep karanna (deposit: Rs. ${(CONFIG.bandesiyaDeposit * item.qty).toLocaleString()} extra)`
+      }
+    }
+    lines.push(line)
+  }
+  lines.push(``)
+  lines.push(`*Total: Rs. ${total.toLocaleString()}*`)
+  if (note) lines.push(`Note: ${note}`)
+  lines.push(``)
+  lines.push(`Please confirm this order. Thank you! 🙏`)
+  return lines.join('\n')
+}
+
+// ---- Send WhatsApp ----
+function sendWhatsApp(msg) {
+  const encoded = encodeURIComponent(msg)
+  // Build URL — phone number comes from CONFIG so easy to change in one place
+  const url = `https://wa.me/${CONFIG.whatsapp}?text=${encoded}`
+  window.open(url, '_blank')
+}
+
+// ---- Generate & Download Slip (HTML → Print) ----
+function downloadSlip(order) {
+  const itemRows = order.items
+    .map((item) => {
+      const subtotal = item.price * item.qty
+      let extras = ''
+      if (item.hasBandesiya) {
+        if (item.returnBandesiya) {
+          extras = `<div class="slip-note">↳ Bandesiya return — deposit refund Rs. ${CONFIG.bandesiyaDeposit * item.qty}</div>`
+        } else {
+          extras = `<div class="slip-note">↳ Bandesiya deposit Rs. ${CONFIG.bandesiyaDeposit * item.qty} included</div>`
+        }
+      }
+      return `
+      <tr>
+        <td>${item.name}</td>
+        <td class="center">${item.qty}</td>
+        <td class="right">Rs. ${item.price.toLocaleString()}</td>
+        <td class="right">Rs. ${subtotal.toLocaleString()}</td>
+      </tr>
+      ${extras ? `<tr><td colspan="4">${extras}</td></tr>` : ''}
+    `
+    })
+    .join('')
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Slip — ${order.id}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #222; }
+  .slip { max-width: 520px; margin: 30px auto; padding: 32px; border: 2px solid #c084fc; border-radius: 16px; }
+  .slip-header { text-align: center; margin-bottom: 20px; }
+  .slip-header h1 { font-size: 22px; color: #7c3aed; font-weight: 700; }
+  .slip-header p { font-size: 12px; color: #666; margin-top: 4px; }
+  .slip-meta { background: #f5f3ff; border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; }
+  .slip-meta div { display: flex; justify-content: space-between; padding: 3px 0; }
+  .slip-meta span { color: #555; }
+  .slip-meta strong { color: #222; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+  th { background: #7c3aed; color: #fff; padding: 8px 10px; text-align: left; }
+  th.center { text-align: center; }
+  th.right { text-align: right; }
+  td { padding: 8px 10px; border-bottom: 1px solid #ede9fe; }
+  td.center { text-align: center; }
+  td.right { text-align: right; }
+  .slip-note { font-size: 11px; color: #7c3aed; padding: 2px 0 4px; }
+  .slip-total { display: flex; justify-content: flex-end; gap: 20px; font-size: 15px; font-weight: 700; color: #7c3aed; background: #f5f3ff; padding: 12px 16px; border-radius: 10px; }
+  .slip-bandesiya { background: #fef9c3; border: 1px solid #fde047; border-radius: 10px; padding: 10px 14px; font-size: 12px; color: #713f12; margin-top: 12px; }
+  .slip-footer { text-align: center; font-size: 11px; color: #999; margin-top: 20px; border-top: 1px dashed #ddd; padding-top: 14px; }
+  .status-badge { display: inline-block; padding: 3px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+  .status-pending { background: #fef9c3; color: #854d0e; }
+  .status-confirmed { background: #dcfce7; color: #166534; }
+  .status-delivered { background: #ede9fe; color: #5b21b6; }
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="slip">
+  <div class="slip-header">
+    <h1>🪷 LY Sweet &amp; Fancy House</h1>
+    <p>${CONFIG.address}</p>
+    <p>Tel: ${CONFIG.phone}</p>
+  </div>
+  <div class="slip-meta">
+    <div><span>Order ID</span><strong>${order.id}</strong></div>
+    <div><span>Date</span><strong>${order.date}</strong></div>
+    <div><span>Customer</span><strong>${order.customerName}</strong></div>
+    ${order.address ? `<div><span>Delivery Address</span><strong>${order.address}</strong></div>` : ''}
+    <div><span>Status</span><span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span></div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th class="center">Qty</th>
+        <th class="right">Unit Price</th>
+        <th class="right">Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>${itemRows}</tbody>
+  </table>
+  <div class="slip-total">
+    <span>TOTAL</span>
+    <span>Rs. ${order.total.toLocaleString()}</span>
+  </div>
+  ${
+    order.hasBandesiyaItems
+      ? `
+  <div class="slip-bandesiya">
+    ⚠️ <strong>Bandesiya Deposit:</strong> Rs. 500 deposit included per wattiya. Bandesiya return karalath Rs. 500 refund labenna puluwan. Me slip eka dakkoth confirm karanna puluwan.
+  </div>`
+      : ''
+  }
+  ${order.note ? `<div style="margin-top:12px;font-size:13px;color:#555;"><strong>Note:</strong> ${order.note}</div>` : ''}
+  <div class="slip-footer">
+    <p>LY Sweet &amp; Fancy House — Thank you for your order! 🙏</p>
+    <p>WhatsApp: ${CONFIG.phone} | <a href="${CONFIG.mapsUrl}">View Location</a></p>
+  </div>
+</div>
+<div class="no-print" style="text-align:center;margin:20px;">
+  <button onclick="window.print()" style="background:#7c3aed;color:#fff;border:none;padding:12px 32px;border-radius:99px;font-size:15px;cursor:pointer;font-weight:600;">🖨️ Print / Save PDF</button>
+  <button onclick="window.close()" style="background:#f3f4f6;color:#333;border:none;padding:12px 32px;border-radius:99px;font-size:15px;cursor:pointer;margin-left:12px;">Close</button>
+</div>
+</body>
+</html>`
+
+  const blob = new Blob([html], { type: 'text/html' })
+  const url = URL.createObjectURL(blob)
+  const win = window.open(url, '_blank')
+  // Cleanup URL after window opens
+  setTimeout(() => URL.revokeObjectURL(url), 10000)
+}
+
+// ---- UI: Render Cart ----
+function renderCart() {
+  const cartBadge = document.getElementById('cart-badge')
+  const cartSidebar = document.getElementById('cart-sidebar')
+  const cartEmpty = document.getElementById('cart-empty')
+  const cartContent = document.getElementById('cart-content')
+  const cartTotalEl = document.getElementById('cart-total')
+
+  const items = cartItems()
+  const total = cartTotal()
+  const count = items.reduce((s, i) => s + i.qty, 0)
+
+  // Badge
+  if (cartBadge) {
+    cartBadge.textContent = count
+    cartBadge.style.display = count > 0 ? 'flex' : 'none'
+  }
+
+  if (!cartContent) return
+
+  if (items.length === 0) {
+    cartEmpty.style.display = 'block'
+    cartContent.style.display = 'none'
+    if (cartTotalEl) cartTotalEl.textContent = 'Rs. 0'
+    return
+  }
+
+  cartEmpty.style.display = 'none'
+  cartContent.style.display = 'block'
+
+  let html = ''
+  for (const item of items) {
+    const lineTotal =
+      item.price * item.qty +
+      (item.hasBandesiya && !item.returnBandesiya
+        ? CONFIG.bandesiyaDeposit * item.qty
+        : 0)
+    html += `
+      <div class="cart-item" data-id="${item.id}">
+        <div class="cart-item-top">
+          <span class="cart-item-emoji">${item.emoji || '🪷'}</span>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">Rs. ${item.price.toLocaleString()} each</div>
+          </div>
+          <div class="cart-item-controls">
+            <button class="qty-btn" onclick="cartRemove('${item.id}')">−</button>
+            <input class="qty-input" type="number" min="1" value="${item.qty}" onchange="cartSet('${item.id}', this.value)" />
+            <button class="qty-btn" onclick="cartAdd('${item.id}')">+</button>
+          </div>
+        </div>
+        ${
+          item.hasBandesiya
+            ? `
+        <div class="bandesiya-row">
+          <label class="bandesiya-label">
+            <input type="checkbox" ${item.returnBandesiya ? 'checked' : ''} onchange="toggleBandesiya('${item.id}', this.checked)" />
+            <span>Bandesiya return karannam (Rs. ${CONFIG.bandesiyaDeposit} deposit epa)</span>
+          </label>
+          ${!item.returnBandesiya ? `<span class="deposit-tag">+ Rs. ${(CONFIG.bandesiyaDeposit * item.qty).toLocaleString()} deposit</span>` : `<span class="refund-tag">Deposit refund wenawa ✓</span>`}
+        </div>`
+            : ''
+        }
+        <div class="cart-item-subtotal">Subtotal: Rs. ${lineTotal.toLocaleString()}</div>
+      </div>`
+  }
+
+  cartContent.innerHTML = html
+  if (cartTotalEl) cartTotalEl.textContent = `Rs. ${total.toLocaleString()}`
+}
+
+function toggleBandesiya(id, checked) {
+  bandesiyaReturned[id] = checked
+  renderCart()
+}
+
+// ---- Order Modal Submit ----
+function submitOrder(e) {
+  e.preventDefault()
+  const items = cartItems()
+  if (!items.length) {
+    alert('Cart eka empty!')
+    return
+  }
+
+  const customerName = document.getElementById('order-name').value.trim()
+  const address = document.getElementById('order-address').value.trim()
+  const note = document.getElementById('order-note').value.trim()
+  if (!customerName) {
+    alert('Nema denna!')
+    return
+  }
+
+  const orderId = generateOrderId()
+  const total = cartTotal()
+  const hasBandesiyaItems = items.some((i) => i.hasBandesiya)
+  const dateStr = new Date().toLocaleString('en-LK', {
+    timeZone: 'Asia/Colombo',
+  })
+
+  const order = {
+    id: orderId,
+    date: dateStr,
+    customerName,
+    address,
+    note,
+    items,
+    total,
+    hasBandesiyaItems,
+    status: 'pending',
+  }
+
+  saveOrder(order)
+
+  const msg = buildWhatsAppMsg(
+    orderId,
+    customerName,
+    address,
+    items,
+    total,
+    note,
+  )
+  sendWhatsApp(msg)
+
+  // Show confirmation & offer slip download
+  closeOrderModal()
+  showConfirmation(order)
+  cartClear()
+}
+
+function showConfirmation(order) {
+  const modal = document.getElementById('confirm-modal')
+  const idEl = document.getElementById('confirm-order-id')
+  const dlBtn = document.getElementById('confirm-download')
+  if (idEl) idEl.textContent = order.id
+  if (dlBtn) dlBtn.onclick = () => downloadSlip(order)
+  if (modal) {
+    modal.style.display = 'flex'
+  }
+}
+
+// ---- Order History ----
+function renderHistory() {
+  const container = document.getElementById('history-list')
+  if (!container) return
+  const orders = getAllOrders()
+  if (!orders.length) {
+    container.innerHTML = `<div class="history-empty">Order history naha.</div>`
+    return
+  }
+  container.innerHTML = orders
+    .map(
+      (order) => `
+    <div class="history-card">
+      <div class="history-top">
+        <div>
+          <div class="history-id">${order.id}</div>
+          <div class="history-date">${order.date}</div>
+          <div class="history-customer">${order.customerName}${order.address ? ' · ' + order.address : ''}</div>
+        </div>
+        <div class="history-right">
+          <span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span>
+          <div class="history-total">Rs. ${order.total.toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="history-items">
+        ${order.items.map((i) => `<span class="history-item-tag">${i.emoji || '🪷'} ${i.name} x${i.qty}</span>`).join('')}
+      </div>
+      <div class="history-actions">
+        <button class="btn-slip" onclick='downloadSlip(${JSON.stringify(order)})'>📥 Slip Download</button>
+        <button class="btn-whatsapp-resend" onclick='resendWhatsApp(${JSON.stringify(order)})'>📲 WhatsApp Resend</button>
+        <select class="status-select" onchange="updateStatus('${order.id}', this.value)">
+          <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+          <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+          <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+        </select>
+      </div>
+    </div>
+  `,
+    )
+    .join('')
+}
+
+function updateStatus(orderId, newStatus) {
+  const orders = getAllOrders()
+  const idx = orders.findIndex((o) => o.id === orderId)
+  if (idx === -1) return
+  orders[idx].status = newStatus
+  localStorage.setItem(DB_KEY, JSON.stringify(orders))
+  renderHistory()
+}
+
+function resendWhatsApp(order) {
+  const msg = buildWhatsAppMsg(
+    order.id,
+    order.customerName,
+    order.address,
+    order.items,
+    order.total,
+    order.note,
+  )
+  sendWhatsApp(msg)
+}
+
+function searchHistory(term) {
+  const cards = document.querySelectorAll('.history-card')
+  const lower = term.toLowerCase()
+  cards.forEach((card) => {
+    card.style.display = card.textContent.toLowerCase().includes(lower)
+      ? ''
+      : 'none'
+  })
+}
+
+// ---- Modal helpers ----
+function openOrderModal() {
+  document.getElementById('order-modal').style.display = 'flex'
+}
+function closeOrderModal() {
+  document.getElementById('order-modal').style.display = 'none'
+}
+function closeConfirmModal() {
+  document.getElementById('confirm-modal').style.display = 'none'
+}
+function openCart() {
+  document.getElementById('cart-sidebar').classList.add('open')
+  document.getElementById('cart-overlay').classList.add('open')
+}
+function closeCart() {
+  document.getElementById('cart-sidebar').classList.remove('open')
+  document.getElementById('cart-overlay').classList.remove('open')
+}
+function openHistoryModal() {
+  renderHistory()
+  document.getElementById('history-modal').style.display = 'flex'
+}
+function closeHistoryModal() {
+  document.getElementById('history-modal').style.display = 'none'
+}
+
+// ---- Init product cards ----
+function renderProducts() {
+  renderCategory('pooja-grid', POOJA_WATTI)
+  renderCategory('sweet-grid', SWEET_ITEMS)
+  renderCategory('toy-grid', TOY_ITEMS)
+}
+
+function renderCategory(gridId, products) {
+  const grid = document.getElementById(gridId)
+  if (!grid) return
+  grid.innerHTML = products
+    .map(
+      (p) => `
+    <div class="product-card" id="card-${p.id}">
+      <div class="product-emoji">${p.emoji || '🪷'}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-desc">${p.description || ''}</div>
+      ${p.details ? `<ul class="product-details">${p.details.map((d) => `<li>${d}</li>`).join('')}</ul>` : ''}
+      ${p.hasBandesiya ? `<div class="bandesiya-notice">🏺 Bandesiya denna. Keep karaloth Rs. ${CONFIG.bandesiyaDeposit} deposit (return karaloth refund)</div>` : ''}
+      <div class="product-footer">
+        <div class="product-price">Rs. ${p.price.toLocaleString()}</div>
+        <button class="add-btn" onclick="cartAdd('${p.id}'); animateBtn(this)">
+          <span>Add to Cart</span>
+        </button>
+      </div>
+    </div>
+  `,
+    )
+    .join('')
+}
+
+function animateBtn(btn) {
+  btn.classList.add('added')
+  setTimeout(() => btn.classList.remove('added'), 600)
+}
