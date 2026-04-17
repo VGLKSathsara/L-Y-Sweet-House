@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="si">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,10 +8,6 @@
       content="LY Sweet & Fancy House — Pooja Watti, Sweets & Toys. Katharagama New Town. Order via WhatsApp."
     />
     <meta property="og:title" content="LY Sweet & Fancy House | Katharagama" />
-    <meta
-      property="og:description"
-      content="Pooja Watti, Sweets & Toys. Order online via WhatsApp."
-    />
     <title>LY Sweet & Fancy House | Katharagama</title>
 
     <!-- Fonts & Icons -->
@@ -34,6 +30,11 @@
           <span>Katharagama New Town</span>
         </div>
       </div>
+      <div class="nav-links">
+        <a href="#shop" class="nav-link">Shop</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
       <div class="nav-actions">
         <button class="btn-history" onclick="openHistoryModal()">
           <i class="fa-solid fa-clock-rotate-left"></i>
@@ -50,43 +51,41 @@
       </div>
     </nav>
 
-    <!-- ============ HERO ============ -->
+    <!-- ============ HERO SECTION ============ -->
     <section class="hero">
-      <div class="hero-badge">
-        <span
-          style="
-            background: #a855f7;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-          "
-        ></span>
-        Katharagama New Town · Pooja Watti · Sweets · Toys
-      </div>
-      <h1>LY Sweet &amp; Fancy House</h1>
-      <p>
-        Pooja watti, sweet items, saha toys — order karanna easy. WhatsApp
-        haraha confirm wenawa.
-      </p>
-      <div class="hero-cta">
-        <button
-          class="btn-hero-primary"
-          onclick="
-            document
-              .getElementById('shop')
-              .scrollIntoView({ behavior: 'smooth' })
-          "
-        >
-          🛍️ Shop Now
-        </button>
-        <a
-          href="https://wa.me/94703714386"
-          target="_blank"
-          class="btn-hero-outline"
-        >
-          <i class="fa-brands fa-whatsapp"></i> WhatsApp Order
-        </a>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Katharagama New Town · Since 2015
+        </div>
+        <h1>LY Sweet &amp; Fancy House</h1>
+        <p class="hero-subtitle">
+          Premium Pooja Watti · Traditional Sweets · Toys for All Ages
+        </p>
+        <p class="hero-description">
+          Quality items for your pooja, celebrations & gifting needs.<br />
+          Order via WhatsApp — quick confirmation & delivery.
+        </p>
+        <div class="hero-cta">
+          <button
+            class="btn-hero-primary"
+            onclick="
+              document
+                .getElementById('shop')
+                .scrollIntoView({ behavior: 'smooth' })
+            "
+          >
+            🛍️ Browse Products
+          </button>
+          <a
+            href="https://wa.me/94703714386"
+            target="_blank"
+            class="btn-hero-outline"
+          >
+            <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+          </a>
+        </div>
       </div>
     </section>
 
@@ -95,10 +94,7 @@
       <div class="section-title">
         <span class="section-label">Our Products</span>
         <h2>Pooja Watti, Sweets &amp; Toys</h2>
-        <p>
-          Meka select karala cart ekata dammoth WhatsApp haraha order confirm
-          wenawa
-        </p>
+        <p>Select items, add to cart, and confirm via WhatsApp</p>
       </div>
 
       <!-- Tabs -->
@@ -125,81 +121,61 @@
       </div>
     </section>
 
-    <!-- ============ ABOUT / INFO ============ -->
-    <section class="info-section">
-      <div class="info-inner">
-        <div class="info-grid">
-          <div>
-            <h2 class="info-title">LY Sweet &amp; Fancy House gurin</h2>
-            <p class="info-text">
-              Katharagama New Townhi thibena api, pooja watti, traditional sweet
-              items, saha daru toys supply karanawa. Wagamai deval ekata, pooja
-              karanna, daru wata — api sidipath wenawa. WhatsApp haraha order
-              karanna, api confirm karala deliver karanawa.
+    <!-- ============ ABOUT SECTION ============ -->
+    <section class="about-section" id="about">
+      <div class="about-inner">
+        <div class="about-grid">
+          <div class="about-content">
+            <span class="section-label">About Us</span>
+            <h2>Welcome to<br />LY Sweet & Fancy House</h2>
+            <p>
+              Located in the heart of Katharagama New Town, just minutes from
+              the sacred Kataragama Devalaya and Kirivehera Temple. We provide
+              high-quality pooja watti, traditional sweet items, and toys for
+              devotees and families visiting this holy city.
             </p>
-            <div
-              style="
-                margin-top: 20px;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-              "
-            >
+            <p>
+              Whether you're preparing for devalaya pooja, celebrating a
+              festival, or buying gifts for children — we have everything you
+              need. Order via WhatsApp for easy pickup or delivery.
+            </p>
+            <div class="about-stats">
+              <div class="stat">
+                <div class="stat-value">🪷 5+</div>
+                <div class="stat-label">Pooja Watti</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">🍬 6+</div>
+                <div class="stat-label">Sweet Items</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">🧸 5+</div>
+                <div class="stat-label">Toy Items</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">📲 24/7</div>
+                <div class="stat-label">WhatsApp Order</div>
+              </div>
+            </div>
+          </div>
+          <div class="about-location">
+            <div class="location-card">
+              <i class="fa-solid fa-location-dot"></i>
+              <h3>Prime Location</h3>
+              <ul>
+                <li>📍 NO/59,C, New Town, Katharagama</li>
+                <li>🚶 5 min walk to Kataragama Devalaya</li>
+                <li>🚶 8 min walk to Kirivehera Temple</li>
+                <li>🅿️ Easy parking available</li>
+                <li>🏪 Nearby: Cargills, Sathosa, Restaurants</li>
+              </ul>
               <a
                 href="https://maps.app.goo.gl/fi8dtkp7spiLS9sC9"
                 target="_blank"
-                style="
-                  background: rgba(255, 255, 255, 0.15);
-                  border: 1px solid rgba(255, 255, 255, 0.3);
-                  color: #fff;
-                  padding: 9px 18px;
-                  border-radius: 99px;
-                  font-size: 13px;
-                  font-weight: 600;
-                  display: flex;
-                  align-items: center;
-                  gap: 7px;
-                  text-decoration: none;
-                "
+                class="location-btn"
               >
-                <i class="fa-solid fa-map-location-dot"></i> Location Balannam
+                <i class="fa-solid fa-map-location-dot"></i> View on Google Maps
               </a>
-              <a
-                href="tel:0703714386"
-                style="
-                  background: rgba(255, 255, 255, 0.15);
-                  border: 1px solid rgba(255, 255, 255, 0.3);
-                  color: #fff;
-                  padding: 9px 18px;
-                  border-radius: 99px;
-                  font-size: 13px;
-                  font-weight: 600;
-                  display: flex;
-                  align-items: center;
-                  gap: 7px;
-                  text-decoration: none;
-                "
-              >
-                <i class="fa-solid fa-phone"></i> 0703 714 386
-              </a>
-            </div>
-          </div>
-          <div class="info-facts">
-            <div class="info-fact">
-              <div class="info-fact-value">🪷 5</div>
-              <div class="info-fact-label">Pooja Watti Options</div>
-            </div>
-            <div class="info-fact">
-              <div class="info-fact-value">🍬 6+</div>
-              <div class="info-fact-label">Sweet Items</div>
-            </div>
-            <div class="info-fact">
-              <div class="info-fact-value">🧸 5+</div>
-              <div class="info-fact-label">Toy Items</div>
-            </div>
-            <div class="info-fact">
-              <div class="info-fact-value">📲 WA</div>
-              <div class="info-fact-label">Easy WhatsApp Order</div>
             </div>
           </div>
         </div>
@@ -207,52 +183,34 @@
     </section>
 
     <!-- ============ BANDESIYA INFO ============ -->
-    <section class="section" style="padding-top: 40px; padding-bottom: 40px">
-      <div
-        style="
-          background: #fef3c7;
-          border: 1.5px solid #fde68a;
-          border-radius: 16px;
-          padding: 24px 28px;
-          max-width: 700px;
-          margin: 0 auto;
-        "
-      >
-        <div style="display: flex; gap: 14px; align-items: flex-start">
-          <span style="font-size: 2rem">🏺</span>
-          <div>
-            <h3
-              style="
-                font-family: 'Playfair Display', serif;
-                font-size: 1.1rem;
-                color: #78350f;
-                margin-bottom: 8px;
-              "
-            >
-              Bandesiya Deposit Gena
-            </h3>
-            <p style="font-size: 14px; color: #92400e; line-height: 1.6">
-              Rs. 3,000 ata upare pooja watti walata
-              <strong>loku bandesiya</strong> ekak denna. Obage gehe thibale
-              return karaloth <strong>Rs. 500 refund</strong> wenawa.<br />
-              Order eke checkout welama "Bandesiya return karannam" kiyala
-              select karanna. Bandesiya baradanna avama me slip eka pennuvama,
-              api confirm karanawa.
-            </p>
-          </div>
+    <section class="bandesiya-section">
+      <div class="bandesiya-card">
+        <div class="bandesiya-icon">🏺</div>
+        <div class="bandesiya-content">
+          <h3>Bandesiya Deposit Policy</h3>
+          <p>
+            For pooja wattiya above Rs. 3,000, a
+            <strong>large bandesiya</strong> is provided.
+            <strong>Rs. 500 deposit</strong> is automatically included in the
+            price.
+          </p>
+          <p>
+            ✅ <strong>If you return the bandesiya</strong> → Rs. 500
+            refunded<br />
+            ✅ <strong>If you keep the bandesiya</strong> → Deposit kept<br />
+            📋 Keep this order slip for bandesiya return reference
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- ============ CONTACT ============ -->
-    <section class="contact-section">
+    <!-- ============ CONTACT SECTION ============ -->
+    <section class="contact-section" id="contact">
       <div class="contact-inner">
-        <div
-          class="section-title"
-          style="text-align: left; margin-bottom: 24px"
-        >
-          <span class="section-label">Contact</span>
-          <h2>Api Samaga Katha Karamu</h2>
+        <div class="section-title" style="text-align: left">
+          <span class="section-label">Contact Us</span>
+          <h2>Get In Touch</h2>
+          <p>Order via WhatsApp or call us for inquiries</p>
         </div>
         <div class="contact-grid">
           <a
@@ -260,52 +218,39 @@
             target="_blank"
             class="contact-card"
           >
-            <div
-              class="contact-icon"
-              style="background: #dcfce7; color: #166534; font-size: 22px"
-            >
+            <div class="contact-icon whatsapp">
               <i class="fa-brands fa-whatsapp"></i>
             </div>
             <div>
               <div class="contact-label">WhatsApp</div>
               <div class="contact-value">0703 714 386</div>
-              <div style="font-size: 12px; color: #6b7280; margin-top: 3px">
-                Chat karanna click karanna
-              </div>
+              <div class="contact-hint">Click to chat & order</div>
             </div>
           </a>
           <a href="tel:0703714386" class="contact-card">
-            <div class="contact-icon">
+            <div class="contact-icon call">
               <i class="fa-solid fa-phone"></i>
             </div>
             <div>
-              <div class="contact-label">Call</div>
+              <div class="contact-label">Call Us</div>
               <div class="contact-value">0703 714 386</div>
-              <div style="font-size: 12px; color: #6b7280; margin-top: 3px">
-                Katha karanna
-              </div>
+              <div class="contact-hint">Direct inquiries</div>
             </div>
           </a>
           <a
             href="https://maps.app.goo.gl/fi8dtkp7spiLS9sC9"
             target="_blank"
-            class="contact-card"
-            style="grid-column: 1/-1"
+            class="contact-card full-width"
           >
-            <div
-              class="contact-icon"
-              style="background: #ede9fe; color: #7c3aed"
-            >
+            <div class="contact-icon location">
               <i class="fa-solid fa-map-location-dot"></i>
             </div>
             <div>
               <div class="contact-label">Location</div>
               <div class="contact-value">
-                O/59,C · LY Sweet &amp; Fancy House · New Town, Katharagama
+                NO/59,C · LY Sweet & Fancy House · New Town, Katharagama
               </div>
-              <div style="font-size: 12px; color: #6b7280; margin-top: 3px">
-                Google Maps balanna click karanna →
-              </div>
+              <div class="contact-hint">Open in Google Maps →</div>
             </div>
           </a>
         </div>
@@ -314,25 +259,51 @@
 
     <!-- ============ FOOTER ============ -->
     <footer>
-      <strong>🪷 LY Sweet &amp; Fancy House</strong><br />
-      O/59,C, New Town, Katharagama &nbsp;·&nbsp; Tel: 0703 714 386
-      &nbsp;·&nbsp; 2025–2026
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-logo">🪷</span>
+          <div>
+            <strong>LY Sweet &amp; Fancy House</strong>
+            <span>Katharagama New Town</span>
+          </div>
+        </div>
+        <div class="footer-links">
+          <a href="#shop">Shop</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+          <a
+            href="#"
+            onclick="
+              openHistoryModal()
+              return false
+            "
+            >Order History</a
+          >
+        </div>
+        <div class="footer-contact">
+          <span><i class="fa-solid fa-phone"></i> 0703 714 386</span>
+          <span><i class="fa-brands fa-whatsapp"></i> 0703 714 386</span>
+        </div>
+        <div class="footer-copyright">
+          © 2025–2026 LY Sweet & Fancy House. All rights reserved.
+        </div>
+      </div>
     </footer>
 
     <!-- ============ CART SIDEBAR ============ -->
     <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
     <div class="cart-sidebar" id="cart-sidebar">
       <div class="cart-header">
-        <h3>🛒 Cart</h3>
+        <h3>🛒 Your Cart</h3>
         <button class="close-btn" onclick="closeCart()">×</button>
       </div>
       <div class="cart-body">
-        <div id="cart-empty">Cart eka empty. Products add karanna!</div>
+        <div id="cart-empty">Your cart is empty. Add some products!</div>
         <div id="cart-content" style="display: none"></div>
       </div>
       <div class="cart-footer">
         <div class="cart-total-row">
-          <span class="cart-total-label">Total</span>
+          <span class="cart-total-label">Total Amount</span>
           <span id="cart-total">Rs. 0</span>
         </div>
         <button
@@ -342,13 +313,13 @@
             openOrderModal()
           "
         >
-          <i class="fa-brands fa-whatsapp"></i> WhatsApp Order Karamu
+          <i class="fa-brands fa-whatsapp"></i> Proceed to Order
         </button>
         <button
           class="btn-clear"
-          onclick="if (confirm('Cart clear karannavada?')) cartClear()"
+          onclick="if (confirm('Clear entire cart?')) cartClear()"
         >
-          Cart Clear Karanna
+          Clear Cart
         </button>
       </div>
     </div>
@@ -360,13 +331,13 @@
           <h3>📲 Order Details</h3>
           <button class="close-btn" onclick="closeOrderModal()">×</button>
         </div>
-        <p style="font-size: 13px; color: #6b7280; margin-bottom: 18px">
-          Me details demmoth WhatsApp message ekak API hadurenawa. Apita
-          labenna, api confirm karanawa.
+        <p class="modal-hint">
+          Fill your details below. WhatsApp message will be generated
+          automatically.
         </p>
         <form onsubmit="submitOrder(event)" novalidate>
           <div class="form-group">
-            <label>Oba wage nama *</label>
+            <label>Full Name *</label>
             <input
               type="text"
               id="order-name"
@@ -375,7 +346,16 @@
             />
           </div>
           <div class="form-group">
-            <label>Delivery address (optional)</label>
+            <label>User ID Number (NIC / Passport / Driving License) *</label>
+            <input
+              type="text"
+              id="order-user-id"
+              placeholder="Eg: 123456789V or 200012345678"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>Delivery Address (optional)</label>
             <input
               type="text"
               id="order-address"
@@ -383,15 +363,15 @@
             />
           </div>
           <div class="form-group">
-            <label>Note (optional)</label>
+            <label>Special Notes (optional)</label>
             <textarea
               id="order-note"
-              placeholder="Eg: Certain time delivery ona, special requirement..."
+              placeholder="Eg: Delivery time preference, special requirements..."
             ></textarea>
           </div>
           <button type="submit" class="btn-submit">
-            <i class="fa-brands fa-whatsapp" style="font-size: 18px"></i>
-            WhatsApp Haraha Order Karanna
+            <i class="fa-brands fa-whatsapp"></i>
+            Send Order via WhatsApp
           </button>
         </form>
       </div>
@@ -399,20 +379,19 @@
 
     <!-- ============ CONFIRMATION MODAL ============ -->
     <div class="modal-backdrop" id="confirm-modal">
-      <div class="modal-box" style="max-width: 380px; text-align: center">
+      <div class="modal-box confirm-box">
         <div class="confirm-icon">✅</div>
-        <div class="confirm-title">Order Sent!</div>
+        <div class="confirm-title">Order Sent Successfully!</div>
         <div class="confirm-id">
           Order ID: <span id="confirm-order-id">—</span>
         </div>
-        <p style="font-size: 13px; color: #6b7280; margin-bottom: 20px">
-          WhatsApp message ekak yawala thiyenawa. Api confirm karalath kiyamu.
-          Me slip eka download karanna puluwan — bandesiya return karama
-          pannuvannam.
+        <p class="confirm-message">
+          WhatsApp message has been sent. We will confirm your order shortly.
+          <strong>Keep this slip for bandesiya return reference.</strong>
         </p>
         <div class="confirm-actions">
           <button class="btn-download" id="confirm-download">
-            📥 Order Slip Download
+            📥 Download Order Slip
           </button>
           <button class="btn-close-confirm" onclick="closeConfirmModal()">
             Close
@@ -423,7 +402,7 @@
 
     <!-- ============ HISTORY MODAL ============ -->
     <div class="modal-backdrop" id="history-modal">
-      <div class="history-modal-box modal-box" style="max-width: 720px">
+      <div class="history-modal-box">
         <div class="modal-header">
           <h3>📋 Order History</h3>
           <button class="close-btn" onclick="closeHistoryModal()">×</button>
@@ -431,7 +410,7 @@
         <input
           class="history-search"
           type="text"
-          placeholder="Search orders, customer name, ID..."
+          placeholder="Search by order ID, customer name, or user ID..."
           oninput="searchHistory(this.value)"
         />
         <div id="history-list"></div>
@@ -442,7 +421,6 @@
     <script src="data.js"></script>
     <script src="app.js"></script>
     <script>
-      // ---- Tab switching ----
       function switchTab(tab) {
         document
           .querySelectorAll('.tab-panel')
@@ -454,7 +432,6 @@
         event.target.classList.add('active')
       }
 
-      // ---- Init on load ----
       document.addEventListener('DOMContentLoaded', () => {
         renderProducts()
         renderCart()

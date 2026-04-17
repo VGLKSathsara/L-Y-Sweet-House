@@ -1,21 +1,21 @@
 // ============================================================
 //  LY SWEET & FANCY HOUSE — Data Configuration
-//  Edit this file to add/remove/update products & settings
+//  Add imageUrl to any product to show image instead of emoji
+//  Image will be displayed from your URL
 // ============================================================
 
 const CONFIG = {
   shopName: 'LY Sweet & Fancy House',
-  address: 'O/59,C , L.Y Sweet and Fancy House, New Town, Katharagama',
+  address: 'NO/59,C , L.Y Sweet and Fancy House, New Town, Katharagama',
   phone: '0703714386',
   whatsapp: '94703714386',
   mapsUrl: 'https://maps.app.goo.gl/fi8dtkp7spiLS9sC9',
-  // Bandesiya deposit — Rs. 500 extra, refunded if returned
   bandesiyaDeposit: 500,
 }
 
 // ============================================================
-//  POOJA WATTI — Price tiers
-//  Keys are display labels shown on the card
+//  POOJA WATTI
+//  Add imageUrl: "https://your-image-url.com/image.jpg" to show image
 // ============================================================
 const POOJA_WATTI = [
   {
@@ -26,6 +26,7 @@ const POOJA_WATTI = [
     details: ['Palathuru varga 5'],
     emoji: '🌸',
     hasBandesiya: false,
+    // imageUrl: "https://example.com/pooja-1000.jpg"  // Add your image URL here
   },
   {
     id: 'pw2000',
@@ -67,7 +68,7 @@ const POOJA_WATTI = [
 
 // ============================================================
 //  SWEET ITEMS
-//  Add/remove sweets here. price = per unit or per pack.
+//  Add imageUrl to show product images
 // ============================================================
 const SWEET_ITEMS = [
   {
@@ -77,6 +78,8 @@ const SWEET_ITEMS = [
     unit: 'pack',
     emoji: '🍪',
     description: 'Traditional Sri Lankan crispy sweet',
+    hasBandesiya: false,
+    // imageUrl: "https://example.com/kokis.jpg"
   },
   {
     id: 'sw002',
@@ -85,6 +88,7 @@ const SWEET_ITEMS = [
     unit: 'pack',
     emoji: '🍬',
     description: 'Soft milk-based sweet',
+    hasBandesiya: false,
   },
   {
     id: 'sw003',
@@ -93,6 +97,7 @@ const SWEET_ITEMS = [
     unit: 'pack',
     emoji: '🍮',
     description: 'Traditional oil cake',
+    hasBandesiya: false,
   },
   {
     id: 'sw004',
@@ -101,6 +106,7 @@ const SWEET_ITEMS = [
     unit: 'pack',
     emoji: '🍫',
     description: 'Rich jaggery sweet',
+    hasBandesiya: false,
   },
   {
     id: 'sw005',
@@ -109,6 +115,7 @@ const SWEET_ITEMS = [
     unit: 'pack',
     emoji: '🟫',
     description: 'Dark rich dodol',
+    hasBandesiya: false,
   },
   {
     id: 'sw006',
@@ -117,12 +124,13 @@ const SWEET_ITEMS = [
     unit: 'pack',
     emoji: '🫓',
     description: 'Rice flour sweet balls',
+    hasBandesiya: false,
   },
 ]
 
 // ============================================================
 //  TOY ITEMS
-//  Add/remove toys here.
+//  Add imageUrl to show product images
 // ============================================================
 const TOY_ITEMS = [
   {
@@ -132,6 +140,7 @@ const TOY_ITEMS = [
     unit: 'set',
     emoji: '🧸',
     description: 'Colourful small toy set for kids',
+    hasBandesiya: false,
   },
   {
     id: 'ty002',
@@ -140,6 +149,7 @@ const TOY_ITEMS = [
     unit: 'piece',
     emoji: '🚗',
     description: 'Friction-powered toy car',
+    hasBandesiya: false,
   },
   {
     id: 'ty003',
@@ -148,6 +158,7 @@ const TOY_ITEMS = [
     unit: 'piece',
     emoji: '🪆',
     description: 'Soft fabric doll',
+    hasBandesiya: false,
   },
   {
     id: 'ty004',
@@ -156,6 +167,7 @@ const TOY_ITEMS = [
     unit: 'set',
     emoji: '🫧',
     description: 'Bubble wand and soap set',
+    hasBandesiya: false,
   },
   {
     id: 'ty005',
@@ -164,8 +176,8 @@ const TOY_ITEMS = [
     unit: 'book',
     emoji: '🖍️',
     description: 'Kids colouring book with crayons',
+    hasBandesiya: false,
   },
 ]
 
-// Merge all for easy lookup
 const ALL_PRODUCTS = [...POOJA_WATTI, ...SWEET_ITEMS, ...TOY_ITEMS]
