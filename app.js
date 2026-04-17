@@ -1,6 +1,6 @@
 // ============================================================
 //  LY SWEET & FANCY HOUSE — FULLY FIXED APP
-//  Order History WORKING | No Errors
+//  With Phone Number 1 & Phone Number 2
 // ============================================================
 
 const DB_KEY = 'ly_orders'
@@ -105,6 +105,8 @@ function buildWhatsAppMsg(
   orderId,
   customerName,
   userId,
+  phone1,
+  phone2,
   address,
   items,
   total,
@@ -120,6 +122,8 @@ function buildWhatsAppMsg(
   lines.push(`Date: ${dateStr}`)
   lines.push(`Customer: *${customerName}*`)
   lines.push(`User ID: *${userId}*`)
+  lines.push(`Phone 1: *${phone1}*`)
+  lines.push(`Phone 2: *${phone2}*`)
   if (address) lines.push(`Address: ${address}`)
   lines.push(``)
   lines.push(`*Items:*`)
@@ -156,14 +160,14 @@ function downloadSlip(order) {
         extras = `<div class="slip-note">🏺 Bandesiya deposit Rs. ${CONFIG.bandesiyaDeposit * item.qty} included (refundable on return)</div>`
       }
       return `
-      <tr>
-        <td>${item.name}</td>
-        <td class="center">${item.qty}</td>
-        <td class="right">Rs. ${item.price.toLocaleString()}</td>
-        <td class="right">Rs. ${subtotal.toLocaleString()}</td>
-      </tr>
-      ${extras ? `<tr><td colspan="4">${extras}</td></tr>` : ''}
-    `
+        <tr>
+          <td>${escapeHtml(item.name)}</td>
+          <td class="center">${item.qty}</td>
+          <td class="right">Rs. ${item.price.toLocaleString()}</td>
+          <td class="right">Rs. ${subtotal.toLocaleString()}</td>
+        </tr>
+        ${extras ? `<tr><td colspan="4">${extras}</td></tr>` : ''}
+      `
     })
     .join('')
 
@@ -211,9 +215,11 @@ function downloadSlip(order) {
   <div class="slip-meta">
     <div><span>Order ID</span><strong>${order.id}</strong></div>
     <div><span>Date</span><strong>${order.date}</strong></div>
-    <div><span>Customer</span><strong>${order.customerName}</strong></div>
-    <div><span>User ID</span><strong>${order.userId || '—'}</strong></div>
-    ${order.address ? `<div><span>Delivery Address</span><strong>${order.address}</strong></div>` : ''}
+    <div><span>Customer</span><strong>${escapeHtml(order.customerName)}</strong></div>
+    <div><span>User ID</span><strong>${escapeHtml(order.userId || '—')}</strong></div>
+    <div><span>Phone 1</span><strong>${escapeHtml(order.phone1 || '—')}</strong></div>
+    <div><span>Phone 2</span><strong>${escapeHtml(order.phone2 || '—')}</strong></div>
+    ${order.address ? `<div><span>Delivery Address</span><strong>${escapeHtml(order.address)}</strong></div>` : ''}
     <div><span>Status</span><span class="status-badge status-${order.status || 'pending'}">${(order.status || 'PENDING').toUpperCase()}</span></div>
   </div>
   <table>
@@ -240,7 +246,7 @@ function downloadSlip(order) {
   </div>`
       : ''
   }
-  ${order.note ? `<div style="margin-top:12px;font-size:13px;color:#555;"><strong>Note:</strong> ${order.note}</div>` : ''}
+  ${order.note ? `<div style="margin-top:12px;font-size:13px;color:#555;"><strong>Note:</strong> ${escapeHtml(order.note)}</div>` : ''}
   <div class="slip-footer">
     <p>LY Sweet &amp; Fancy House — Thank you for your order! 🙏</p>
     <p>WhatsApp: ${CONFIG.phone} | <a href="${CONFIG.mapsUrl}">View Location</a></p>
@@ -297,7 +303,7 @@ function renderCart() {
         <div class="cart-item-top">
           <span class="cart-item-emoji">${item.emoji || '🪷'}</span>
           <div class="cart-item-info">
-            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-name">${escapeHtml(item.name)}</div>
             <div class="cart-item-price">Rs. ${item.price.toLocaleString()} each</div>
           </div>
           <div class="cart-item-controls">
@@ -333,6 +339,8 @@ function submitOrder(e) {
 
   const customerName = document.getElementById('order-name').value.trim()
   const userId = document.getElementById('order-user-id').value.trim()
+  const phone1 = document.getElementById('order-phone1').value.trim()
+  const phone2 = document.getElementById('order-phone2').value.trim()
   const address = document.getElementById('order-address').value.trim()
   const note = document.getElementById('order-note').value.trim()
 
@@ -342,6 +350,14 @@ function submitOrder(e) {
   }
   if (!userId) {
     alert('Please enter your User ID (NIC / Passport / Driving License)!')
+    return
+  }
+  if (!phone1) {
+    alert('Please enter your Phone Number 1 (WhatsApp)!')
+    return
+  }
+  if (!phone2) {
+    alert('Please enter your Phone Number 2 (Alternative / Family)!')
     return
   }
 
@@ -357,6 +373,8 @@ function submitOrder(e) {
     date: dateStr,
     customerName: customerName,
     userId: userId,
+    phone1: phone1,
+    phone2: phone2,
     address: address || '',
     note: note || '',
     items: items,
@@ -371,6 +389,8 @@ function submitOrder(e) {
     orderId,
     customerName,
     userId,
+    phone1,
+    phone2,
     address,
     items,
     total,
@@ -392,16 +412,12 @@ function showConfirmation(order) {
   if (modal) modal.style.display = 'flex'
 }
 
-// ========== ORDER HISTORY - FIXED ==========
+// ========== ORDER HISTORY ==========
 function renderHistory() {
   const container = document.getElementById('history-list')
-  if (!container) {
-    console.log('History container not found')
-    return
-  }
+  if (!container) return
 
   const orders = getAllOrders()
-  console.log('Rendering history. Orders found:', orders.length)
 
   if (!orders || orders.length === 0) {
     container.innerHTML = `<div class="history-empty" style="text-align:center;padding:40px;color:#6b7280;">📭 No orders found. Place your first order!</div>`
@@ -410,16 +426,14 @@ function renderHistory() {
 
   container.innerHTML = orders
     .map((order) => {
-      // Safely get status with fallback
       const orderStatus = order.status || 'pending'
-
       return `
       <div class="history-card">
         <div class="history-top">
           <div>
             <div class="history-id">🔖 ${order.id}</div>
             <div class="history-date">📅 ${order.date}</div>
-            <div class="history-customer">👤 ${escapeHtml(order.customerName)} ${order.userId ? '· 🆔 ' + escapeHtml(order.userId) : ''}${order.address ? ' · 📍 ' + escapeHtml(order.address) : ''}</div>
+            <div class="history-customer">👤 ${escapeHtml(order.customerName)} ${order.userId ? '· 🆔 ' + escapeHtml(order.userId) : ''}<br>📱 ${escapeHtml(order.phone1 || '—')} / ${escapeHtml(order.phone2 || '—')}</div>
           </div>
           <div class="history-right">
             <span class="status-badge status-${orderStatus}">${orderStatus.toUpperCase()}</span>
@@ -444,7 +458,6 @@ function renderHistory() {
     .join('')
 }
 
-// Helper function to escape HTML
 function escapeHtml(str) {
   if (!str) return ''
   return str.replace(/[&<>]/g, function (m) {
@@ -470,6 +483,8 @@ function resendWhatsApp(order) {
     order.id,
     order.customerName,
     order.userId || 'Not provided',
+    order.phone1 || '—',
+    order.phone2 || '—',
     order.address,
     order.items,
     order.total,
@@ -527,7 +542,6 @@ function closeCart() {
   document.getElementById('cart-overlay').classList.remove('open')
 }
 function openHistoryModal() {
-  console.log('Opening history modal')
   renderHistory()
   document.getElementById('history-modal').style.display = 'flex'
 }
@@ -548,17 +562,10 @@ function renderCategory(gridId, products) {
 
   grid.innerHTML = products
     .map((p) => {
-      // Check if imageUrl exists
       const hasImage = p.imageUrl && p.imageUrl.trim() !== ''
-
       return `
       <div class="product-card">
-        ${
-          hasImage
-            ? `<img src="${p.imageUrl}" alt="${p.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-           <div class="product-emoji" style="display:none">${p.emoji || '🪷'}</div>`
-            : `<div class="product-emoji">${p.emoji || '🪷'}</div>`
-        }
+        ${hasImage ? `<img src="${p.imageUrl}" alt="${p.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="product-emoji" style="display:none">${p.emoji || '🪷'}</div>` : `<div class="product-emoji">${p.emoji || '🪷'}</div>`}
         <div class="product-name">${p.name}</div>
         <div class="product-desc">${p.description || ''}</div>
         ${p.details ? `<ul class="product-details">${p.details.map((d) => `<li>${d}</li>`).join('')}</ul>` : ''}
