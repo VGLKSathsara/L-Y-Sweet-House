@@ -426,25 +426,68 @@
       <div class="container">
         <div class="section-label">Customise Your Order</div>
         <h2 class="section-title">Build Your Pooja Watti</h2>
-        <p class="section-sub" style="margin-bottom: 36px">
-          Tick the items you want, adjust quantities, add extras, and send your
-          order directly to us on WhatsApp. We will prepare it fresh and contact
-          you to confirm.
+        <p class="section-sub" style="margin-bottom: 24px">
+          Tick the items you want, or tap a package below to auto-select. Then
+          send directly to us on WhatsApp.
         </p>
 
+        <!-- Quick package selector -->
+        <div class="pkg-selector">
+          <div class="pkg-selector-label">⚡ Quick Select a Package</div>
+          <div class="pkg-btns">
+            <button class="pkg-btn" onclick="selectPackage(0)">
+              <span class="pkg-btn-price">LKR 1,000</span>
+              <span class="pkg-btn-name">Basic Watti</span>
+            </button>
+            <button class="pkg-btn" onclick="selectPackage(1)">
+              <span class="pkg-btn-price">LKR 1,500</span>
+              <span class="pkg-btn-name">Full Watti</span>
+            </button>
+            <button class="pkg-btn pkg-btn-premium" onclick="selectPackage(2)">
+              <span class="pkg-btn-price">LKR 2,000</span>
+              <span class="pkg-btn-name">Premium Watti</span>
+            </button>
+          </div>
+        </div>
+
         <div class="builder-grid">
+          <!-- Mobile sticky bar - shows selected count + scroll to summary -->
+          <div
+            class="mobile-summary-bar"
+            id="mobile-summary-bar"
+            style="display: none"
+          >
+            <div class="msb-left">
+              <span class="msb-count" id="msb-count">0</span> items selected
+            </div>
+            <button class="msb-btn" onclick="scrollToSummary()">
+              View Summary <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+
           <!-- LEFT: Item Selection -->
           <div class="builder-left">
             <div class="builder-header">
               <h3>Choose Your Items</h3>
               <p>
-                All items are included by default. Uncheck to remove, increase
-                qty as needed.
+                Tick what you want. Mix items to see which package price
+                applies.
               </p>
             </div>
             <div class="builder-body">
-              <div class="builder-section-label">Fruits</div>
-              <div id="fruits-list"></div>
+              <div class="builder-section-label">
+                <span>Package Fruits</span>
+                <span class="section-label-hint"
+                  >Determines your package price</span
+                >
+              </div>
+              <div id="fruits-package-list"></div>
+
+              <div class="builder-section-label builder-section-gap">
+                <span>Extra Fruits</span>
+                <span class="section-label-hint">Add-ons</span>
+              </div>
+              <div id="fruits-extra-list"></div>
 
               <div class="builder-section-label builder-section-gap">
                 Traditional Sweets
@@ -459,7 +502,7 @@
           </div>
 
           <!-- RIGHT: Order Summary -->
-          <div class="order-summary">
+          <div class="order-summary" id="order-summary-panel">
             <div class="summary-header">
               <h3>Your Order Summary</h3>
               <p>Items selected for your Pooja Watti</p>
@@ -471,6 +514,9 @@
                   started.
                 </div>
               </div>
+
+              <!-- Price suggestion banner -->
+              <div id="price-suggestion" style="display: none"></div>
 
               <div class="extras-section">
                 <div class="extras-label">Add Extras</div>

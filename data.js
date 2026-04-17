@@ -1,34 +1,85 @@
 /* ═══════════════════════════════════════════════════════════════
    L.Y. Sweet & Fancy House — data.js
    All static data: pooja items, products, extras.
-   Images sourced from Unsplash (free, no attribution required).
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── POOJA WATTI BUILDER DATA ──────────────────────────────── */
+/* ── POOJA WATTI PRICE TIERS ────────────────────────────────── */
+/*
+  TIER LOGIC — Cumulative / additive:
+    LKR 1,000 = 5 fruits + Flower Garland
+    LKR 1,500 = 1,000 items + King Coconut + Orange
+    LKR 2,000 = 1,500 items + Apple + Beli Fruit
 
-const POOJA_FRUITS = [
+  Detection: check highest tier first (2000 → 1500 → 1000).
+  selectPackage(i) auto-checks ALL items for that tier level.
+*/
+const PRICE_TIERS = [
   {
-    id: 'f1',
-    name: 'Red Banana (රතු කෙසෙල් / செவ்வாழை)',
+    price: 1000,
+    label: 'Basic Watti — LKR 1,000',
+    requiredIds: ['f1', 'f_uk', 'f_kom', 'f7', 'f3', 'sc1'],
+    description:
+      'Banana · Sugarcane · Watermelon · Pineapple · Mango · Flower Garland',
+  },
+  {
+    price: 1500,
+    label: 'Full Watti — LKR 1,500',
+    requiredIds: ['f1', 'f_uk', 'f_kom', 'f7', 'f3', 'sc1', 'f11', 'f6'],
+    description: 'Basic Watti + King Coconut · Orange',
+  },
+  {
+    price: 2000,
+    label: 'Premium Watti — LKR 2,000',
+    requiredIds: [
+      'f1',
+      'f_uk',
+      'f_kom',
+      'f7',
+      'f3',
+      'sc1',
+      'f11',
+      'f6',
+      'f4',
+      'f_beli',
+    ],
+    description: 'Full Watti + Apple · Beli Fruit',
+  },
+]
+
+/* ── PACKAGE FRUITS (shown first — these form the price tiers) ── */
+const POOJA_FRUITS_PACKAGE = [
+  { id: 'f1', name: 'Banana / කෙසෙල් / வாழை', unit: 'pc', default: 1 },
+  { id: 'f_uk', name: 'Sugarcane / උක් / கரும்பு', unit: 'pc', default: 1 },
+  {
+    id: 'f_kom',
+    name: 'Watermelon / කොමඩු / தர்பூசணி',
     unit: 'pc',
     default: 1,
   },
+  { id: 'f7', name: 'Pineapple / අන්නාසි / அன்னாசி', unit: 'pc', default: 1 },
+  { id: 'f3', name: 'Mango / අඹ / மாம்பழம்', unit: 'pc', default: 1 },
+  { id: 'f11', name: 'King Coconut / තැඹිලි / இளநீர்', unit: 'pc', default: 1 },
+  { id: 'f6', name: 'Orange / දොඩම් / ஆரஞ்சு', unit: 'pc', default: 1 },
+  { id: 'f4', name: 'Apple / ඇපල් / ஆப்பிள்', unit: 'pc', default: 1 },
+  { id: 'f_beli', name: 'Beli Fruit / බෙලි / வில்வம்', unit: 'pc', default: 1 },
+]
+
+/* ── EXTRA FRUITS (shown separately below) ─────────────────── */
+const POOJA_FRUITS_EXTRA = [
   {
     id: 'f2',
-    name: 'Ambul Banana (ඇඹුල් කෙසෙල් / சீனி வாழை)',
+    name: 'Ambul Banana / ඇඹුල් කෙසෙල් / சீனி வாழை',
     unit: 'pc',
-    default: 3,
+    default: 1,
   },
-  { id: 'f3', name: 'Mango (අඹ / மாம்பழம்)', unit: 'pc', default: 1 },
-  { id: 'f4', name: 'Apple (ඇපල් / ஆப்பிள்)', unit: 'pc', default: 1 },
-  { id: 'f5', name: 'Grapes (මිදි / திராட்சை)', unit: 'g', default: 100 },
-  { id: 'f6', name: 'Orange (දොඩම් / ஆரஞ்சு)', unit: 'pc', default: 1 },
-  { id: 'f7', name: 'Pineapple (අන්නාසි / அன்னாசி)', unit: 'pc', default: 1 },
-  { id: 'f8', name: 'Pomegranate (දෙළුම් / மாதுளை)', unit: 'pc', default: 1 },
-  { id: 'f9', name: 'Woodapple (දිවුල් / விளாம்பழம்)', unit: 'pc', default: 1 },
-  { id: 'f10', name: 'Coconut (පොල් / தேங்காய்)', unit: 'pc', default: 1 },
-  { id: 'f11', name: 'King Coconut (තැඹිලි / இளநீர்)', unit: 'pc', default: 1 },
+  { id: 'f5', name: 'Grapes / මිදි / திராட்சை', unit: 'g', default: 100 },
+  { id: 'f8', name: 'Pomegranate / දෙළුම් / மாதுளை', unit: 'pc', default: 1 },
+  { id: 'f9', name: 'Woodapple / දිවුල් / விளாம்பழம்', unit: 'pc', default: 1 },
+  { id: 'f10', name: 'Coconut / පොල් / தேங்காய்', unit: 'pc', default: 1 },
 ]
+
+/* Combined array used by app logic */
+const POOJA_FRUITS = [...POOJA_FRUITS_PACKAGE, ...POOJA_FRUITS_EXTRA]
 
 const POOJA_SWEETS = [
   { id: 's1', name: 'Aasmi (ආස්මී / ஆஸ்மி)', unit: 'pc', default: 1 },
@@ -63,7 +114,7 @@ const POOJA_SWEETS = [
 const POOJA_SACRED = [
   {
     id: 'sc1',
-    name: 'Flower Garland (මල් මාලය / பூமாலை)',
+    name: 'Flower Garland / ඉටිකොළ මල් මාලය / பூமாலை',
     unit: 'pc',
     default: 1,
   },
@@ -92,8 +143,6 @@ const EXTRAS = [
 ]
 
 /* ── SHOP PRODUCTS ─────────────────────────────────────────── */
-// img: Unsplash photo IDs used via https://images.unsplash.com/photo-{id}?w=400&q=80
-
 const SWEETS_PRODUCTS = [
   {
     emoji: '🍮',
