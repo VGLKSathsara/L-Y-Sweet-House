@@ -26,7 +26,8 @@ const POOJA_WATTI = [
     details: ['Palathuru varga 5'],
     emoji: '🌸',
     hasBandesiya: false,
-    // imageUrl: "https://example.com/pooja-1000.jpg"  // Add your image URL here
+    imageUrl:
+      'https://res.cloudinary.com/dbxpxk912/image/upload/v1776494844/1000-puja_rvmyim.jpg', // Add your image URL here
   },
   {
     id: 'pw2000',
@@ -36,6 +37,8 @@ const POOJA_WATTI = [
     details: ['Palathuru varga 7'],
     emoji: '🌺',
     hasBandesiya: false,
+    imageUrl:
+      'https://res.cloudinary.com/dbxpxk912/image/upload/v1776494844/2000-puja_hmoscv.jpg',
   },
   {
     id: 'pw3000',
@@ -45,6 +48,8 @@ const POOJA_WATTI = [
     details: ['Palathuru varga 10', 'Loku bandesiya'],
     emoji: '🪷',
     hasBandesiya: true,
+    imageUrl:
+      'https://res.cloudinary.com/dbxpxk912/image/upload/v1776494846/3000-puja_phvgui.jpg',
   },
   {
     id: 'pw4000',
@@ -54,6 +59,8 @@ const POOJA_WATTI = [
     details: ['Palathuru varga 11', 'Kevili varga 5', 'Loku bandesiya'],
     emoji: '🌷',
     hasBandesiya: true,
+    imageUrl:
+      'https://res.cloudinary.com/dbxpxk912/image/upload/v1776494845/4000-puja_byibsp.jpg',
   },
   {
     id: 'pw5000',
@@ -63,6 +70,19 @@ const POOJA_WATTI = [
     details: ['Palathuru varga 13', 'Kevili varga 7', 'Loku bandesiya'],
     emoji: '💐',
     hasBandesiya: true,
+    imageUrl:
+      'https://res.cloudinary.com/dbxpxk912/image/upload/v1776494844/5000-puja_mp6x15.jpg',
+  },
+  {
+    id: 'pw5000',
+    name: 'Lemon garland (දෙහි මාලය)Rs. 300',
+    price: 5000,
+    description: 'Vahanayata Arakshava',
+    details: ['Vahanayata Arakshava', 'Yana ena gamanata arakshava'],
+    emoji: '💐',
+    hasBandesiya: false,
+    imageUrl:
+      'https://res.cloudinary.com/dbxpxk912/image/upload/v1776494846/lemon-puja_gzizdf.jpg',
   },
 ]
 
