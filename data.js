@@ -45,7 +45,7 @@ const POOJA_WATTI = [
     name: 'Pooja Wattiya — Rs. 3,000',
     price: 3000,
     description: 'Palathuru varga 10k · Loku bandesiyakata',
-    details: ['Palathuru varga 10', 'Loku bandesiya'],
+    details: ['Palathuru varga 10', 'Loku plastic bandesiya'],
     emoji: '🪷',
     hasBandesiya: true,
     imageUrl:
