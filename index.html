@@ -585,6 +585,16 @@
       </div>
     </div>
 
+    <!-- ============ BACK TO TOP ============ -->
+    <button
+      class="back-to-top"
+      id="back-to-top"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      aria-label="Back to top"
+    >
+      <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
     <!-- ============ SCRIPTS ============ -->
     <script src="data.js"></script>
     <script src="app.js"></script>
@@ -613,7 +623,15 @@
         hamburger.classList.toggle('active')
       }
 
-      // Close menu when a nav link is clicked
+      // Back to top button
+      const backToTop = document.getElementById('back-to-top')
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTop.classList.add('visible')
+        } else {
+          backToTop.classList.remove('visible')
+        }
+      })
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.nav-link').forEach((link) => {
           link.addEventListener('click', () => {
