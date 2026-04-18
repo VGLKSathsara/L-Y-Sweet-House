@@ -74,12 +74,12 @@ const POOJA_WATTI = [
       'https://res.cloudinary.com/dbxpxk912/image/upload/v1776494844/5000-puja_mp6x15.jpg',
   },
   {
-    id: 'pw5000',
-    name: 'Lemon garland (දෙහි මාලය)Rs. 300',
-    price: 5000,
+    id: 'pw300',
+    name: 'Lemon Garland (දෙහි මාලය) — Rs. 300',
+    price: 300,
     description: 'Vahanayata Arakshava',
     details: ['Vahanayata Arakshava', 'Yana ena gamanata arakshava'],
-    emoji: '💐',
+    emoji: '🍋',
     hasBandesiya: false,
     imageUrl:
       'https://res.cloudinary.com/dbxpxk912/image/upload/v1776494846/lemon-puja_gzizdf.jpg',
@@ -201,3 +201,37 @@ const TOY_ITEMS = [
 ]
 
 const ALL_PRODUCTS = [...POOJA_WATTI, ...SWEET_ITEMS, ...TOY_ITEMS]
+
+// ============================================================
+//  GALLERY IMAGES
+//  Auto-pulls imageUrl from POOJA_WATTI, add extra images below.
+// ============================================================
+const GALLERY_IMAGES = [
+  ...POOJA_WATTI.filter((p) => p.imageUrl).map((p) => ({
+    src: p.imageUrl,
+    caption: p.name,
+    category: 'Pooja Watti',
+  })),
+  // Add extra gallery images here:
+  // { src: 'https://...', caption: 'Shop Interior', category: 'Store' },
+  {
+    src: 'https://res.cloudinary.com/dbxpxk912/image/upload/v1776496214/image-3_w1ibl0.jpg',
+    caption: 'Shop1',
+    category: 'Pooja Watti',
+  },
+  {
+    src: 'https://res.cloudinary.com/dbxpxk912/image/upload/v1776496211/image-4_wewsfx.jpg',
+    caption: 'Shop2',
+    category: 'Pooja Watti',
+  },
+  {
+    src: 'https://res.cloudinary.com/dbxpxk912/image/upload/v1776496210/image-2_ozn5ix.jpg',
+    caption: 'Shop3',
+    category: 'Pooja Watti',
+  },
+  {
+    src: 'https://res.cloudinary.com/dbxpxk912/image/upload/v1776496210/image-1_ey01yu.jpg',
+    caption: 'Shop4',
+    category: 'Pooja Watti',
+  },
+]

@@ -126,6 +126,7 @@
       <div class="nav-links">
         <a href="#shop" class="nav-link">Shop</a>
         <a href="#about" class="nav-link">About</a>
+        <a href="#gallery" class="nav-link">Gallery</a>
         <a href="#contact" class="nav-link">Contact</a>
       </div>
       <div class="nav-actions">
@@ -213,6 +214,36 @@
         <div class="product-grid" id="toy-grid"></div>
       </div>
     </section>
+
+    <!-- ============ GALLERY SECTION ============ -->
+    <section class="gallery-section" id="gallery">
+      <div class="section-title">
+        <span class="section-label">Our Gallery</span>
+        <h2>Pooja Watti Gallery</h2>
+        <p>A look at our handcrafted pooja offerings</p>
+      </div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </section>
+
+    <!-- ============ LIGHTBOX ============ -->
+    <div
+      class="gallery-lightbox"
+      id="gallery-lightbox"
+      onclick="closeLightbox()"
+    >
+      <div class="lightbox-inner" onclick="event.stopPropagation()">
+        <button class="lb-close" onclick="closeLightbox()">×</button>
+        <button class="lb-nav lb-prev" onclick="lightboxNav(-1)">
+          &#8249;
+        </button>
+        <img id="lb-img" src="" alt="" />
+        <button class="lb-nav lb-next" onclick="lightboxNav(1)">&#8250;</button>
+        <div class="lb-footer">
+          <span id="lb-caption"></span>
+          <span id="lb-counter"></span>
+        </div>
+      </div>
+    </div>
 
     <!-- ============ ABOUT SECTION ============ -->
     <section class="about-section" id="about">
@@ -546,6 +577,7 @@
       document.addEventListener('DOMContentLoaded', () => {
         renderProducts()
         renderCart()
+        renderGallery()
       })
     </script>
   </body>

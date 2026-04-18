@@ -585,12 +585,55 @@ function animateBtn(btn) {
   setTimeout(() => btn.classList.remove('added'), 600)
 }
 
-// ========== INITIALIZE ==========
-if (typeof ALL_PRODUCTS !== 'undefined' && typeof CONFIG !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('App initializing...')
-    renderProducts()
-    renderCart()
-    console.log('App ready!')
-  })
+// ========== GALLERY ==========
+function renderGallery() {
+  const grid = document.getElementById('gallery-grid')
+  if (!grid || typeof GALLERY_IMAGES === 'undefined') return
+
+  grid.innerHTML = GALLERY_IMAGES.map(
+    (img, i) => `
+    <div class="gallery-item" onclick="openLightbox(${i})">
+      <img src="${img.src}" alt="${img.caption}" loading="lazy"
+           onerror="this.closest('.gallery-item').style.display='none'" />
+      <div class="gallery-caption">
+        <span class="gallery-category">${img.category}</span>
+        <span class="gallery-name">${img.caption}</span>
+      </div>
+    </div>`,
+  ).join('')
 }
+
+function openLightbox(index) {
+  const lb = document.getElementById('gallery-lightbox')
+  if (!lb) return
+  window._galleryIndex = index
+  updateLightbox()
+  lb.style.display = 'flex'
+  document.body.style.overflow = 'hidden'
+}
+
+function closeLightbox() {
+  const lb = document.getElementById('gallery-lightbox')
+  if (lb) lb.style.display = 'none'
+  document.body.style.overflow = ''
+}
+
+function lightboxNav(dir) {
+  window._galleryIndex =
+    (window._galleryIndex + dir + GALLERY_IMAGES.length) % GALLERY_IMAGES.length
+  updateLightbox()
+}
+
+function updateLightbox() {
+  const img = GALLERY_IMAGES[window._galleryIndex]
+  const lbImg = document.getElementById('lb-img')
+  const lbCaption = document.getElementById('lb-caption')
+  const lbCounter = document.getElementById('lb-counter')
+  if (lbImg) lbImg.src = img.src
+  if (lbCaption) lbCaption.textContent = img.caption
+  if (lbCounter)
+    lbCounter.textContent = `${window._galleryIndex + 1} / ${GALLERY_IMAGES.length}`
+}
+
+// ========== INITIALIZE ==========
+// Initialisation is handled by the DOMContentLoaded in index.html.
