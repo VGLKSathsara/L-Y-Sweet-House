@@ -234,4 +234,9 @@ const GALLERY_IMAGES = [
     caption: 'Shop4',
     category: 'Pooja Watti',
   },
+  {
+    src: './logo-2.png',
+    caption: 'LOGO',
+    category: 'Logo',
+  },
 ]

@@ -116,16 +116,40 @@
   <body>
     <!-- ============ NAVBAR ============ -->
     <nav class="navbar">
-  <div class="nav-brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" style="cursor: pointer;">
-    <img src="./nav-log.png" alt="Logo" class="nav-logo-img">
-    <div>
-      LY Sweet &amp; Fancy House
-      <span>Katharagama New Town</span>
-    </div>
-  </div>
-      </a>
-      <div class="nav-links">
-        <a href="#" class="nav-link" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Home</a>
+      <div
+        class="nav-brand"
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        style="cursor: pointer"
+      >
+        <img src="./nav-log.png" alt="Logo" class="nav-logo-img" />
+        <div>
+          LY Sweet &amp; Fancy House
+          <span>Katharagama New Town</span>
+        </div>
+      </div>
+
+      <!-- Hamburger Menu Button (mobile only) -->
+      <button
+        class="nav-hamburger"
+        id="nav-hamburger"
+        onclick="toggleMobileMenu()"
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" id="nav-links">
+        <a
+          href="#"
+          class="nav-link"
+          onclick="
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+            return false
+          "
+          >Home</a
+        >
         <a href="#shop" class="nav-link">Shop</a>
         <a href="#about" class="nav-link">About</a>
         <a href="#gallery" class="nav-link">Gallery</a>
@@ -580,6 +604,23 @@
         renderProducts()
         renderCart()
         renderGallery()
+      })
+
+      function toggleMobileMenu() {
+        const navLinks = document.getElementById('nav-links')
+        const hamburger = document.getElementById('nav-hamburger')
+        navLinks.classList.toggle('open')
+        hamburger.classList.toggle('active')
+      }
+
+      // Close menu when a nav link is clicked
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.nav-link').forEach((link) => {
+          link.addEventListener('click', () => {
+            document.getElementById('nav-links').classList.remove('open')
+            document.getElementById('nav-hamburger').classList.remove('active')
+          })
+        })
       })
     </script>
   </body>
