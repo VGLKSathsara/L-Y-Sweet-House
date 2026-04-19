@@ -241,8 +241,8 @@ function downloadSlip(order) {
     order.hasBandesiyaItems
       ? `
   <div class="slip-bandesiya">
-    ⚠️ <strong>Bandesiya Deposit:</strong> Rs. 500 deposit included per wattiya. 
-    Bandesiya return karalath Rs. 500 refund labenna puluwan.
+    ⚠️ <strong>Bandesiya Deposit:</strong> Rs. ${CONFIG.bandesiyaDeposit} deposit included per wattiya. 
+    Bandesiya return karalath Rs. ${CONFIG.bandesiyaDeposit} refund labenna puluwan.
   </div>`
       : ''
   }
@@ -262,7 +262,7 @@ function downloadSlip(order) {
   const blob = new Blob([html], { type: 'text/html' })
   const url = URL.createObjectURL(blob)
   window.open(url, '_blank')
-  setTimeout(() => URL.revokeObjectURL(url), 10000)
+  setTimeout(() => URL.revokeObjectURL(url), 60000)
 }
 
 // ========== RENDER CART ==========
@@ -460,10 +460,12 @@ function renderHistory() {
 
 function escapeHtml(str) {
   if (!str) return ''
-  return str.replace(/[&<>]/g, function (m) {
+  return str.replace(/[&<>"']/g, function (m) {
     if (m === '&') return '&amp;'
     if (m === '<') return '&lt;'
     if (m === '>') return '&gt;'
+    if (m === '"') return '&quot;'
+    if (m === "'") return '&#39;'
     return m
   })
 }

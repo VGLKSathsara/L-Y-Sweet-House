@@ -106,10 +106,10 @@
 
         "sameAs": [
           "https://wa.me/94767726820",
-          "https://maps.app.goo.gl/bUD75BTJVMk5dkw3A"
+          "https://maps.app.goo.gl/fi8dtkp7spiLS9sC9"
         ],
 
-        "hasMap": "https://maps.app.goo.gl/bUD75BTJVMk5dkw3A"
+        "hasMap": "https://maps.app.goo.gl/fi8dtkp7spiLS9sC9"
       }
     </script>
   </head>
@@ -121,10 +121,10 @@
         onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
         style="cursor: pointer"
       >
-        <img src="./nav-log.png" alt="Logo" class="nav-logo-img" />
+        <img src="./favicon.ico" alt="Logo" class="nav-logo-img" />
         <div>
           LY Sweet &amp; Fancy House
-          <span>Katharagama New Town</span>
+          <span>Kataragama New Town</span>
         </div>
       </div>
 
@@ -154,7 +154,19 @@
         <a href="#about" class="nav-link">About</a>
         <a href="#gallery" class="nav-link">Gallery</a>
         <a href="#contact" class="nav-link">Contact</a>
+        <button
+          class="nav-menu-close"
+          onclick="toggleMobileMenu()"
+          aria-label="Close menu"
+        >
+          ✕ Close Menu
+        </button>
       </div>
+      <div
+        class="nav-menu-overlay"
+        id="nav-menu-overlay"
+        onclick="toggleMobileMenu()"
+      ></div>
       <div class="nav-actions">
         <button class="btn-history" onclick="openHistoryModal()">
           <i class="fa-solid fa-clock-rotate-left"></i>
@@ -177,7 +189,7 @@
       <div class="hero-content">
         <div class="hero-badge">
           <span class="hero-badge-dot"></span>
-          Katharagama New Town · Since 2015
+          Kataragama New Town · Since 2015
         </div>
         <h1>LY Sweet &amp; Fancy House</h1>
         <p class="hero-subtitle">
@@ -219,13 +231,17 @@
 
       <!-- Tabs -->
       <div class="tabs" role="tablist">
-        <button class="tab-btn active" role="tab" onclick="switchTab('pooja')">
+        <button
+          class="tab-btn active"
+          role="tab"
+          onclick="switchTab('pooja', event)"
+        >
           🪷 Pooja Watti
         </button>
-        <button class="tab-btn" role="tab" onclick="switchTab('sweets')">
+        <button class="tab-btn" role="tab" onclick="switchTab('sweets', event)">
           🍬 Sweet Items
         </button>
-        <button class="tab-btn" role="tab" onclick="switchTab('toys')">
+        <button class="tab-btn" role="tab" onclick="switchTab('toys', event)">
           🧸 Toys
         </button>
       </div>
@@ -279,8 +295,8 @@
             <span class="section-label">About Us</span>
             <h2>Welcome to<br />LY Sweet & Fancy House</h2>
             <p>
-              Located in the heart of Katharagama New Town, just minutes from
-              the sacred Kataragama Devalaya and Kirivehera Temple. We provide
+              Located in the heart of Kataragama New Town, just minutes from the
+              sacred Kataragama Devalaya and Kirivehera Temple. We provide
               high-quality pooja watti, traditional sweet items, and toys for
               devotees and families visiting this holy city.
             </p>
@@ -313,7 +329,7 @@
               <i class="fa-solid fa-location-dot"></i>
               <h3>Prime Location</h3>
               <ul>
-                <li>📍 NO/59,C, New Town, Katharagama</li>
+                <li>📍 NO/59,C, New Town, Kataragama</li>
                 <li>🚶 5 min walk to Kataragama Devalaya</li>
                 <li>🚶 8 min walk to Kirivehera Temple</li>
                 <li>🅿️ Easy parking available</li>
@@ -398,7 +414,7 @@
             <div>
               <div class="contact-label">Location</div>
               <div class="contact-value">
-                NO/59,C · LY Sweet & Fancy House · New Town, Katharagama
+                NO/59,C · LY Sweet & Fancy House · New Town, Kataragama
               </div>
               <div class="contact-hint">Open in Google Maps →</div>
             </div>
@@ -414,7 +430,7 @@
           <span class="footer-logo">🪷</span>
           <div>
             <strong>LY Sweet &amp; Fancy House</strong>
-            <span>Katharagama New Town</span>
+            <span>Kataragama New Town</span>
           </div>
         </div>
         <div class="footer-links">
@@ -527,7 +543,7 @@
             <input
               type="text"
               id="order-address"
-              placeholder="Eg: No 5, Main St, Katharagama"
+              placeholder="Eg: No 5, Main St, Kataragama"
             />
           </div>
           <div class="form-group">
@@ -599,7 +615,7 @@
     <script src="data.js"></script>
     <script src="app.js"></script>
     <script>
-      function switchTab(tab) {
+      function switchTab(tab, e) {
         document
           .querySelectorAll('.tab-panel')
           .forEach((p) => p.classList.remove('active'))
@@ -607,20 +623,31 @@
           .querySelectorAll('.tab-btn')
           .forEach((b) => b.classList.remove('active'))
         document.getElementById('tab-' + tab).classList.add('active')
-        event.target.classList.add('active')
+        if (e && e.target) e.target.classList.add('active')
       }
 
       document.addEventListener('DOMContentLoaded', () => {
         renderProducts()
         renderCart()
         renderGallery()
+        document.querySelectorAll('.nav-link').forEach((link) => {
+          link.addEventListener('click', () => {
+            document.getElementById('nav-links').classList.remove('open')
+            document.getElementById('nav-hamburger').classList.remove('active')
+            document.getElementById('nav-menu-overlay').classList.remove('open')
+            document.body.classList.remove('menu-open')
+          })
+        })
       })
 
       function toggleMobileMenu() {
         const navLinks = document.getElementById('nav-links')
         const hamburger = document.getElementById('nav-hamburger')
-        navLinks.classList.toggle('open')
-        hamburger.classList.toggle('active')
+        const overlay = document.getElementById('nav-menu-overlay')
+        const isOpen = navLinks.classList.toggle('open')
+        hamburger.classList.toggle('active', isOpen)
+        overlay.classList.toggle('open', isOpen)
+        document.body.classList.toggle('menu-open', isOpen)
       }
 
       // Back to top button
@@ -631,14 +658,6 @@
         } else {
           backToTop.classList.remove('visible')
         }
-      })
-      document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.nav-link').forEach((link) => {
-          link.addEventListener('click', () => {
-            document.getElementById('nav-links').classList.remove('open')
-            document.getElementById('nav-hamburger').classList.remove('active')
-          })
-        })
       })
     </script>
   </body>
