@@ -37,7 +37,7 @@
     />
     <meta
       property="og:image"
-      content="https://images.unsplash.com/photo-1631832725617-d28dbbb3a29a?q=80&w=600&auto=format"
+      content="https://res.cloudinary.com/dbxpxk912/image/upload/v1776494844/5000-puja_mp6x15.jpg"
     />
     <meta property="og:url" content="https://l-y-sweet-house.vercel.app/" />
     <meta property="og:type" content="website" />
@@ -46,7 +46,7 @@
     <link rel="canonical" href="https://l-y-sweet-house.vercel.app/" />
 
     <!-- ✅ Favicon -->
-    <link rel="icon" href="/nav-logo.png" type="image/png" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- ✅ Performance (faster loading) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -57,7 +57,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- ✅ CSS -->
     <link rel="stylesheet" href="style.css" />
@@ -462,7 +461,9 @@
     <div class="cart-sidebar" id="cart-sidebar">
       <div class="cart-header">
         <h3>🛒 Your Cart</h3>
-        <button class="close-btn" onclick="closeCart()">×</button>
+        <button class="close-btn" onclick="closeCart()" aria-label="Close cart">
+          ×
+        </button>
       </div>
       <div class="cart-body">
         <div id="cart-empty">Your cart is empty. Add some products!</div>
@@ -496,7 +497,13 @@
       <div class="modal-box">
         <div class="modal-header">
           <h3>📲 Order Details</h3>
-          <button class="close-btn" onclick="closeOrderModal()">×</button>
+          <button
+            class="close-btn"
+            onclick="closeOrderModal()"
+            aria-label="Close order form"
+          >
+            ×
+          </button>
         </div>
         <p class="modal-hint">
           Fill your details below. WhatsApp message will be generated
@@ -590,7 +597,13 @@
       <div class="history-modal-box">
         <div class="modal-header">
           <h3>📋 Order History</h3>
-          <button class="close-btn" onclick="closeHistoryModal()">×</button>
+          <button
+            class="close-btn"
+            onclick="closeHistoryModal()"
+            aria-label="Close order history"
+          >
+            ×
+          </button>
         </div>
         <input
           class="history-search"

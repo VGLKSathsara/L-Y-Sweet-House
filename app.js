@@ -34,6 +34,9 @@ function saveOrder(order) {
     return true
   } catch (e) {
     console.error('Error saving order:', e)
+    alert(
+      'Warning: Could not save order to local history. Your WhatsApp order was still sent.',
+    )
     return false
   }
 }
@@ -50,8 +53,28 @@ function generateOrderId() {
 // ========== CART STATE ==========
 let cart = {}
 
+function saveCart() {
+  try {
+    sessionStorage.setItem('ly_cart', JSON.stringify(cart))
+  } catch (e) {
+    console.warn('Could not save cart to sessionStorage:', e)
+  }
+}
+
+function loadCart() {
+  try {
+    const s = sessionStorage.getItem('ly_cart')
+    if (s) cart = JSON.parse(s)
+  } catch (e) {
+    cart = {}
+  }
+}
+
+loadCart()
+
 function cartAdd(id) {
   cart[id] = (cart[id] || 0) + 1
+  saveCart()
   renderCart()
 }
 
@@ -59,6 +82,7 @@ function cartRemove(id) {
   if (!cart[id]) return
   cart[id]--
   if (cart[id] <= 0) delete cart[id]
+  saveCart()
   renderCart()
 }
 
@@ -69,11 +93,13 @@ function cartSet(id, qty) {
   } else {
     cart[id] = qty
   }
+  saveCart()
   renderCart()
 }
 
 function cartClear() {
   cart = {}
+  saveCart()
   renderCart()
 }
 
@@ -356,8 +382,21 @@ function submitOrder(e) {
     alert('Please enter your Phone Number 1 (WhatsApp)!')
     return
   }
+  const phoneRegex = /^0[0-9]{9}$/
+  if (!phoneRegex.test(phone1)) {
+    alert(
+      'Phone Number 1 must be a valid 10-digit Sri Lankan number (e.g. 0712345678)',
+    )
+    return
+  }
   if (!phone2) {
     alert('Please enter your Phone Number 2 (Alternative / Family)!')
+    return
+  }
+  if (!phoneRegex.test(phone2)) {
+    alert(
+      'Phone Number 2 must be a valid 10-digit Sri Lankan number (e.g. 0771234567)',
+    )
     return
   }
 
@@ -414,10 +453,13 @@ function showConfirmation(order) {
 
 // ========== ORDER HISTORY ==========
 function renderHistory() {
+  const orders = getAllOrders()
+  renderHistoryList(orders)
+}
+
+function renderHistoryList(orders) {
   const container = document.getElementById('history-list')
   if (!container) return
-
-  const orders = getAllOrders()
 
   if (!orders || orders.length === 0) {
     container.innerHTML = `<div class="history-empty" style="text-align:center;padding:40px;color:#6b7280;">📭 No orders found. Place your first order!</div>`
@@ -497,12 +539,21 @@ function resendWhatsApp(order) {
 }
 
 function searchHistory(term) {
-  const cards = document.querySelectorAll('.history-card')
-  const lower = term.toLowerCase()
-  cards.forEach((card) => {
-    const text = card.textContent.toLowerCase()
-    card.style.display = text.includes(lower) ? '' : 'none'
-  })
+  const lower = term.toLowerCase().trim()
+  const orders = getAllOrders()
+  if (!lower) {
+    renderHistoryList(orders)
+    return
+  }
+  const filtered = orders.filter(
+    (o) =>
+      o.id.toLowerCase().includes(lower) ||
+      o.customerName.toLowerCase().includes(lower) ||
+      (o.userId || '').toLowerCase().includes(lower) ||
+      (o.phone1 || '').includes(lower) ||
+      (o.phone2 || '').includes(lower),
+  )
+  renderHistoryList(filtered)
 }
 
 function showToast(message) {
@@ -567,10 +618,10 @@ function renderCategory(gridId, products) {
       const hasImage = p.imageUrl && p.imageUrl.trim() !== ''
       return `
       <div class="product-card">
-        ${hasImage ? `<img src="${p.imageUrl}" alt="${p.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="product-emoji" style="display:none">${p.emoji || '🪷'}</div>` : `<div class="product-emoji">${p.emoji || '🪷'}</div>`}
-        <div class="product-name">${p.name}</div>
-        <div class="product-desc">${p.description || ''}</div>
-        ${p.details ? `<ul class="product-details">${p.details.map((d) => `<li>${d}</li>`).join('')}</ul>` : ''}
+        ${hasImage ? `<img src="${p.imageUrl}" alt="${escapeHtml(p.name)}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="product-emoji" style="display:none">${p.emoji || '🪷'}</div>` : `<div class="product-emoji">${p.emoji || '🪷'}</div>`}
+        <div class="product-name">${escapeHtml(p.name)}</div>
+        <div class="product-desc">${escapeHtml(p.description || '')}</div>
+        ${p.details ? `<ul class="product-details">${p.details.map((d) => `<li>${escapeHtml(d)}</li>`).join('')}</ul>` : ''}
         ${p.hasBandesiya ? `<div class="bandesiya-notice">🏺 Bandesiya denna. Rs. ${CONFIG.bandesiyaDeposit} deposit included. Return karoth refund labenawa.</div>` : ''}
         <div class="product-footer">
           <div class="product-price">Rs. ${p.price.toLocaleString()}</div>

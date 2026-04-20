@@ -99,7 +99,6 @@ const SWEET_ITEMS = [
     emoji: '🍪',
     description: 'Traditional Sri Lankan crispy sweet',
     hasBandesiya: false,
-    // imageUrl: "https://example.com/kokis.jpg"
   },
   {
     id: 'sw002',
@@ -233,10 +232,5 @@ const GALLERY_IMAGES = [
     src: 'https://res.cloudinary.com/dbxpxk912/image/upload/v1776496210/image-1_ey01yu.jpg',
     caption: 'Shop4',
     category: 'Pooja Watti',
-  },
-  {
-    src: './logo-2.png',
-    caption: 'LOGO',
-    category: 'Logo',
   },
 ]
