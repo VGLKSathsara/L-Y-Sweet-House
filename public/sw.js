@@ -1,15 +1,15 @@
 // Service Worker for LY Sweet & Fancy House
-const CACHE_NAME = 'ly-shop-v1'
+const CACHE_NAME = 'ly-shop-v2'
 const ASSETS_TO_CACHE = [
   '/',
-  '/index.html',
-  '/app.js',
-  '/data.js',
-  '/style.css',
   '/favicon.ico',
+  '/logo.png',
+  '/logo-2.png',
+  '/manifest.json',
 ]
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting()
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS_TO_CACHE).catch((err) => {
@@ -53,14 +53,17 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName)
-          }
-        })
-      )
-    })
+    Promise.all([
+      clients.claim(),
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== CACHE_NAME) {
+              return caches.delete(cacheName)
+            }
+          })
+        )
+      }),
+    ])
   )
 })
