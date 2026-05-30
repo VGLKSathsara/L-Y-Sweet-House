@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd 'd:\\\\Web Sites\\\\L-Y-Sweet-House'; python analyze_errors2\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
