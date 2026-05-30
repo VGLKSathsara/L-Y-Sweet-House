@@ -1864,27 +1864,23 @@ body.menu-open {
 }
 
 /* ---- Scroll-reveal base classes (added by JS) ---- */
+/* opacity-only for sections — pure compositor, zero layout cost */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition:
-    opacity   0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.4s ease-out;
 }
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
 }
+/* cards: tiny translateY only — no scale (scale forces repaints on every card) */
 .reveal-card {
   opacity: 0;
-  transform: translateY(20px) scale(0.97);
-  transition:
-    opacity   0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(10px);
+  transition: opacity 0.32s ease-out, transform 0.32s ease-out;
 }
 .reveal-card.visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 /* ---- Navbar shadow on scroll ---- */
@@ -1893,6 +1889,41 @@ body.menu-open {
 }
 .navbar.scrolled {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+}
+
+/* ---- Active nav link (scroll-spy) ---- */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  right: 50%;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: left 0.25s ease, right 0.25s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  left: 0;
+  right: 0;
+}
+.nav-link.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  .nav-link::after { display: none; }
+  .nav-link.active {
+    color: var(--primary);
+    font-weight: 600;
+    background: var(--primary-light);
+    border-radius: 8px;
+    padding-left: 0.5rem;
+  }
 }
 
 /* ---- Tab panel fade ---- */

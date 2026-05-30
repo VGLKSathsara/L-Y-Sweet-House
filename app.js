@@ -84,20 +84,26 @@ function loadCart() {
 
 loadCart()
 
-// ========== SHARED REVEAL OBSERVER ==========
+// ========== SHARED REVEAL OBSERVER (two-way: fades in AND out) ==========
 function _onRevealIntersect(entries) {
   entries.forEach(function (entry) {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible')
-      _revealObserver.unobserve(entry.target)
+    } else {
+      // Fade out without stagger so all cards exit uniformly
+      var saved = entry.target.style.transitionDelay
+      entry.target.style.transitionDelay = '0s'
+      entry.target.classList.remove('visible')
+      // Restore original stagger delay after the exit transition finishes
+      setTimeout(function () { entry.target.style.transitionDelay = saved }, 350)
     }
   })
 }
 const _revealObserver =
   typeof IntersectionObserver !== 'undefined'
     ? new IntersectionObserver(_onRevealIntersect, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -20px 0px',
+        threshold: 0.05,
+        rootMargin: '0px 0px 0px 0px',
       })
     : null
 
@@ -768,7 +774,7 @@ function renderCategory(gridId, products) {
     if (_revealObserver) {
       grid.querySelectorAll('.product-card').forEach(function (card, i) {
         card.classList.add('reveal-card')
-        card.style.transitionDelay = i * 0.08 + 's'
+        card.style.transitionDelay = i * 0.04 + 's'
         _revealObserver.observe(card)
       })
     }
@@ -812,7 +818,7 @@ function renderGallery() {
     if (_revealObserver) {
       grid.querySelectorAll('.gallery-item').forEach(function (item, i) {
         item.classList.add('reveal-card')
-        item.style.transitionDelay = i * 0.07 + 's'
+        item.style.transitionDelay = i * 0.035 + 's'
         _revealObserver.observe(item)
       })
     }
@@ -881,6 +887,28 @@ function updateLightbox() {
 // ========== INITIALIZE ==========
 // Initialisation is handled by the DOMContentLoaded in index.html.
 
+// ========== SCROLL SPY ==========
+function initScrollSpy() {
+  var sections = document.querySelectorAll('section[id]')
+  var navLinks = document.querySelectorAll('.nav-link[href^="#"]')
+  if (!sections.length || !navLinks.length || typeof IntersectionObserver === 'undefined') return
+
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return
+      var id = entry.target.id
+      navLinks.forEach(function (link) {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id)
+      })
+    })
+  }, {
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0,
+  })
+
+  sections.forEach(function (s) { spy.observe(s) })
+}
+
 // ========== ANIMATIONS ==========
 function initAnimations() {
   // 1. Remove loading screen and trigger hero entrance animations
@@ -893,9 +921,12 @@ function initAnimations() {
     }
   }, 400)
 
+  // 2. Scroll-spy for active nav link
+  initScrollSpy()
+
   if (!_revealObserver) return
 
-  // 2. Observe section-level elements with stagger where appropriate
+  // 3. Observe section-level elements with stagger where appropriate
   var sectionSelectors = [
     '.section-title',
     '.tabs',

@@ -575,12 +575,15 @@
       document.body.classList.toggle('menu-open', isOpen)
     }
 
-    // Back to top + navbar scroll state
+    // Back to top + navbar scroll state + clear nav spy at very top
     const backToTop = document.getElementById('back-to-top')
     const navbarEl  = document.querySelector('.navbar')
     window.addEventListener('scroll', () => {
       backToTop.classList.toggle('visible', window.scrollY > 300)
       navbarEl.classList.toggle('scrolled', window.scrollY > 10)
+      if (window.scrollY < 150) {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'))
+      }
     }, { passive: true })
 
     // Service Worker Registration for offline support
