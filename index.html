@@ -115,6 +115,15 @@
 </head>
 
 <body>
+  <!-- ============ PAGE LOADER ============ -->
+  <div id="page-loader" aria-hidden="true">
+    <div class="loader-logo-wrap">
+      <img src="logo.png" alt="" class="loader-logo-img" />
+    </div>
+    <p class="loader-name">LY Sweet &amp; Fancy House</p>
+    <div class="loader-dots"><span></span><span></span><span></span></div>
+  </div>
+
   <!-- ============ NAVBAR ============ -->
   <nav class="navbar">
     <div class="nav-brand" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" style="cursor: pointer">
@@ -545,6 +554,7 @@
       renderProducts()
       renderCart()
       renderGallery()
+      initAnimations()
       document.querySelectorAll('.nav-link').forEach((link) => {
         link.addEventListener('click', () => {
           document.getElementById('nav-links').classList.remove('open')
@@ -565,15 +575,13 @@
       document.body.classList.toggle('menu-open', isOpen)
     }
 
-    // Back to top button
+    // Back to top + navbar scroll state
     const backToTop = document.getElementById('back-to-top')
+    const navbarEl  = document.querySelector('.navbar')
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        backToTop.classList.add('visible')
-      } else {
-        backToTop.classList.remove('visible')
-      }
-    })
+      backToTop.classList.toggle('visible', window.scrollY > 300)
+      navbarEl.classList.toggle('scrolled', window.scrollY > 10)
+    }, { passive: true })
 
     // Service Worker Registration for offline support
     if ('serviceWorker' in navigator) {

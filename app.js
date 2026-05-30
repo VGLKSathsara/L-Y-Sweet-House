@@ -84,6 +84,23 @@ function loadCart() {
 
 loadCart()
 
+// ========== SHARED REVEAL OBSERVER ==========
+function _onRevealIntersect(entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible')
+      _revealObserver.unobserve(entry.target)
+    }
+  })
+}
+const _revealObserver =
+  typeof IntersectionObserver !== 'undefined'
+    ? new IntersectionObserver(_onRevealIntersect, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -20px 0px',
+      })
+    : null
+
 function cartAdd(id) {
   cart[id] = (cart[id] || 0) + 1
   saveCart()
@@ -747,6 +764,14 @@ function renderCategory(gridId, products) {
       `
       })
       .join('')
+
+    if (_revealObserver) {
+      grid.querySelectorAll('.product-card').forEach(function (card, i) {
+        card.classList.add('reveal-card')
+        card.style.transitionDelay = i * 0.08 + 's'
+        _revealObserver.observe(card)
+      })
+    }
   } catch (e) {
     console.error(`Error rendering category ${gridId}:`, e)
   }
@@ -783,6 +808,14 @@ function renderGallery() {
         </div>
       </div>`,
     ).join('')
+
+    if (_revealObserver) {
+      grid.querySelectorAll('.gallery-item').forEach(function (item, i) {
+        item.classList.add('reveal-card')
+        item.style.transitionDelay = i * 0.07 + 's'
+        _revealObserver.observe(item)
+      })
+    }
   } catch (e) {
     console.error('Error rendering gallery:', e)
   }
@@ -847,3 +880,51 @@ function updateLightbox() {
 
 // ========== INITIALIZE ==========
 // Initialisation is handled by the DOMContentLoaded in index.html.
+
+// ========== ANIMATIONS ==========
+function initAnimations() {
+  // 1. Remove loading screen and trigger hero entrance animations
+  var loader = document.getElementById('page-loader')
+  setTimeout(function () {
+    document.body.classList.add('page-loaded')
+    if (loader) {
+      loader.classList.add('fade-out')
+      setTimeout(function () { loader.remove() }, 600)
+    }
+  }, 400)
+
+  if (!_revealObserver) return
+
+  // 2. Observe section-level elements with stagger where appropriate
+  var sectionSelectors = [
+    '.section-title',
+    '.tabs',
+    '.about-content',
+    '.about-location',
+    '.bandesiya-card',
+    '.footer-brand',
+    '.footer-links',
+    '.footer-contact',
+    '.footer-copyright',
+  ]
+  sectionSelectors.forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) {
+      el.classList.add('reveal')
+      _revealObserver.observe(el)
+    })
+  })
+
+  // Contact cards — stagger
+  document.querySelectorAll('.contact-card').forEach(function (el, i) {
+    el.classList.add('reveal')
+    el.style.transitionDelay = i * 0.1 + 's'
+    _revealObserver.observe(el)
+  })
+
+  // About stats — staggered pop
+  document.querySelectorAll('.about-stats .stat').forEach(function (el, i) {
+    el.classList.add('reveal-card')
+    el.style.transitionDelay = 0.05 + i * 0.1 + 's'
+    _revealObserver.observe(el)
+  })
+}

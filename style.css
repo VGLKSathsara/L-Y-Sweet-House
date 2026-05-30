@@ -1765,3 +1765,154 @@ body.menu-open {
 .nav-menu-close:hover {
   background: var(--primary-soft);
 }
+
+/* ============================================================
+   ANIMATIONS & SMOOTH LOADING
+   ============================================================ */
+
+/* ---- Page Loader ---- */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  transition: opacity 0.55s ease, visibility 0.55s ease;
+}
+#page-loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-logo-wrap {
+  animation: loaderPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.loader-logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.18);
+}
+.loader-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  animation: fadeInUp 0.5s ease 0.25s both;
+}
+.loader-dots {
+  display: flex;
+  gap: 7px;
+  animation: fadeInUp 0.4s ease 0.4s both;
+}
+.loader-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+.loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loaderPop {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1);   }
+}
+@keyframes dotPulse {
+  0%, 80%, 100% { transform: scale(0.5); opacity: 0.3; }
+  40%           { transform: scale(1);   opacity: 1;   }
+}
+
+/* ---- Shared keyframes ---- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+/* ---- Hero entrance — hidden until .page-loaded is added to body ---- */
+.hero-badge,
+.hero h1,
+.hero-subtitle,
+.hero-description,
+.hero-cta {
+  opacity: 0;
+}
+.page-loaded .hero-badge {
+  animation: fadeInDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s  forwards;
+}
+.page-loaded .hero h1 {
+  animation: fadeInUp  0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+.page-loaded .hero-subtitle {
+  animation: fadeInUp  0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s  forwards;
+}
+.page-loaded .hero-description {
+  animation: fadeInUp  0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.52s forwards;
+}
+.page-loaded .hero-cta {
+  animation: fadeInUp  0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards;
+}
+
+/* ---- Scroll-reveal base classes (added by JS) ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity   0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-card {
+  opacity: 0;
+  transform: translateY(20px) scale(0.97);
+  transition:
+    opacity   0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ---- Navbar shadow on scroll ---- */
+.navbar {
+  transition: box-shadow 0.3s ease;
+}
+.navbar.scrolled {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+}
+
+/* ---- Tab panel fade ---- */
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.tab-panel.active {
+  animation: tabFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ---- Respect reduced-motion preference ---- */
+@media (prefers-reduced-motion: reduce) {
+  #page-loader { transition: none; }
+  .hero-badge, .hero h1, .hero-subtitle, .hero-description, .hero-cta { opacity: 1; }
+  .page-loaded .hero-badge,
+  .page-loaded .hero h1,
+  .page-loaded .hero-subtitle,
+  .page-loaded .hero-description,
+  .page-loaded .hero-cta { animation: none; opacity: 1; }
+  .reveal, .reveal-card { opacity: 1; transform: none; transition: none; }
+  .tab-panel.active { animation: none; }
+}
