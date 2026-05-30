@@ -926,17 +926,34 @@ function initScrollSpy() {
 function initAnimations() {
   // 1. Remove loading screen and trigger hero entrance animations
   var loader = document.getElementById('page-loader')
-  setTimeout(function () {
-    document.body.classList.add('page-loaded')
-    if (loader) {
-      loader.classList.add('fade-out')
-      setTimeout(function () {
-        loader.remove()
-        // Welcome greeting appears after the hero has had a moment to animate in
-        setTimeout(openWelcomeModal, 600)
-      }, 600)
-    }
-  }, 400)
+  var loaderStart = Date.now()
+  var loaderDismissed = false
+
+  function dismissLoader() {
+    if (loaderDismissed) return
+    loaderDismissed = true
+    var elapsed = Date.now() - loaderStart
+    // Show loader for at least 500ms so it doesn't flash
+    var delay = Math.max(0, 500 - elapsed)
+    setTimeout(function () {
+      document.body.classList.add('page-loaded')
+      if (loader) {
+        loader.classList.add('fade-out')
+        setTimeout(function () {
+          if (loader && loader.parentNode) loader.remove()
+          setTimeout(openWelcomeModal, 400)
+        }, 500)
+      }
+    }, delay)
+  }
+
+  // Dismiss as soon as all assets are loaded; hard cap at 2s
+  if (document.readyState === 'complete') {
+    dismissLoader()
+  } else {
+    window.addEventListener('load', dismissLoader, { once: true })
+    setTimeout(function () { dismissLoader() }, 2000)
+  }
 
   // 2. Scroll-spy for active nav link
   initScrollSpy()
