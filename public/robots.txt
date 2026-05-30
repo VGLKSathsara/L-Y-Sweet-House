@@ -1,0 +1,15 @@
+# robots.txt for LY Sweet & Fancy House
+# https://l-y-sweet-house.vercel.app/
+
+User-agent: *
+Allow: /
+
+# Allow Google to crawl everything
+User-agent: Googlebot
+Allow: /
+
+# Sitemap location - IMPORTANT!
+Sitemap: https://l-y-sweet-house.vercel.app/sitemap.xml
+
+# Crawl delay (be nice)
+Crawl-delay: 1
