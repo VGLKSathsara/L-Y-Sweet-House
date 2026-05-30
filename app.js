@@ -887,6 +887,19 @@ function updateLightbox() {
 // ========== INITIALIZE ==========
 // Initialisation is handled by the DOMContentLoaded in index.html.
 
+// ========== WELCOME GREETING ==========
+function openWelcomeModal() {
+  if (sessionStorage.getItem('ly_welcomed')) return
+  var modal = document.getElementById('welcome-modal')
+  if (modal) modal.style.display = 'flex'
+}
+
+function closeWelcome() {
+  var modal = document.getElementById('welcome-modal')
+  if (modal) modal.style.display = 'none'
+  sessionStorage.setItem('ly_welcomed', '1')
+}
+
 // ========== SCROLL SPY ==========
 function initScrollSpy() {
   var sections = document.querySelectorAll('section[id]')
@@ -917,7 +930,11 @@ function initAnimations() {
     document.body.classList.add('page-loaded')
     if (loader) {
       loader.classList.add('fade-out')
-      setTimeout(function () { loader.remove() }, 600)
+      setTimeout(function () {
+        loader.remove()
+        // Welcome greeting appears after the hero has had a moment to animate in
+        setTimeout(openWelcomeModal, 600)
+      }, 600)
     }
   }, 400)
 

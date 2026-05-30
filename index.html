@@ -100,8 +100,8 @@
             "Saturday",
             "Sunday"
           ],
-          "opens": "08:00",
-          "closes": "20:00"
+          "opens": "05:00",
+          "closes": "23:00"
         },
 
         "sameAs": [
@@ -535,6 +535,47 @@
     <i class="fa-solid fa-chevron-up"></i>
   </button>
 
+  <!-- ============ WELCOME GREETING ============ -->
+  <div class="modal-backdrop" id="welcome-modal" role="dialog" aria-modal="true"
+    aria-labelledby="welcome-title" onclick="closeWelcome()">
+    <div class="welcome-box" onclick="event.stopPropagation()">
+      <button class="close-btn welcome-close" onclick="closeWelcome()" aria-label="Close welcome">×</button>
+      <div class="welcome-header-strip"></div>
+
+      <div class="welcome-logo-wrap">
+        <img src="logo.png" alt="LY Sweet &amp; Fancy House" class="welcome-logo" />
+      </div>
+
+      <div class="welcome-badge">🪷 Kataragama New Town · Since 2015</div>
+      <h2 class="welcome-title" id="welcome-title">LY Sweet &amp; Fancy House</h2>
+
+      <p class="welcome-greeting">
+        <span lang="si">ආයුබෝවන්</span>
+        <span class="welcome-sep">·</span>
+        <span lang="en">Welcome</span>
+        <span class="welcome-sep">·</span>
+        <span lang="ta">வணக்கம்</span>
+      </p>
+
+      <p class="welcome-desc">
+        Your trusted source for handcrafted <strong>Pooja Watti</strong>, traditional
+        sweets &amp; gifts — serving devotees &amp; families in Kataragama.
+      </p>
+
+      <div class="welcome-meta">
+        <span><i class="fa-solid fa-clock"></i> Open daily 5 am – 11 pm</span>
+        <span><i class="fa-solid fa-location-dot"></i> New Town, Kataragama</span>
+      </div>
+
+      <div class="welcome-actions">
+        <button class="btn-welcome-shop" onclick="closeWelcome()">🛍️ Explore Products</button>
+        <a href="https://wa.me/94767726820" target="_blank" class="btn-welcome-wa" onclick="closeWelcome()">
+          <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- ============ SCRIPTS ============ -->
   <script src="data.js"></script>
   <script src="app.js"></script>
@@ -585,6 +626,11 @@
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'))
       }
     }, { passive: true })
+
+    // Close welcome on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeWelcome()
+    })
 
     // Service Worker Registration for offline support
     if ('serviceWorker' in navigator) {
