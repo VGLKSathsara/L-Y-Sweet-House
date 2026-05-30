@@ -186,7 +186,7 @@ function buildWhatsAppMsg(
   if (note) lines.push(`Note: ${note}`)
   lines.push(``)
   lines.push(`Please confirm this order. Thank you! 🙏`)
-  
+
   const msg = lines.join('\n')
   if (msg.length > 4096) {
     console.warn('WhatsApp message exceeds 4096 character limit')
@@ -496,6 +496,7 @@ function renderHistoryList(orders) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
       return `
       <div class="history-card">
         <div class="history-top">
@@ -545,7 +546,7 @@ function updateStatus(orderId, newStatus) {
     console.error(`Invalid status: ${newStatus}`)
     return
   }
-  
+
   try {
     const orders = getAllOrders()
     const idx = orders.findIndex((o) => o.id === orderId)
@@ -605,7 +606,7 @@ function searchHistory(term) {
 function showToast(message) {
   let toast = document.getElementById('custom-toast')
   let toastQueue = window._toastQueue || []
-  
+
   if (!toast) {
     toast = document.createElement('div')
     toast.id = 'custom-toast'
@@ -617,10 +618,10 @@ function showToast(message) {
     `
     document.body.appendChild(toast)
   }
-  
+
   toastQueue.push(message)
   window._toastQueue = toastQueue
-  
+
   if (toastQueue.length === 1) {
     showNextToast()
   }
@@ -629,13 +630,13 @@ function showToast(message) {
 function showNextToast() {
   const toast = document.getElementById('custom-toast')
   const queue = window._toastQueue || []
-  
+
   if (queue.length === 0) return
-  
+
   const message = queue[0]
   toast.textContent = message
   toast.style.opacity = '1'
-  
+
   setTimeout(() => {
     toast.style.opacity = '0'
     setTimeout(() => {
@@ -733,7 +734,7 @@ function renderCategory(gridId, products) {
         const hasImage = p.imageUrl && p.imageUrl.trim() !== ''
         return `
         <div class="product-card">
-          ${hasImage ? `<img src="${escapeHtml(p.imageUrl)}" alt="${escapeHtml(p.name)}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling?.style?.display='flex'"><div class="product-emoji" style="display:none">${p.emoji || '🪷'}</div>` : `<div class="product-emoji">${p.emoji || '🪷'}</div>`}
+          ${hasImage ? `<img src="${escapeHtml(p.imageUrl)}" alt="${escapeHtml(p.name)}" class="product-image" onerror="this.style.display='none';var n=this.nextElementSibling;if(n)n.style.display='flex'"><div class="product-emoji" style="display:none">${p.emoji || '🪷'}</div>` : `<div class="product-emoji">${p.emoji || '🪷'}</div>`}
           <div class="product-name">${escapeHtml(p.name)}</div>
           <div class="product-desc">${escapeHtml(p.description || '')}</div>
           ${p.details ? `<ul class="product-details">${p.details.map((d) => `<li>${escapeHtml(d)}</li>`).join('')}</ul>` : ''}
@@ -764,7 +765,7 @@ function renderGallery() {
       console.warn('Gallery grid not found')
       return
     }
-    
+
     if (typeof GALLERY_IMAGES === 'undefined' || !GALLERY_IMAGES) {
       console.warn('GALLERY_IMAGES not loaded yet')
       setTimeout(renderGallery, 100)
@@ -835,8 +836,8 @@ function updateLightbox() {
     const lbImg = document.getElementById('lb-img')
     const lbCaption = document.getElementById('lb-caption')
     const lbCounter = document.getElementById('lb-counter')
-    if (lbImg) lbImg.src = escapeHtml(img.src)
-    if (lbCaption) lbCaption.textContent = escapeHtml(img.caption)
+    if (lbImg) lbImg.src = img.src
+    if (lbCaption) lbCaption.textContent = img.caption
     if (lbCounter)
       lbCounter.textContent = `${window._galleryIndex + 1} / ${GALLERY_IMAGES.length}`
   } catch (e) {

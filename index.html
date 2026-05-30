@@ -134,7 +134,7 @@
 
     <div class="nav-links" id="nav-links">
       <a href="#" class="nav-link" onclick="
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             return false
           ">Home</a>
       <a href="#shop" class="nav-link">Shop</a>
@@ -379,7 +379,7 @@
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
-        <span class="footer-logo">🪷</span>
+        <img src="logo.png" alt="LY Sweet & Fancy House" class="footer-logo-img" />
         <div>
           <strong>LY Sweet &amp; Fancy House</strong>
           <span>Kataragama New Town</span>
@@ -390,7 +390,7 @@
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
         <a href="#" onclick="
-              openHistoryModal()
+              openHistoryModal();
               return false
             ">Order History</a>
       </div>
@@ -423,7 +423,7 @@
         <span id="cart-total">Rs. 0</span>
       </div>
       <button class="btn-checkout" onclick="
-            closeCart()
+            closeCart();
             openOrderModal()
           ">
         <i class="fa-brands fa-whatsapp"></i> Proceed to Order
