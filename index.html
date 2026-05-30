@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
 
+    <!-- ✅ Security: Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' https: data:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; frame-src https://wa.me; object-src 'none'; upgrade-insecure-requests;" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
     <!-- ✅ Verification -->
     <meta
       name="google-site-verification"
@@ -50,6 +54,13 @@
 
     <!-- ✅ Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- ✅ PWA Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#7c3aed" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <!-- ✅ Performance (faster loading) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -277,15 +288,15 @@
       onclick="closeLightbox()"
     >
       <div class="lightbox-inner" onclick="event.stopPropagation()">
-        <button class="lb-close" onclick="closeLightbox()">×</button>
-        <button class="lb-nav lb-prev" onclick="lightboxNav(-1)">
+        <button class="lb-close" onclick="closeLightbox()" aria-label="Close gallery lightbox">×</button>
+        <button class="lb-nav lb-prev" onclick="lightboxNav(-1)" aria-label="Previous image">
           &#8249;
         </button>
-        <img id="lb-img" src="" alt="" />
-        <button class="lb-nav lb-next" onclick="lightboxNav(1)">&#8250;</button>
+        <img id="lb-img" src="" alt="Gallery image" role="img" />
+        <button class="lb-nav lb-next" onclick="lightboxNav(1)" aria-label="Next image">&#8250;</button>
         <div class="lb-footer">
           <span id="lb-caption"></span>
-          <span id="lb-counter"></span>
+          <span id="lb-counter" role="status" aria-live="polite"></span>
         </div>
       </div>
     </div>
@@ -520,6 +531,7 @@
               id="order-name"
               placeholder="Eg: Kamal Perera"
               required
+              autocomplete="name"
             />
           </div>
           <div class="form-group">
@@ -529,6 +541,7 @@
               id="order-user-id"
               placeholder="Eg: 123456789V or 200012345678"
               required
+              autocomplete="off"
             />
           </div>
           <div class="form-group">
@@ -538,6 +551,7 @@
               id="order-phone1"
               placeholder="Eg: 0712345678"
               required
+              autocomplete="tel"
             />
           </div>
           <div class="form-group">
@@ -547,6 +561,7 @@
               id="order-phone2"
               placeholder="Eg: 0771234567"
               required
+              autocomplete="tel-extension"
             />
           </div>
           <div class="form-group">
@@ -555,6 +570,7 @@
               type="text"
               id="order-address"
               placeholder="Eg: No 5, Main St, Kataragama"
+              autocomplete="street-address"
             />
           </div>
           <div class="form-group">
@@ -676,6 +692,14 @@
           backToTop.classList.remove('visible')
         }
       })
+
+      // Service Worker Registration for offline support
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('sw.js')
+          .then(() => console.log('Service Worker registered'))
+          .catch((err) => console.warn('Service Worker registration failed:', err))
+      }
     </script>
   </body>
 </html>

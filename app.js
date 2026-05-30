@@ -46,8 +46,9 @@ function generateOrderId() {
   const yy = String(now.getFullYear()).slice(2)
   const mm = String(now.getMonth() + 1).padStart(2, '0')
   const dd = String(now.getDate()).padStart(2, '0')
-  const rand = Math.floor(1000 + Math.random() * 9000)
-  return `LY-${yy}${mm}${dd}-${rand}`
+  const ts = String(now.getTime()).slice(-6)
+  const rand = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
+  return `LY-${yy}${mm}${dd}-${ts}${rand}`
 }
 
 // ========== CART STATE ==========
@@ -55,15 +56,26 @@ let cart = {}
 
 function saveCart() {
   try {
-    sessionStorage.setItem('ly_cart', JSON.stringify(cart))
+    localStorage.setItem('ly_cart', JSON.stringify(cart))
+    localStorage.setItem('ly_cart_expiry', new Date().getTime() + 30 * 24 * 60 * 60 * 1000)
   } catch (e) {
-    console.warn('Could not save cart to sessionStorage:', e)
+    if (e.name === 'QuotaExceededError') {
+      alert('Storage quota exceeded. Clearing old data...')
+      localStorage.removeItem('ly_orders')
+      localStorage.setItem('ly_cart', JSON.stringify(cart))
+    }
+    console.warn('Could not save cart:', e)
   }
 }
 
 function loadCart() {
   try {
-    const s = sessionStorage.getItem('ly_cart')
+    const expiry = localStorage.getItem('ly_cart_expiry')
+    if (expiry && new Date().getTime() > parseInt(expiry)) {
+      localStorage.removeItem('ly_cart')
+      return
+    }
+    const s = localStorage.getItem('ly_cart')
     if (s) cart = JSON.parse(s)
   } catch (e) {
     cart = {}
@@ -90,6 +102,9 @@ function cartSet(id, qty) {
   qty = parseInt(qty)
   if (isNaN(qty) || qty <= 0) {
     delete cart[id]
+  } else if (qty > 999) {
+    alert('Maximum quantity is 999 per item')
+    return
   } else {
     cart[id] = qty
   }
@@ -120,7 +135,11 @@ function cartItems() {
   return Object.entries(cart)
     .map(([id, qty]) => {
       const p = ALL_PRODUCTS.find((x) => x.id === id)
-      if (!p) return null
+      if (!p) {
+        console.warn(`Product ${id} not found in catalog`)
+        delete cart[id]
+        return null
+      }
       return { ...p, qty }
     })
     .filter((x) => x)
@@ -167,7 +186,12 @@ function buildWhatsAppMsg(
   if (note) lines.push(`Note: ${note}`)
   lines.push(``)
   lines.push(`Please confirm this order. Thank you! 🙏`)
-  return lines.join('\n')
+  
+  const msg = lines.join('\n')
+  if (msg.length > 4096) {
+    console.warn('WhatsApp message exceeds 4096 character limit')
+  }
+  return msg
 }
 
 function sendWhatsApp(msg) {
@@ -263,15 +287,14 @@ function downloadSlip(order) {
     <span>TOTAL</span>
     <span>Rs. ${order.total.toLocaleString()}</span>
   </div>
-  ${
-    order.hasBandesiyaItems
+  ${order.hasBandesiyaItems
       ? `
   <div class="slip-bandesiya">
     ⚠️ <strong>Bandesiya Deposit:</strong> Rs. ${CONFIG.bandesiyaDeposit} deposit included per wattiya. 
     Bandesiya return karalath Rs. ${CONFIG.bandesiyaDeposit} refund labenna puluwan.
   </div>`
       : ''
-  }
+    }
   ${order.note ? `<div style="margin-top:12px;font-size:13px;color:#555;"><strong>Note:</strong> ${escapeHtml(order.note)}</div>` : ''}
   <div class="slip-footer">
     <p>LY Sweet &amp; Fancy House — Thank you for your order! 🙏</p>
@@ -338,14 +361,13 @@ function renderCart() {
             <button class="qty-btn" onclick="cartAdd('${item.id}')">+</button>
           </div>
         </div>
-        ${
-          item.hasBandesiya
-            ? `
+        ${item.hasBandesiya
+        ? `
         <div class="bandesiya-row">
           <span class="deposit-tag">🏺 Bandesiya deposit: Rs. ${(CONFIG.bandesiyaDeposit * item.qty).toLocaleString()} included (refundable on return)</span>
         </div>`
-            : ''
-        }
+        : ''
+      }
         <div class="cart-item-subtotal">Subtotal: Rs. ${lineTotal.toLocaleString()}</div>
       </div>`
   }
@@ -389,14 +411,14 @@ function submitOrder(e) {
     )
     return
   }
-  if (!phone2) {
-    alert('Please enter your Phone Number 2 (Alternative / Family)!')
-    return
-  }
-  if (!phoneRegex.test(phone2)) {
+  if (phone2 && !phoneRegex.test(phone2)) {
     alert(
       'Phone Number 2 must be a valid 10-digit Sri Lankan number (e.g. 0771234567)',
     )
+    return
+  }
+  if (!phone2) {
+    alert('Please enter your Phone Number 2 (Alternative / Family)!')
     return
   }
 
@@ -469,6 +491,11 @@ function renderHistoryList(orders) {
   container.innerHTML = orders
     .map((order) => {
       const orderStatus = order.status || 'pending'
+      const orderJson = JSON.stringify(order)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
       return `
       <div class="history-card">
         <div class="history-top">
@@ -486,8 +513,8 @@ function renderHistoryList(orders) {
           ${order.items.map((i) => `<span class="history-item-tag">${i.emoji || '🪷'} ${escapeHtml(i.name)} x${i.qty}</span>`).join('')}
         </div>
         <div class="history-actions">
-          <button class="btn-slip" onclick='downloadSlip(${JSON.stringify(order).replace(/'/g, '&#39;')})'>📥 Download Slip</button>
-          <button class="btn-whatsapp-resend" onclick='resendWhatsApp(${JSON.stringify(order).replace(/'/g, '&#39;')})'>📲 WhatsApp Resend</button>
+          <button class="btn-slip" data-order='${orderJson}' onclick="downloadSlip(JSON.parse(this.dataset.order))">📥 Download Slip</button>
+          <button class="btn-whatsapp-resend" data-order='${orderJson}' onclick="resendWhatsApp(JSON.parse(this.dataset.order))">📲 WhatsApp Resend</button>
           <select class="status-select" onchange="updateStatus('${order.id}', this.value)">
             <option value="pending" ${orderStatus === 'pending' ? 'selected' : ''}>⏳ Pending</option>
             <option value="confirmed" ${orderStatus === 'confirmed' ? 'selected' : ''}>✅ Confirmed</option>
@@ -513,29 +540,48 @@ function escapeHtml(str) {
 }
 
 function updateStatus(orderId, newStatus) {
-  const orders = getAllOrders()
-  const idx = orders.findIndex((o) => o.id === orderId)
-  if (idx === -1) return
-  orders[idx].status = newStatus
-  localStorage.setItem(DB_KEY, JSON.stringify(orders))
-  renderHistory()
-  showToast(`Order ${orderId} status updated to ${newStatus}`)
+  const validStatuses = ['pending', 'confirmed', 'delivered']
+  if (!validStatuses.includes(newStatus)) {
+    console.error(`Invalid status: ${newStatus}`)
+    return
+  }
+  
+  try {
+    const orders = getAllOrders()
+    const idx = orders.findIndex((o) => o.id === orderId)
+    if (idx === -1) {
+      console.error(`Order ${orderId} not found`)
+      return
+    }
+    orders[idx].status = newStatus
+    localStorage.setItem(DB_KEY, JSON.stringify(orders))
+    renderHistory()
+    showToast(`Order ${orderId} status updated to ${newStatus}`)
+  } catch (e) {
+    console.error('Error updating order status:', e)
+    alert('Failed to update order status')
+  }
 }
 
 function resendWhatsApp(order) {
-  const msg = buildWhatsAppMsg(
-    order.id,
-    order.customerName,
-    order.userId || 'Not provided',
-    order.phone1 || '—',
-    order.phone2 || '—',
-    order.address,
-    order.items,
-    order.total,
-    order.note,
-  )
-  sendWhatsApp(msg)
-  showToast(`WhatsApp message resent for ${order.id}`)
+  try {
+    const msg = buildWhatsAppMsg(
+      order.id,
+      order.customerName,
+      order.userId || 'Not provided',
+      order.phone1 || '—',
+      order.phone2 || '—',
+      order.address,
+      order.items,
+      order.total,
+      order.note,
+    )
+    sendWhatsApp(msg)
+    showToast(`WhatsApp message resent for ${order.id}`)
+  } catch (e) {
+    console.error('Error resending WhatsApp:', e)
+    alert('Failed to resend WhatsApp message')
+  }
 }
 
 function searchHistory(term) {
@@ -558,6 +604,8 @@ function searchHistory(term) {
 
 function showToast(message) {
   let toast = document.getElementById('custom-toast')
+  let toastQueue = window._toastQueue || []
+  
   if (!toast) {
     toast = document.createElement('div')
     toast.id = 'custom-toast'
@@ -569,37 +617,100 @@ function showToast(message) {
     `
     document.body.appendChild(toast)
   }
+  
+  toastQueue.push(message)
+  window._toastQueue = toastQueue
+  
+  if (toastQueue.length === 1) {
+    showNextToast()
+  }
+}
+
+function showNextToast() {
+  const toast = document.getElementById('custom-toast')
+  const queue = window._toastQueue || []
+  
+  if (queue.length === 0) return
+  
+  const message = queue[0]
   toast.textContent = message
   toast.style.opacity = '1'
+  
   setTimeout(() => {
     toast.style.opacity = '0'
+    setTimeout(() => {
+      queue.shift()
+      if (queue.length > 0) {
+        showNextToast()
+      }
+    }, 300)
   }, 2000)
 }
 
 // ========== MODAL HELPERS ==========
 function openOrderModal() {
-  document.getElementById('order-modal').style.display = 'flex'
+  try {
+    const modal = document.getElementById('order-modal')
+    if (!modal) throw new Error('Order modal not found')
+    modal.style.display = 'flex'
+  } catch (e) {
+    console.error('Error opening order modal:', e)
+  }
 }
 function closeOrderModal() {
-  document.getElementById('order-modal').style.display = 'none'
+  try {
+    const modal = document.getElementById('order-modal')
+    if (modal) modal.style.display = 'none'
+  } catch (e) {
+    console.error('Error closing order modal:', e)
+  }
 }
 function closeConfirmModal() {
-  document.getElementById('confirm-modal').style.display = 'none'
+  try {
+    const modal = document.getElementById('confirm-modal')
+    if (modal) modal.style.display = 'none'
+  } catch (e) {
+    console.error('Error closing confirm modal:', e)
+  }
 }
 function openCart() {
-  document.getElementById('cart-sidebar').classList.add('open')
-  document.getElementById('cart-overlay').classList.add('open')
+  try {
+    const sidebar = document.getElementById('cart-sidebar')
+    const overlay = document.getElementById('cart-overlay')
+    if (!sidebar || !overlay) throw new Error('Cart elements not found')
+    sidebar.classList.add('open')
+    overlay.classList.add('open')
+  } catch (e) {
+    console.error('Error opening cart:', e)
+  }
 }
 function closeCart() {
-  document.getElementById('cart-sidebar').classList.remove('open')
-  document.getElementById('cart-overlay').classList.remove('open')
+  try {
+    const sidebar = document.getElementById('cart-sidebar')
+    const overlay = document.getElementById('cart-overlay')
+    if (sidebar) sidebar.classList.remove('open')
+    if (overlay) overlay.classList.remove('open')
+  } catch (e) {
+    console.error('Error closing cart:', e)
+  }
 }
 function openHistoryModal() {
-  renderHistory()
-  document.getElementById('history-modal').style.display = 'flex'
+  try {
+    const modal = document.getElementById('history-modal')
+    if (!modal) throw new Error('History modal not found')
+    renderHistory()
+    modal.style.display = 'flex'
+  } catch (e) {
+    console.error('Error opening history modal:', e)
+  }
 }
 function closeHistoryModal() {
-  document.getElementById('history-modal').style.display = 'none'
+  try {
+    const modal = document.getElementById('history-modal')
+    if (modal) modal.style.display = 'none'
+  } catch (e) {
+    console.error('Error closing history modal:', e)
+  }
 }
 
 // ========== RENDER PRODUCTS ==========
@@ -610,27 +721,34 @@ function renderProducts() {
 }
 
 function renderCategory(gridId, products) {
-  const grid = document.getElementById(gridId)
-  if (!grid) return
+  try {
+    const grid = document.getElementById(gridId)
+    if (!grid) {
+      console.error(`Grid ${gridId} not found`)
+      return
+    }
 
-  grid.innerHTML = products
-    .map((p) => {
-      const hasImage = p.imageUrl && p.imageUrl.trim() !== ''
-      return `
-      <div class="product-card">
-        ${hasImage ? `<img src="${p.imageUrl}" alt="${escapeHtml(p.name)}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><div class="product-emoji" style="display:none">${p.emoji || '🪷'}</div>` : `<div class="product-emoji">${p.emoji || '🪷'}</div>`}
-        <div class="product-name">${escapeHtml(p.name)}</div>
-        <div class="product-desc">${escapeHtml(p.description || '')}</div>
-        ${p.details ? `<ul class="product-details">${p.details.map((d) => `<li>${escapeHtml(d)}</li>`).join('')}</ul>` : ''}
-        ${p.hasBandesiya ? `<div class="bandesiya-notice">🏺 Bandesiya denna. Rs. ${CONFIG.bandesiyaDeposit} deposit included. Return karoth refund labenawa.</div>` : ''}
-        <div class="product-footer">
-          <div class="product-price">Rs. ${p.price.toLocaleString()}</div>
-          <button class="add-btn" onclick="cartAdd('${p.id}'); animateBtn(this)">Add to Cart</button>
+    grid.innerHTML = products
+      .map((p) => {
+        const hasImage = p.imageUrl && p.imageUrl.trim() !== ''
+        return `
+        <div class="product-card">
+          ${hasImage ? `<img src="${escapeHtml(p.imageUrl)}" alt="${escapeHtml(p.name)}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling?.style?.display='flex'"><div class="product-emoji" style="display:none">${p.emoji || '🪷'}</div>` : `<div class="product-emoji">${p.emoji || '🪷'}</div>`}
+          <div class="product-name">${escapeHtml(p.name)}</div>
+          <div class="product-desc">${escapeHtml(p.description || '')}</div>
+          ${p.details ? `<ul class="product-details">${p.details.map((d) => `<li>${escapeHtml(d)}</li>`).join('')}</ul>` : ''}
+          ${p.hasBandesiya ? `<div class="bandesiya-notice">🏺 Bandesiya denna. Rs. ${CONFIG.bandesiyaDeposit} deposit included. Return karoth refund labenawa.</div>` : ''}
+          <div class="product-footer">
+            <div class="product-price">Rs. ${p.price.toLocaleString()}</div>
+            <button class="add-btn" onclick="cartAdd('${p.id}'); animateBtn(this)" data-product-id="${p.id}">Add to Cart</button>
+          </div>
         </div>
-      </div>
-    `
-    })
-    .join('')
+      `
+      })
+      .join('')
+  } catch (e) {
+    console.error(`Error rendering category ${gridId}:`, e)
+  }
 }
 
 function animateBtn(btn) {
@@ -640,52 +758,90 @@ function animateBtn(btn) {
 
 // ========== GALLERY ==========
 function renderGallery() {
-  const grid = document.getElementById('gallery-grid')
-  if (!grid || typeof GALLERY_IMAGES === 'undefined') return
+  try {
+    const grid = document.getElementById('gallery-grid')
+    if (!grid) {
+      console.warn('Gallery grid not found')
+      return
+    }
+    
+    if (typeof GALLERY_IMAGES === 'undefined' || !GALLERY_IMAGES) {
+      console.warn('GALLERY_IMAGES not loaded yet')
+      setTimeout(renderGallery, 100)
+      return
+    }
 
-  grid.innerHTML = GALLERY_IMAGES.map(
-    (img, i) => `
-    <div class="gallery-item" onclick="openLightbox(${i})">
-      <img src="${img.src}" alt="${img.caption}" loading="lazy"
-           onerror="this.closest('.gallery-item').style.display='none'" />
-      <div class="gallery-caption">
-        <span class="gallery-category">${img.category}</span>
-        <span class="gallery-name">${img.caption}</span>
-      </div>
-    </div>`,
-  ).join('')
+    grid.innerHTML = GALLERY_IMAGES.map(
+      (img, i) => `
+      <div class="gallery-item" onclick="openLightbox(${i})">
+        <img src="${escapeHtml(img.src)}" alt="${escapeHtml(img.caption)}" loading="lazy"
+             onerror="this.closest('.gallery-item').style.display='none'" />
+        <div class="gallery-caption">
+          <span class="gallery-category">${escapeHtml(img.category)}</span>
+          <span class="gallery-name">${escapeHtml(img.caption)}</span>
+        </div>
+      </div>`,
+    ).join('')
+  } catch (e) {
+    console.error('Error rendering gallery:', e)
+  }
 }
 
 function openLightbox(index) {
-  const lb = document.getElementById('gallery-lightbox')
-  if (!lb) return
-  window._galleryIndex = index
-  updateLightbox()
-  lb.style.display = 'flex'
-  document.body.style.overflow = 'hidden'
+  try {
+    const lb = document.getElementById('gallery-lightbox')
+    if (!lb) {
+      console.error('Lightbox element not found')
+      return
+    }
+    if (index < 0 || index >= GALLERY_IMAGES.length) {
+      console.error(`Invalid gallery index: ${index}`)
+      return
+    }
+    window._galleryIndex = index
+    updateLightbox()
+    lb.style.display = 'flex'
+    document.body.style.overflow = 'hidden'
+  } catch (e) {
+    console.error('Error opening lightbox:', e)
+  }
 }
 
 function closeLightbox() {
-  const lb = document.getElementById('gallery-lightbox')
-  if (lb) lb.style.display = 'none'
-  document.body.style.overflow = ''
+  try {
+    const lb = document.getElementById('gallery-lightbox')
+    if (lb) lb.style.display = 'none'
+    document.body.style.overflow = ''
+    delete window._galleryIndex
+  } catch (e) {
+    console.error('Error closing lightbox:', e)
+  }
 }
 
 function lightboxNav(dir) {
-  window._galleryIndex =
-    (window._galleryIndex + dir + GALLERY_IMAGES.length) % GALLERY_IMAGES.length
-  updateLightbox()
+  try {
+    if (typeof window._galleryIndex === 'undefined') return
+    window._galleryIndex =
+      (window._galleryIndex + dir + GALLERY_IMAGES.length) % GALLERY_IMAGES.length
+    updateLightbox()
+  } catch (e) {
+    console.error('Error navigating lightbox:', e)
+  }
 }
 
 function updateLightbox() {
-  const img = GALLERY_IMAGES[window._galleryIndex]
-  const lbImg = document.getElementById('lb-img')
-  const lbCaption = document.getElementById('lb-caption')
-  const lbCounter = document.getElementById('lb-counter')
-  if (lbImg) lbImg.src = img.src
-  if (lbCaption) lbCaption.textContent = img.caption
-  if (lbCounter)
-    lbCounter.textContent = `${window._galleryIndex + 1} / ${GALLERY_IMAGES.length}`
+  try {
+    const img = GALLERY_IMAGES[window._galleryIndex]
+    const lbImg = document.getElementById('lb-img')
+    const lbCaption = document.getElementById('lb-caption')
+    const lbCounter = document.getElementById('lb-counter')
+    if (lbImg) lbImg.src = escapeHtml(img.src)
+    if (lbCaption) lbCaption.textContent = escapeHtml(img.caption)
+    if (lbCounter)
+      lbCounter.textContent = `${window._galleryIndex + 1} / ${GALLERY_IMAGES.length}`
+  } catch (e) {
+    console.error('Error updating lightbox:', e)
+  }
 }
 
 // ========== INITIALIZE ==========
