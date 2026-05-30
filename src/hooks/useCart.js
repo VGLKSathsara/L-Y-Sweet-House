@@ -23,9 +23,12 @@ function saveCartToStorage(cart) {
 export function useCart() {
   const [cart, setCart] = useState(loadCartFromStorage)
 
-  const update = useCallback(next => {
-    setCart(next)
-    saveCartToStorage(next)
+  const update = useCallback(updater => {
+    setCart(prev => {
+      const next = typeof updater === 'function' ? updater(prev) : updater
+      saveCartToStorage(next)
+      return next
+    })
   }, [])
 
   const cartAdd = useCallback(id => {
