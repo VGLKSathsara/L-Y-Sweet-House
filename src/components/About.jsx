@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 const stats = [
   { value: '🪷 5+', label: 'Pooja Watti' },
   { value: '🍬 6+', label: 'Sweet Items' },
@@ -5,10 +7,10 @@ const stats = [
   { value: '📲 24/7', label: 'WhatsApp Order' },
 ]
 
-export default function About() {
+function About() {
   return (
     <>
-      <section id="about" className="py-20 px-4">
+      <section id="about" className="cv-auto py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Left */}
@@ -92,3 +94,5 @@ export default function About() {
     </>
   )
 }
+
+export default memo(About)

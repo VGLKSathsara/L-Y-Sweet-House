@@ -1,10 +1,12 @@
-export default function Footer({ onHistoryOpen }) {
+import { memo } from 'react'
+
+function Footer({ onHistoryOpen }) {
   return (
     <footer className="bg-gray-950 text-gray-400 py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="LY Sweet & Fancy House" className="w-12 h-12 rounded-xl object-contain opacity-90" />
+            <img src="/logo-sm.png" width="48" height="48" loading="lazy" decoding="async" alt="LY Sweet & Fancy House" className="w-12 h-12 rounded-xl object-contain opacity-90" />
             <div>
               <div className="font-display font-bold text-white text-sm">LY Sweet &amp; Fancy House</div>
               <div className="text-xs text-gray-500">Kataragama New Town</div>
@@ -33,3 +35,5 @@ export default function Footer({ onHistoryOpen }) {
     </footer>
   )
 }
+
+export default memo(Footer)

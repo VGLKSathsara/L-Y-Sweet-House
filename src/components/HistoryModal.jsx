@@ -58,7 +58,7 @@ export default function HistoryModal({ open, onClose }) {
   })
 
   return (
-    <div className="fixed inset-0 z-[1100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[1100] bg-black/60 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90dvh] flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">

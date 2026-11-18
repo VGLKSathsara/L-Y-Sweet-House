@@ -42,3 +42,10 @@ export function buildWhatsAppMsg(orderId, customerName, userId, phone1, phone2, 
   ].filter(l => l !== null)
   return lines.join('\n')
 }
+
+// Ask Cloudinary for a right-sized, auto-format (WebP/AVIF) version of an image.
+// Non-Cloudinary URLs are returned untouched.
+export function optimizeImg(url, width = 600) {
+  if (!url || !url.includes('res.cloudinary.com') || !url.includes('/image/upload/')) return url
+  return url.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${width},c_limit/`)
+}

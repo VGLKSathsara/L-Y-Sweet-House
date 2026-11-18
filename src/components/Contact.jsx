@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 const cards = [
   {
     href: 'https://wa.me/94767726820',
@@ -29,9 +31,9 @@ const cards = [
   },
 ]
 
-export default function Contact() {
+function Contact() {
   return (
-    <section id="contact" className="py-20 px-4 bg-white">
+    <section id="contact" className="cv-auto py-20 px-4 bg-white">
       <div className="max-w-3xl mx-auto">
         <div className="mb-10">
           <span className="inline-block bg-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-3">
@@ -48,7 +50,7 @@ export default function Contact() {
               href={card.href}
               target={card.external ? '_blank' : undefined}
               rel={card.external ? 'noreferrer' : undefined}
-              className={`flex items-start gap-4 p-5 rounded-2xl border border-gray-100 hover:border-brand-200 hover:shadow-lg hover:shadow-brand-50 hover:-translate-y-0.5 transition-all duration-200 group ${card.wide ? 'sm:col-span-2' : ''}`}
+              className={`flex items-start gap-4 p-5 rounded-2xl border border-gray-100 hover:border-brand-200 hover:shadow-lg hover:shadow-brand-50 hover:-translate-y-0.5 transition-[transform,border-color] duration-200 group ${card.wide ? 'sm:col-span-2' : ''}`}
             >
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${card.iconBg} group-hover:scale-110 transition-transform`}>
                 {card.icon}
@@ -65,3 +67,5 @@ export default function Contact() {
     </section>
   )
 }
+
+export default memo(Contact)

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import ProductCard from './ProductCard'
 import { POOJA_WATTI, SWEET_ITEMS, TOY_ITEMS } from '../data/products'
 
@@ -8,7 +8,7 @@ const TABS = [
   { id: 'toys',   label: '🧸 Toys',         products: TOY_ITEMS  },
 ]
 
-export default function Shop({ onAdd }) {
+function Shop({ onAdd }) {
   const [active, setActive] = useState('pooja')
   const current = TABS.find(t => t.id === active)
 
@@ -32,7 +32,7 @@ export default function Shop({ onAdd }) {
             <button
               key={tab.id}
               onClick={() => setActive(tab.id)}
-              className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+              className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors duration-200 ${
                 active === tab.id
                   ? 'bg-brand-600 text-white shadow-lg shadow-brand-200'
                   : 'bg-gray-100 text-gray-600 hover:bg-brand-50 hover:text-brand-600'
@@ -44,7 +44,7 @@ export default function Shop({ onAdd }) {
         </div>
 
         {/* Products grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-fade-in-up">
+        <div key={active} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-fade-in-up">
           {current?.products.map(product => (
             <ProductCard key={product.id} product={product} onAdd={onAdd} />
           ))}
@@ -53,3 +53,5 @@ export default function Shop({ onAdd }) {
     </section>
   )
 }
+
+export default memo(Shop)

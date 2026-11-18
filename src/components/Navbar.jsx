@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { memo, useState, useEffect } from 'react'
 
 const links = [
   { label: 'Home', href: '#' },
@@ -8,7 +8,7 @@ const links = [
   { label: 'Contact', href: '#contact' },
 ]
 
-export default function Navbar({ cartCount, onCartOpen, onHistoryOpen }) {
+function Navbar({ cartCount, onCartOpen, onHistoryOpen }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -22,14 +22,14 @@ export default function Navbar({ cartCount, onCartOpen, onHistoryOpen }) {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-md border-b border-gray-100 transition-shadow duration-300 ${scrolled ? 'shadow-md shadow-gray-100' : ''}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-[100] bg-white border-b border-gray-100 transition-shadow duration-300 ${scrolled ? 'shadow-md shadow-gray-100' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Brand */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="flex items-center gap-2.5 group"
           >
-            <img src="/favicon.ico" alt="Logo" className="w-9 h-9 rounded-xl object-contain border border-brand-100 shadow-sm group-hover:shadow-brand-200 transition-shadow" />
+            <img src="/logo-sm.png" alt="Logo" width="36" height="36" decoding="async" className="w-9 h-9 rounded-xl object-contain border border-brand-100 shadow-sm group-hover:shadow-brand-200 transition-shadow" />
             <div className="text-left hidden sm:block">
               <div className="font-display font-bold text-brand-700 text-[0.95rem] leading-tight">LY Sweet &amp; Fancy House</div>
               <div className="text-[0.65rem] text-gray-400 font-medium tracking-wide">Kataragama New Town</div>
@@ -54,7 +54,7 @@ export default function Navbar({ cartCount, onCartOpen, onHistoryOpen }) {
           <div className="flex items-center gap-2">
             <button
               onClick={onHistoryOpen}
-              className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 px-3 py-2 rounded-xl hover:border-brand-300 hover:text-brand-600 hover:bg-brand-50 transition-all"
+              className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 px-3 py-2 rounded-xl hover:border-brand-300 hover:text-brand-600 hover:bg-brand-50 transition-colors"
             >
               <i className="fa-solid fa-clock-rotate-left text-xs" />
               <span className="hidden lg:inline">Orders</span>
@@ -86,9 +86,9 @@ export default function Navbar({ cartCount, onCartOpen, onHistoryOpen }) {
               className="md:hidden flex flex-col gap-1.5 w-9 h-9 items-center justify-center border border-gray-200 rounded-xl hover:bg-brand-50 transition-colors"
               aria-label="Toggle menu"
             >
-              <span className={`block w-5 h-0.5 bg-gray-700 rounded transition-all origin-center ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`block w-5 h-0.5 bg-gray-700 rounded transition-all ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
-              <span className={`block w-5 h-0.5 bg-gray-700 rounded transition-all origin-center ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-gray-700 rounded transition-[transform,opacity] origin-center ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-gray-700 rounded transition-[transform,opacity] ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-gray-700 rounded transition-[transform,opacity] origin-center ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
         </div>
@@ -134,3 +134,5 @@ export default function Navbar({ cartCount, onCartOpen, onHistoryOpen }) {
     </>
   )
 }
+
+export default memo(Navbar)

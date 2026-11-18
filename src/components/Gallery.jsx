@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { memo, useState, useCallback } from 'react'
 import { GALLERY_IMAGES } from '../data/products'
+import { optimizeImg } from '../utils/helpers'
 
 function Lightbox({ index, onClose, onNav }) {
   if (index === null) return null
@@ -12,7 +13,7 @@ function Lightbox({ index, onClose, onNav }) {
       <div className="relative max-w-3xl w-full flex flex-col items-center gap-4" onClick={e => e.stopPropagation()}>
         <button onClick={onClose} className="absolute -top-10 right-0 text-white/70 hover:text-white text-3xl leading-none">×</button>
         <button onClick={() => onNav(-1)} className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 text-white/70 hover:text-white text-4xl w-10 h-10 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/10 transition-colors">‹</button>
-        <img src={img.src} alt={img.caption} className="max-h-[75vh] w-full object-contain rounded-2xl shadow-2xl" />
+        <img src={optimizeImg(img.src, 1400)} alt={img.caption} decoding="async" className="max-h-[75vh] w-full object-contain rounded-2xl shadow-2xl" />
         <button onClick={() => onNav(1)} className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 text-white/70 hover:text-white text-4xl w-10 h-10 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/10 transition-colors">›</button>
         <div className="flex justify-between w-full text-sm text-gray-300">
           <span className="font-display">{img.caption}</span>
@@ -23,13 +24,14 @@ function Lightbox({ index, onClose, onNav }) {
   )
 }
 
-export default function Gallery() {
+function Gallery() {
   const [lbIndex, setLbIndex] = useState(null)
 
-  const nav = dir => setLbIndex(i => (i + dir + GALLERY_IMAGES.length) % GALLERY_IMAGES.length)
+  const nav = useCallback(dir => setLbIndex(i => (i + dir + GALLERY_IMAGES.length) % GALLERY_IMAGES.length), [])
+  const closeLb = useCallback(() => setLbIndex(null), [])
 
   return (
-    <section id="gallery" className="py-20 px-4 bg-gray-50">
+    <section id="gallery" className="cv-auto py-20 px-4 bg-gray-50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <span className="inline-block bg-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-3">
@@ -44,13 +46,18 @@ export default function Gallery() {
             <button
               key={i}
               onClick={() => setLbIndex(i)}
-              className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 hover:border-brand-300 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group bg-gray-100"
+              className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 hover:border-brand-300 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 group bg-gray-100"
             >
               <img
-                src={img.src}
+                src={optimizeImg(img.src, 600)}
+                srcSet={`${optimizeImg(img.src, 400)} 400w, ${optimizeImg(img.src, 800)} 800w`}
+                sizes="(min-width:1024px) 280px, (min-width:640px) 30vw, 46vw"
                 alt={img.caption}
+                width="600"
+                height="450"
                 loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 onError={e => { e.currentTarget.closest('button').style.display = 'none' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
@@ -62,7 +69,9 @@ export default function Gallery() {
         </div>
       </div>
 
-      <Lightbox index={lbIndex} onClose={() => setLbIndex(null)} onNav={nav} />
+      <Lightbox index={lbIndex} onClose={closeLb} onNav={nav} />
     </section>
   )
 }
+
+export default memo(Gallery)
