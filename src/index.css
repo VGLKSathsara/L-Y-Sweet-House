@@ -3,12 +3,34 @@
 @tailwind utilities;
 
 @layer base {
-  html { scroll-behavior: smooth; }
-  body { @apply font-sans text-gray-800 bg-white overflow-x-hidden; }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body { @apply font-sans text-gray-800 bg-white overflow-x-hidden antialiased; }
   h1, h2, h3, h4 { @apply font-display; }
+  /* Remove the 300ms tap delay and stop double-tap zoom on controls */
+  button, a, input { touch-action: manipulation; }
 }
 
 @layer utilities {
   .hide-scrollbar::-webkit-scrollbar { display: none; }
   .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Skip layout/paint for below-the-fold sections until they near the viewport */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+}
+
+/* Respect users who ask for less motion (also keeps low-end devices smooth) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

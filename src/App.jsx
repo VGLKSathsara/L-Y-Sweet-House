@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { memo, useState, useEffect, useCallback, useRef } from 'react'
 import PageLoader from './components/PageLoader'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -16,7 +16,7 @@ import { useCart } from './hooks/useCart'
 import { CONFIG } from './data/config'
 import { generateOrderId, buildWhatsAppMsg } from './utils/helpers'
 
-function BackToTop() {
+const BackToTop = memo(function BackToTop() {
   const [visible, setVisible] = useState(false)
   useEffect(() => {
     const h = () => setVisible(window.scrollY > 300)
@@ -26,13 +26,13 @@ function BackToTop() {
   return visible ? (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className="fixed bottom-6 right-6 z-[998] w-11 h-11 rounded-full bg-brand-600 hover:bg-brand-700 text-white shadow-lg shadow-brand-300 flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5"
+      className="fixed bottom-6 right-6 z-[998] w-11 h-11 rounded-full bg-brand-600 hover:bg-brand-700 text-white shadow-lg shadow-brand-300 flex items-center justify-center transition-transform duration-200 hover:-translate-y-0.5"
       aria-label="Back to top"
     >
       <i className="fa-solid fa-chevron-up text-sm" />
     </button>
   ) : null
-}
+})
 
 function Toast({ message }) {
   if (!message) return null
@@ -54,17 +54,29 @@ export default function App() {
 
   const { cartAdd, cartRemove, cartSet, cartClear, cartItems, cartTotal, cartCount } = useCart()
 
+  const toastTimer = useRef(null)
   const showToast = useCallback(msg => {
     setToast(msg)
-    setTimeout(() => setToast(''), 2500)
+    clearTimeout(toastTimer.current)
+    toastTimer.current = setTimeout(() => setToast(''), 2500)
   }, [])
+  useEffect(() => () => clearTimeout(toastTimer.current), [])
+
+  // Stable handlers so memoized children (Shop, Navbar, Footer...) skip re-renders
+  const handleAddToCart = useCallback(id => { cartAdd(id); showToast('Added to cart!') }, [cartAdd, showToast])
+  const openCart = useCallback(() => setCartOpen(true), [])
+  const closeCart = useCallback(() => setCartOpen(false), [])
+  const openHistory = useCallback(() => setHistoryOpen(true), [])
 
   // Loader + welcome timing
   useEffect(() => {
     const start = Date.now()
     const welcomed = sessionStorage.getItem('ly_welcomed')
 
+    let done = false
     function dismiss() {
+      if (done) return
+      done = true
       const elapsed = Date.now() - start
       const delay = Math.max(0, 500 - elapsed)
       setTimeout(() => {
@@ -151,23 +163,23 @@ export default function App() {
 
       <Navbar
         cartCount={cartCount}
-        onCartOpen={() => setCartOpen(true)}
-        onHistoryOpen={() => setHistoryOpen(true)}
+        onCartOpen={openCart}
+        onHistoryOpen={openHistory}
       />
 
       <main>
         <Hero />
-        <Shop onAdd={id => { cartAdd(id); showToast('Added to cart!') }} />
+        <Shop onAdd={handleAddToCart} />
         <Gallery />
         <About />
         <Contact />
       </main>
 
-      <Footer onHistoryOpen={() => setHistoryOpen(true)} />
+      <Footer onHistoryOpen={openHistory} />
 
       <Cart
         open={cartOpen}
-        onClose={() => setCartOpen(false)}
+        onClose={closeCart}
         cartItems={cartItems}
         cartTotal={cartTotal}
         onAdd={cartAdd}

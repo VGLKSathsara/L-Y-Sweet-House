@@ -54,7 +54,7 @@ td{padding:8px 10px;border-bottom:1px solid #ede9fe}
 export default function ConfirmModal({ open, order, onClose }) {
   if (!open || !order) return null
   return (
-    <div className="fixed inset-0 z-[1100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[1100] bg-black/60 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-3xl max-w-sm w-full shadow-2xl animate-pop-in text-center p-8" onClick={e => e.stopPropagation()}>
         <div className="text-5xl mb-3">✅</div>
         <h3 className="font-display font-bold text-xl text-gray-900 mb-1">Order Sent!</h3>

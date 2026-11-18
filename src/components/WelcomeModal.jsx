@@ -2,7 +2,7 @@ export default function WelcomeModal({ open, onClose }) {
   if (!open) return null
   return (
     <div
-      className="fixed inset-0 z-[1200] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      className="fixed inset-0 z-[1200] bg-black/60 flex items-center justify-center p-4"
       onClick={onClose}
     >
       <div
@@ -22,7 +22,7 @@ export default function WelcomeModal({ open, onClose }) {
 
           {/* Logo */}
           <div className="w-20 h-20 bg-brand-50 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md shadow-brand-100">
-            <img src="/logo.png" alt="LY Sweet & Fancy House" className="w-14 h-14 object-contain rounded-xl" />
+            <img src="/logo-sm.png" width="56" height="56" decoding="async" alt="LY Sweet & Fancy House" className="w-14 h-14 object-contain rounded-xl" />
           </div>
 
           {/* Badge */}

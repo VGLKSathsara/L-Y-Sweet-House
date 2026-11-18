@@ -1,22 +1,47 @@
-export default function Hero() {
+import { memo } from 'react'
+
+const HERO_IMG = 'https://images.unsplash.com/photo-1631832725617-d28dbbb3a29a'
+const heroSrc = w => `${HERO_IMG}?q=70&w=${w}&auto=format&fit=crop`
+
+const STATS = [
+  { v: '5+', l: 'Pooja Watti' },
+  { v: '6+', l: 'Sweets' },
+  { v: '5+', l: 'Toys' },
+  { v: '24/7', l: 'WhatsApp' },
+]
+
+function Hero() {
   return (
-    <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1631832725617-d28dbbb3a29a?q=80&w=1932&auto=format')" }}
+    <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-indigo-950">
+      {/* Background image: a real <img> so the browser can discover and prioritise it (LCP) */}
+      <img
+        src={heroSrc(1280)}
+        srcSet={`${heroSrc(640)} 640w, ${heroSrc(1280)} 1280w, ${heroSrc(1920)} 1920w`}
+        sizes="100vw"
+        alt=""
+        fetchPriority="high"
+        decoding="async"
+        width="1920"
+        height="1280"
+        className="absolute inset-0 w-full h-full object-cover"
       />
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/80 via-brand-900/75 to-brand-600/60" />
 
-      {/* Floating decorative orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-brand-500/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-20 right-10 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
+      {/* Decorative glows: radial gradients instead of blur-3xl filters (blur on large layers is costly to paint) */}
+      <div
+        className="absolute top-20 left-10 w-72 h-72 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(closest-side, rgba(139,92,246,0.28), rgba(139,92,246,0))' }}
+      />
+      <div
+        className="absolute bottom-20 right-10 w-64 h-64 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(closest-side, rgba(168,85,247,0.28), rgba(168,85,247,0))' }}
+      />
 
       {/* Content */}
       <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-xs font-medium px-5 py-2 rounded-full mb-6 animate-fade-in-down">
+        <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 text-white/90 text-xs font-medium px-5 py-2 rounded-full mb-6 animate-fade-in-down">
           <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
           Kataragama New Town · Since 2015
         </div>
@@ -37,7 +62,7 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center animate-fade-in-up [animation-delay:0.35s]">
           <button
             onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-brand-700 font-bold text-sm px-8 py-3.5 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200 w-full sm:w-auto"
+            className="bg-white text-brand-700 font-bold text-sm px-8 py-3.5 rounded-2xl shadow-xl transition-transform duration-200 hover:-translate-y-0.5 active:scale-95 w-full sm:w-auto"
           >
             🛍️ Browse Products
           </button>
@@ -45,7 +70,7 @@ export default function Hero() {
             href="https://wa.me/94767726820"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-2 bg-green-500/90 hover:bg-green-500 text-white font-semibold text-sm px-8 py-3.5 rounded-2xl border border-white/20 hover:-translate-y-0.5 transition-all duration-200 w-full sm:w-auto justify-center"
+            className="flex items-center gap-2 bg-green-500/90 hover:bg-green-500 text-white font-semibold text-sm px-8 py-3.5 rounded-2xl border border-white/20 transition-[transform,background-color] duration-200 hover:-translate-y-0.5 active:scale-95 w-full sm:w-auto justify-center"
           >
             <i className="fa-brands fa-whatsapp text-base" /> Order on WhatsApp
           </a>
@@ -53,15 +78,10 @@ export default function Hero() {
 
         {/* Stats row */}
         <div className="mt-14 grid grid-cols-4 gap-4 max-w-lg mx-auto animate-fade-in-up [animation-delay:0.45s]">
-          {[
-            { v: '5+', l: 'Pooja Watti' },
-            { v: '6+', l: 'Sweets' },
-            { v: '5+', l: 'Toys' },
-            { v: '24/7', l: 'WhatsApp' },
-          ].map(s => (
-            <div key={s.l} className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 border border-white/15">
+          {STATS.map(s => (
+            <div key={s.l} className="bg-white/15 rounded-2xl p-3 border border-white/15">
               <div className="font-bold text-lg text-white">{s.v}</div>
-              <div className="text-[10px] text-white/60 mt-0.5">{s.l}</div>
+              <div className="text-[10px] text-white/70 mt-0.5">{s.l}</div>
             </div>
           ))}
         </div>
@@ -76,3 +96,5 @@ export default function Hero() {
     </section>
   )
 }
+
+export default memo(Hero)

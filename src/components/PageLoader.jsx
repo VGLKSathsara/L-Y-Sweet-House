@@ -3,7 +3,7 @@ export default function PageLoader() {
     <div className="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center gap-4">
       <div className="w-20 h-20 rounded-2xl bg-brand-50 flex items-center justify-center shadow-lg shadow-brand-200 animate-[loaderPop_0.5s_cubic-bezier(0.34,1.56,0.64,1)_both]"
         style={{ animation: 'loaderPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both' }}>
-        <img src="/logo.png" alt="" className="w-14 h-14 object-contain rounded-xl" />
+        <img src="/logo-sm.png" width="56" height="56" decoding="async" alt="" className="w-14 h-14 object-contain rounded-xl" />
       </div>
       <p className="font-display font-bold text-brand-600 text-base tracking-wide animate-fade-in-up">
         LY Sweet &amp; Fancy House

@@ -32,7 +32,7 @@ export default function OrderModal({ open, onClose, onSubmit }) {
   ]
 
   return (
-    <div className="fixed inset-0 z-[1100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[1100] bg-black/60 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-3xl max-w-md w-full max-h-[90dvh] overflow-y-auto shadow-2xl animate-pop-in" onClick={e => e.stopPropagation()}>
         <div className="sticky top-0 bg-white px-6 pt-6 pb-4 border-b border-gray-100 flex items-center justify-between rounded-t-3xl">
           <h3 className="font-display font-bold text-lg text-gray-900">📲 Order Details</h3>
@@ -56,7 +56,7 @@ export default function OrderModal({ open, onClose, onSubmit }) {
                   onChange={set(f.id)}
                   placeholder={f.placeholder}
                   autoComplete={f.auto}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-[border-color,box-shadow]"
                 />
               </div>
             ))}
